@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chandra | Thug Mode</title>
+  <meta name="description" content="Chandra – thug mode activated. Shop the drop. Gallery of heat." />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- SNIPCART CSS + JS -->
+  <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
+  <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
+
+  <style>
+    /* [SAME STYLES AS BEFORE – THUG MODE] */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      background:#000; color:#fff; font-family:'Roboto Mono',monospace;
+      overflow-x:hidden; line-height:1.5;
+    }
+    a { color:#ff0044; text-decoration:none; }
+    a:hover { color:#ff3366; }
+
+    header {
+      height:100vh; background:linear-gradient(135deg,#111,#222),url('https://images.unsplash.com/photo-1518991667988-3c27c2f0c6e9?auto=format&fit=crop&q=80') center/cover no-repeat;
+      display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; position:relative;
+    }
+    header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.7); }
+    .logo { font-family:'Orbitron',sans-serif; font-size:4rem; color:#ff0044; text-shadow:0 0 15px #ff0044; z-index:1; }
+    .tagline { font-size:1.3rem; margin:1rem 0 2rem; z-index:1; letter-spacing:2px; }
+    .btn { background:#ff0044; color:#fff; padding:12px 30px; border-radius:4px; font-weight:bold; letter-spacing:1px; transition:0.3s; z-index:1; }
+    .btn:hover { background:#ff3366; transform:scale(1.05); }
+
+    nav {
+      position:fixed; top:0; left:0; right:0; background:rgba(0,0,0,0.9); padding:1rem 5%;
+      display:flex; justify-content:space-between; align-items:center; z-index:99; backdrop-filter:blur(8px);
+    }
+    .nav-links a { margin-left:2rem; font-weight:bold; text-transform:uppercase; font-size:0.9rem; }
+    .hamburger { display:none; cursor:pointer; z-index:100; }
+    .hamburger span { display:block; width:25px; height:3px; background:#ff0044; margin:5px; transition:0.3s; }
+
+    section { padding:5rem 5%; }
+    h2 { font-family:'Orbitron',sans-serif; font-size:2.5rem; color:#ff0044; text-align:center; margin-bottom:3rem; text-shadow:0 0 10px #ff0044; }
+
+    .shop-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
+    .product { background:#111; border:2px solid #333; border-radius:8px; overflow:hidden; transition:0.3s; }
+    .product:hover { border-color:#ff0044; transform:translateY(-8px); }
+    .product img { width:100%; height:200px; object-fit:cover; }
+    .info { padding:1rem; text-align:center; }
+    .price { color:#ff0044; font-weight:bold; font-size:1.2rem; }
+
+    .gallery-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; max-width:1200px; margin:0 auto; }
+    .gallery-item { overflow:hidden; border-radius:8px; box-shadow:0 0 15px rgba(255,0,68,0.2); }
+    .gallery-item img { width:100%; height:100%; object-fit:cover; transition:0.4s; }
+    .gallery-item:hover img { transform:scale(1.1); }
+
+    footer { text-align:center; padding:2rem; background:#111; font-size:0.9rem; border-top:1px solid #333; }
+
+    /* Mobile */
+    @media (max-width:768px) {
+      .logo { font-size:2.5rem; }
+      .nav-links { position:fixed; top:0; right:-100%; height:100vh; width:70%; background:#111; flex-direction:column; justify-content:center; align-items:center; transition:0.3s; }
+      .nav-links a { margin:1.5rem 0; font-size:1.2rem; }
+      .nav-links.active { right:0; }
+      .hamburger { display:block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SNIPCART HIDDEN DIV (REQUIRED) -->
+  <div hidden id="snipcart" data-api-key="YOUR_PUBLIC_TEST_KEY"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">CHANDRA</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#shop">SHOP</a>
+      <a href="#gallery">GALLERY</a>
+      <a href="mailto:drop@chandra.com">CONTACT</a>
+      <a href="#" class="snipcart-checkout" style="color:#ff0044;">🛒 CART (<span class="snipcart-items-count">0</span>)</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header>
+    <h1 class="logo">CHANDRA</h1>
+    <p class="tagline">THUG MODE ACTIVATED // LIMITED DROPS</p>
+    <a href="#shop" class="btn">ENTER THE SHOP</a>
+  </header>
+
+  <!-- SHOP SECTION -->
+  <section id="shop">
+    <h2>SHOP THE DROP</h2>
+    <div class="shop-grid">
+      <!-- REAL PRODUCT 1 -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80" alt="Thug Kicks">
+        <div class="info">
+          <h3>THUG KICKS</h3>
+          <p class="price">$199</p>
+          <button 
+            class="btn snipcart-add-item"
+            data-item-id="thug-kicks"
+            data-item-price="199.00"
+            data-item-url="/"
+            data-item-name="Thug Kicks"
+            data-item-image="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- REAL PRODUCT 2 -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80" alt="Chrono Thug">
+        <div class="info">
+          <h3>CHRONO THUG</h3>
+          <p class="price">$899</p>
+          <button 
+            class="btn snipcart-add-item"
+            data-item-id="chrono-thug"
+            data-item-price="899.00"
+            data-item-url="/"
+            data-item-name="Chrono Thug Watch"
+            data-item-image="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- Add more products like this -->
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" style="background:#111;">
+    <h2>GALLERY OF HEAT</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&q=80" alt="1"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516961642265-531546235294?auto=format&fit=crop&q=80" alt="2"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1549298916-b41d501d9382?auto=format&fit=crop&q=80" alt="3"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80" alt="4"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80" alt="5"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1543508197-2e91e21f13a8?auto=format&fit=crop&q=80" alt="6"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2025 Chandra.com | Thug Mode Forever | <a href="https://x.com/ChanduNaveen5" target="_blank">@ChanduNaveen5</a>
+  </footer>
+
+  <!-- MOBILE MENU TOGGLE -->
+  <script>
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
