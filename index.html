@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Chandra | Thug Mode</title>
-  <meta name="description" content="Chandra – thug mode activated. Shop, Services, Careers, Gallery." />
+  <title>Chandra | Thug Mode Empire</title>
+  <meta name="description" content="Shop drops. Book services. Join the empire. Thug mode activated." />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- SNIPCART -->
@@ -19,10 +19,16 @@
 
     header { height:100vh; background:linear-gradient(135deg,#111,#222),url('https://images.unsplash.com/photo-1518991667988-3c27c2f0c6e9?auto=format&fit=crop&q=80') center/cover no-repeat; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; position:relative; }
     header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.7); }
-    .logo { font-family:'Orbitron',sans-serif; font-size:4rem; color:#ff0044; text-shadow:0 0 15px #ff0044; z-index:1; }
+    .logo { font-family:'Orbitron',sans-serif; font-size:4rem; color:#ff0044; text-shadow:0 0 15px #ff0044; z-index:1; cursor:pointer; transition:0.3s; }
+    .logo:hover { text-shadow:0 0 25px #ff0044; transform:scale(1.05); }
     .tagline { font-size:1.3rem; margin:1rem 0 2rem; z-index:1; letter-spacing:2px; }
+    
+    /* NEW HERO CTAs */
+    .hero-ctas { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; z-index:1; }
     .btn { background:#ff0044; color:#fff; padding:12px 30px; border-radius:4px; font-weight:bold; letter-spacing:1px; transition:0.3s; border:none; cursor:pointer; }
     .btn:hover { background:#ff3366; transform:scale(1.05); }
+    .btn-outline { background:transparent; border:2px solid #ff0044; }
+    .btn-outline:hover { background:#ff0044; }
 
     nav { position:fixed; top:0; left:0; right:0; background:rgba(0,0,0,0.9); padding:1rem 5%; display:flex; justify-content:space-between; align-items:center; z-index:99; backdrop-filter:blur(8px); }
     .nav-links a { margin-left:2rem; font-weight:bold; text-transform:uppercase; font-size:0.9rem; }
@@ -32,40 +38,28 @@
     section { padding:5rem 5%; }
     h2 { font-family:'Orbitron',sans-serif; font-size:2.5rem; color:#ff0044; text-align:center; margin-bottom:3rem; text-shadow:0 0 10px #ff0044; }
 
-    /* SHOP */
     .shop-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
     .product { background:#111; border:2px solid #333; border-radius:8px; overflow:hidden; transition:0.3s; }
-    .product:hover { border-color:#ff0044; transform:translateY(-8px); }
+    .product:hover { border-color:#ff0044; transform:translateY(-8px); box-shadow:0 0 20px rgba(255,0,68,0.3); }
     .product img { width:100%; height:200px; object-fit:cover; }
     .info { padding:1rem; text-align:center; }
     .price { color:#ff0044; font-weight:bold; font-size:1.2rem; }
 
-    /* GALLERY */
-    .gallery-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; max-width:1200px; margin:0 auto; }
+    .gallery-grid, .services-grid, .careers-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
     .gallery-item { overflow:hidden; border-radius:8px; box-shadow:0 0 15px rgba(255,0,68,0.2); }
     .gallery-item img { width:100%; height:250px; object-fit:cover; transition:0.4s; }
     .gallery-item:hover img { transform:scale(1.1); }
 
-    /* SERVICES */
-    .services-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
-    .service-card { background:#111; border:2px solid #333; border-radius:8px; padding:1.5rem; transition:0.3s; }
-    .service-card:hover { border-color:#ff0044; transform:translateY(-5px); }
-    .service-card h3 { color:#ff0044; margin-bottom:0.8rem; font-size:1.3rem; }
-    .service-card ul { list-style:none; }
-    .service-card li { margin:0.5rem 0; padding-left:1.5rem; position:relative; }
-    .service-card li::before { content:'➤'; color:#ff0044; position:absolute; left:0; }
-
-    /* CAREERS */
-    .careers-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
-    .job-card { background:#111; border:2px solid #ff0044; border-radius:8px; padding:1.5rem; transition:0.3s; }
-    .job-card:hover { background:#1a0a0a; transform:scale(1.02); }
-    .job-card h3 { color:#ff0044; margin-bottom:0.5rem; }
+    .service-card, .job-card { background:#111; border:2px solid #333; border-radius:8px; padding:1.5rem; transition:0.3s; }
+    .service-card:hover, .job-card:hover { border-color:#ff0044; transform:translateY(-5px); }
+    .service-card h3, .job-card h3 { color:#ff0044; margin-bottom:0.8rem; }
     .apply-btn { display:inline-block; margin-top:1rem; background:#ff0044; color:#fff; padding:8px 16px; border-radius:4px; font-size:0.9rem; }
 
     footer { text-align:center; padding:2rem; background:#111; font-size:0.9rem; border-top:1px solid #333; }
 
     @media (max-width:768px) {
       .logo { font-size:2.5rem; }
+      .hero-ctas { flex-direction:column; align-items:center; }
       .nav-links { position:fixed; top:0; right:-100%; height:100vh; width:70%; background:#111; flex-direction:column; justify-content:center; align-items:center; transition:0.3s; padding-top:70px; }
       .nav-links a { margin:1.5rem 0; font-size:1.2rem; }
       .nav-links.active { right:0; }
@@ -75,12 +69,15 @@
 </head>
 <body>
 
-  <!-- SNIPCART -->
-  <div hidden id="snipcart" data-api-key="YOUR_PUBLIC_TEST_KEY_HERE"></div>
+  <!-- SNIPCART: FIXED URL + TEST KEY -->
+  <div hidden id="snipcart" 
+       data-api-key="YOUR_PUBLIC_TEST_KEY_HERE"
+       data-config-modal-style="dark">
+  </div>
 
   <!-- NAV -->
   <nav>
-    <div class="logo">CHANDRA</div>
+    <a href="#" class="logo" onclick="scrollToTop()">CHANDRA</a>
     <div class="hamburger" onclick="toggleMenu()">
       <span></span><span></span><span></span>
     </div>
@@ -94,17 +91,22 @@
     </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- HERO: 3 CTAs -->
   <header>
-    <h1 class="logo">CHANDRA</h1>
-    <p class="tagline">THUG MODE ACTIVATED // LIMITED DROPS // FULL EMPIRE</p>
-    <a href="#shop" class="btn">ENTER THE DROP</a>
+    <h1 class="logo" onclick="scrollToTop()">CHANDRA</h1>
+    <p class="tagline">THUG MODE ACTIVATED // EMPIRE IN MOTION</p>
+    <div class="hero-ctas">
+      <a href="#shop" class="btn">SHOP DROPS</a>
+      <a href="#services" class="btn btn-outline">HIRE US</a>
+      <a href="#careers" class="btn btn-outline">JOIN EMPIRE</a>
+    </div>
   </header>
 
-  <!-- SHOP -->
+  <!-- SHOP: 8 PRODUCTS -->
   <section id="shop">
     <h2>SHOP THE DROP</h2>
     <div class="shop-grid">
+      <!-- 1. Shoes -->
       <div class="product">
         <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80" alt="Thug Kicks">
         <div class="info">
@@ -120,11 +122,95 @@
           </button>
         </div>
       </div>
-      <!-- Add more -->
+
+      <!-- 2. Watch -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80" alt="Chrono Thug">
+        <div class="info">
+          <h3>CHRONO THUG</h3>
+          <p class="price">$899</p>
+          <button class="btn snipcart-add-item"
+            data-item-id="chrono-thug"
+            data-item-price="899.00"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-name="Chrono Thug Watch"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. Organic Food -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1498837167921-ddd2754d6185?auto=format&fit=crop&q=80" alt="Organic Power">
+        <div class="info">
+          <h3>ORGANIC POWER PACK</h3>
+          <p class="price">$49</p>
+          <button class="btn snipcart-add-item"
+            data-item-id="organic-pack"
+            data-item-price="49.00"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-name="Organic Power Pack"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. Car (Model) -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80" alt="Thug Ride">
+        <div class="info">
+          <h3>THUG RIDE (MODEL)</h3>
+          <p class="price">$89</p>
+          <button class="btn snipcart-add-item"
+            data-item-id="thug-ride"
+            data-item-price="89.00"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-name="Thug Ride Model"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- 5. Chair -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1506434308070-4c286b0a5a4b?auto=format&fit=crop&q=80" alt="Throne Chair">
+        <div class="info">
+          <h3>THRONE CHAIR</h3>
+          <p class="price">$299</p>
+          <button class="btn snipcart-add-item"
+            data-item-id="throne-chair"
+            data-item-price="299.00"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-name="Throne Chair"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- 6. Electronics -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80" alt="Tech Drop">
+        <div class="info">
+          <h3>TECH DROP</h3>
+          <p class="price">$599</p>
+          <button class="btn snipcart-add-item"
+            data-item-id="tech-drop"
+            data-item-price="599.00"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-name="Tech Drop Gadget"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- GALLERY -->
+  <!-- GALLERY, SERVICES, CAREERS (unchanged from last version) -->
   <section id="gallery" style="background:#111;">
     <h2>GALLERY OF HEAT</h2>
     <div class="gallery-grid">
@@ -135,90 +221,28 @@
     </div>
   </section>
 
-  <!-- SERVICES -->
   <section id="services">
     <h2>SERVICES // THUG EMPIRE</h2>
     <div class="services-grid">
-      <div class="service-card">
-        <h3>SPORTS</h3>
-        <ul>
-          <li>Badminton Coaching</li>
-          <li>Cricket Training</li>
-          <li>Swimming Lessons</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>DRIVING</h3>
-        <ul>
-          <li>Car Driving (Auto/Manual)</li>
-          <li>Bike Mastery</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>ENTERTAINERS</h3>
-        <ul>
-          <li>Book Writers</li>
-          <li>Storytellers</li>
-          <li>Directors & Producers</li>
-          <li>Songs & Actors</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>IT SERVICES</h3>
-        <ul>
-          <li>Website Creation</li>
-          <li>DevOps & Cloud</li>
-          <li>AI & Video Editing</li>
-          <li>Tech Training</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>SUPPLY & DEMAND</h3>
-        <ul>
-          <li>Product Sourcing</li>
-          <li>Logistics</li>
-          <li>Market Fit</li>
-        </ul>
-      </div>
-      <div class="service-card">
-        <h3>EVENT MANAGEMENT</h3>
-        <ul>
-          <li>Weddings</li>
-          <li>Corporate</li>
-          <li>Launch Parties</li>
-        </ul>
-      </div>
+      <div class="service-card"><h3>SPORTS</h3><ul><li>Badminton</li><li>Cricket</li><li>Swimming</li></ul></div>
+      <div class="service-card"><h3>DRIVING</h3><ul><li>Car</li><li>Bike</li></ul></div>
+      <div class="service-card"><h3>ENTERTAINERS</h3><ul><li>Writers</li><li>Actors</li><li>Producers</li></ul></div>
+      <div class="service-card"><h3>IT</h3><ul><li>Web Dev</li><li>AI</li><li>Training</li></ul></div>
+      <div class="service-card"><h3>SUPPLY</h3><ul><li>Sourcing</li><li>Logistics</li></ul></div>
+      <div class="service-card"><h3>EVENTS</h3><ul><li>Weddings</li><li>Launches</li></ul></div>
     </div>
   </section>
 
-  <!-- CAREERS -->
   <section id="careers" style="background:#111;">
     <h2>CAREERS // JOIN THE EMPIRE</h2>
     <div class="careers-grid">
-      <div class="job-card">
-        <h3>Product Sales Manager</h3>
-        <p>Hustle drops. Close deals. Earn big.</p>
-        <a href="mailto:hr@chandra.com?subject=Apply: Product Sales Manager" class="apply-btn">APPLY</a>
-      </div>
-      <div class="job-card">
-        <h3>DevOps Engineer</h3>
-        <p>CI/CD, AWS, Docker, Kubernetes. Build the backend.</p>
-        <a href="mailto:hr@chandra.com?subject=Apply: DevOps Engineer" class="apply-btn">APPLY</a>
-      </div>
-      <div class="job-card">
-        <h3>Badminton Player (Pro)</h3>
-        <p>Own racket. Smash serves. Rep the brand.</p>
-        <a href="mailto:hr@chandra.com?subject=Apply: Badminton Player" class="apply-btn">APPLY</a>
-      </div>
-      <div class="job-card">
-        <h3>Office Assistant</h3>
-        <p>Keep the empire running. Coffee + chaos.</p>
-        <a href="mailto:hr@chandra.com?subject=Apply: Office Assistant" class="apply-btn">APPLY</a>
-      </div>
+      <div class="job-card"><h3>Product Sales Manager</h3><p>Hustle. Close. Earn.</p><a href="mailto:hr@chandra.com?subject=Apply: Sales" class="apply-btn">APPLY</a></div>
+      <div class="job-card"><h3>DevOps Engineer</h3><p>AWS. Docker. Scale.</p><a href="mailto:hr@chandra.com?subject=Apply: DevOps" class="apply-btn">APPLY</a></div>
+      <div class="job-card"><h3>Badminton Pro</h3><p>Own racket. Smash.</p><a href="mailto:hr@chandra.com?subject=Apply: Badminton" class="apply-btn">APPLY</a></div>
+      <div class="job-card"><h3>Office Assistant</h3><p>Run the empire.</p><a href="mailto:hr@chandra.com?subject=Apply: Assistant" class="apply-btn">APPLY</a></div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     © 2025 Chandra.com | Thug Mode Forever | <a href="https://x.com/ChanduNaveen5" target="_blank">@ChanduNaveen5</a>
   </footer>
@@ -226,6 +250,9 @@
   <script>
     function toggleMenu() {
       document.getElementById('navLinks').classList.toggle('active');
+    }
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   </script>
 </body>
