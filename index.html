@@ -71,54 +71,132 @@
     
 
     /* Hero */
-    header {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      position: relative;
-      background: url('https://images.unsplash.com/photo-1518991667988-3c27c2f0c6e9?auto=format&fit=crop&q=80') center/cover no-repeat;
-    }
-    header::before {
-      content: ''; position: absolute; inset: 0;
-      background: rgba(0,0,0,0.8);
-    }
-    .tagline {
-      font-size: 1.6rem;
-      letter-spacing: 5px;
-      margin: 20px 0;
-      z-index: 1;
-    }
-    .hero-ctas {
-      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; z-index: 1;
-    }
-    .btn {
-      background: var(--primary);
-      color: white;
-      padding: 15px 40px;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: 0.4s;
-      box-shadow: 0 0 25px var(--glow);
-    }
-    .btn:hover { transform: scale(1.1); box-shadow: 0 0 50px var(--glow); }
-    .btn-outline { background: transparent; border: 2px solid var(--primary); }
-    .btn-outline:hover { background: var(--primary); }
+    <header>
+  <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
+  <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+  <div class="hero-content">
+    <h1 class="logo" onclick="scrollToTop()">CHANDRA</h1>
+    <p class="tagline">THUG MODE ACTIVATED // EMPIRE IN MOTION</p>
+    <div class="hero-ctas">
+      <a href="#shop" class="btn">SHOP DROPS</a>
+      <a href="#services" class="btn btn-outline">HIRE US</a>
+      <a href="#careers" class="btn btn-outline">JOIN EMPIRE</a>
+    </div>
+  </div>
+</header>
+```
+    /* Updated Hero Styles */
+header {
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  background: url('https://images.unsplash.com/photo-1518991667988-3c27c2f0c6e9?auto=format&fit=crop&q=80') center/cover no-repeat fixed; /* Added fixed for parallax feel */
+  padding: 0;
+}
 
-    section { padding: 100px 5%; }
-    h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3.2rem;
-      text-align: center;
-      margin-bottom: 70px;
-      color: var(--primary);
-      text-shadow: 0 0 20px var(--primary);
-    }
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 1;
+  opacity: 0.6;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.hero-blob-1 {
+  width: 60%;
+  height: 60%;
+  background-color: var(--primary);
+  top: -20%;
+  left: -30%;
+  animation-name: blobMove1;
+}
+
+.hero-blob-2 {
+  width: 50%;
+  height: 50%;
+  background-color: #00ffcc; /* Neon cyan for tech contrast */
+  bottom: -10%;
+  right: -20%;
+  animation-name: blobMove2;
+  animation-duration: 25s;
+}
+
+@keyframes blobMove1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(15%, 10%) scale(1.1); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes blobMove2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-10%, 15%) scale(0.9); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+.hero-content {
+  max-width: 900px;
+  position: relative;
+  z-index: 2;
+  padding: 3rem 2rem;
+  border-radius: 24px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hero-content .logo {
+  font-size: clamp(3rem, 8vw, 5rem); /* Improved readability with responsive sizing */
+  text-shadow: 0 0 15px var(--primary), 0 0 30px var(--glow);
+  margin-bottom: 1rem;
+  animation: neonPulse 2s infinite alternate;
+}
+
+@keyframes neonPulse {
+  from { text-shadow: 0 0 15px var(--primary), 0 0 30px var(--glow); }
+  to { text-shadow: 0 0 25px var(--primary), 0 0 50px var(--glow); }
+}
+
+.hero-content .tagline {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  letter-spacing: 6px;
+  margin: 1.5rem 0;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  opacity: 0.9;
+}
+
+.hero-ctas .btn {
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  transition: all 0.4s ease;
+  text-shadow: 0 0 10px var(--glow);
+}
+
+.hero-ctas .btn:hover {
+  transform: scale(1.05) rotate(2deg); /* Smoother, fun animation */
+  box-shadow: 0 0 60px var(--glow);
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding: 2rem 1.5rem;
+  }
+  .hero-ctas {
+    gap: 1rem;
+  }
+}
 
     /* Shop */
     .shop-grid {
@@ -521,4 +599,5 @@
   </script>
 </body>
 </html>
+
 
