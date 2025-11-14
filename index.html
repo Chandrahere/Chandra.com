@@ -7,7 +7,7 @@
   <meta name="description" content="Real drops. Real empire. Real thug mode."/>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
   
-  <!-- SNIPCART – TEST KEY (works instantly) -->
+  <!-- SNIPCART – Works instantly with test key -->
   <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
   <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
 
@@ -17,7 +17,7 @@
       --bg: #0a0a0a;
       --card: #111;
       --text: #fff;
-      --accent-glow: rgba(255,0,68,0.4);
+      --glow: rgba(255,0,68,0.4);
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
@@ -25,23 +25,23 @@
       color: var(--text);
       font-family: 'Rajdhani', sans-serif;
       overflow-x: hidden;
-      min-height: 100vh;
+      line-height: 1.6;
       background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      animation: vibeShift 25s infinite alternate;
+      animation: empirePulse 30s infinite alternate;
     }
-    @keyframes vibeShift {
+    @keyframes empirePulse {
       0%   { background: linear-gradient(135deg, #0f0f0f, #1a1a1a); }
-      25%  { background: linear-gradient(135deg, #1a0033, #330011); }
-      50%  { background: linear-gradient(135deg, #001133, #003366); }
-      75%  { background: linear-gradient(135deg, #330011, #660022); }
+      33%  { background: linear-gradient(135deg, #1a0033, #330011); }
+      66%  { background: linear-gradient(135deg, #001133, #003366); }
       100% { background: linear-gradient(135deg, #000000, #220011); }
     }
 
+    /* Nav */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(12px);
       padding: 1rem 5%;
       display: flex;
       justify-content: space-between;
@@ -51,19 +51,23 @@
     }
     .logo {
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       color: var(--primary);
       text-shadow: 0 0 20px var(--primary);
-    }
-    .cart-btn {
-      background: var(--primary);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: bold;
       cursor: pointer;
     }
+    .hamburger { display: none; cursor: pointer; z-index: 1000; }
+    .hamburger span { display: block; width: 28px; height: 3px; background: var(--primary); margin: 6px; transition: 0.3s; }
+    .nav-links a {
+      margin-left: 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+    .nav-links a:hover { color: var(--primary); }
 
+    /* Hero */
     header {
       height: 100vh;
       display: flex;
@@ -72,43 +76,48 @@
       align-items: center;
       text-align: center;
       position: relative;
+      background: url('https://images.unsplash.com/photo-1518991667988-3c27c2f0c6e9?auto=format&fit=crop&q=80') center/cover no-repeat;
+    }
+    header::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(0,0,0,0.8);
     }
     .tagline {
-      font-size: 1.5rem;
-      letter-spacing: 4px;
+      font-size: 1.6rem;
+      letter-spacing: 5px;
       margin: 20px 0;
-      opacity: 0.9;
+      z-index: 1;
     }
-    .hero-btns {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
+    .hero-ctas {
+      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; z-index: 1;
     }
     .btn {
       background: var(--primary);
       color: white;
-      padding: 15px 35px;
+      padding: 15px 40px;
       border: none;
       border-radius: 8px;
-      font-size: 1.1rem;
       font-weight: bold;
+      font-size: 1.1rem;
       cursor: pointer;
-      transition: all 0.3-s;
-      box-shadow: 0 0 20px var(--accent-glow);
+      transition: 0.4s;
+      box-shadow: 0 0 25px var(--glow);
     }
-    .btn:hover { transform: scale(1.1); box-shadow: 0 0 40px var(--accent-glow); }
+    .btn:hover { transform: scale(1.1); box-shadow: 0 0 50px var(--glow); }
+    .btn-outline { background: transparent; border: 2px solid var(--primary); }
+    .btn-outline:hover { background: var(--primary); }
 
     section { padding: 100px 5%; }
     h2 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
+      font-size: 3.2rem;
       text-align: center;
-      margin-bottom: 60px;
+      margin-bottom: 70px;
       color: var(--primary);
       text-shadow: 0 0 20px var(--primary);
     }
 
+    /* Shop */
     .shop-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -121,74 +130,127 @@
       border: 2px solid #333;
       border-radius: 12px;
       overflow: hidden;
-      transition: all 0.4s;
-      position: relative;
+      transition: 0.4s;
     }
     .product:hover {
       border-color: var(--primary);
       transform: translateY(-15px);
-      box-shadow: 0 0 40px var(--accent-glow);
+      box-shadow: 0 0 40px var(--glow);
     }
-    .product img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-    }
-    .info {
-      padding: 20px;
-      text-align: center;
-    }
-    .price {
-      color: var(--primary);
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin: 10px 0;
-    }
+    .product img { width: 100%; height: 220px; object-fit: cover; }
+    .info { padding: 20px; text-align: center; }
+    .price { color: var(--primary); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
     .add-cart {
       background: var(--primary);
       color: white;
       border: none;
-      padding: 12px 20px;
+      padding: 14px;
       width: 100%;
       font-weight: bold;
       cursor: pointer;
-      border-radius: 0 0 10px 10px;
+      font-size: 1rem;
+    }
+
+    /* Gallery, Services, Careers */
+    .gallery-grid, .services-grid, .careers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 0 20px var(--glow);
+    }
+    .gallery-item img {
+      width: 100%; height: 280px; object-fit: cover; transition: 0.5s;
+    }
+    .gallery-item:hover img { transform: scale(1.15); }
+
+    .service-card, .job-card {
+      background: var(--card);
+      border: 2px solid #333;
+      border-radius: 12px;
+      padding: 25px;
+      transition: 0.4s;
+    }
+    .service-card:hover, .job-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-10px);
+      box-shadow: 0 0 30px var(--glow);
+    }
+    .service-card h3, .job-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.4rem; }
+    .apply-btn {
+      display: inline-block;
+      margin-top: 15px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 0.9rem;
     }
 
     footer {
       text-align: center;
-      padding: 40px;
+      padding: 50px;
       background: #000;
       border-top: 1px solid #333;
-      font-size: 0.9rem;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .logo { font-size: 2.2rem; }
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .nav-links {
+        position: fixed; top: 0; right: -100%; height: 100vh; width: 70%;
+        background: #000; flex-direction: column; justify-content: center;
+        align-items: center; transition: 0.4s; padding-top: 80px; z-index: 998;
+      }
+      .nav-links a { margin: 20px 0; font-size: 1.4rem; }
+      .nav-links.active { right: 0; }
+      .hamburger { display: block; }
     }
   </style>
 </head>
 <body>
 
+  <!-- SNIPCART (replace with your free test key from snipcart.com) -->
   <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5"></div>
 
+  <!-- NAV -->
   <nav>
-    <div class="logo">CHANDRA</div>
-    <div class="cart-btn snipcart-checkout">
-      CART (<span class="snipcart-items-count">0</span>)
+    <div class="logo" onclick="scrollToTop()">CHANDRA</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#shop">SHOP</a>
+      <a href="#gallery">GALLERY</a>
+      <a href="#services">SERVICES</a>
+      <a href="#careers">CAREERS</a>
+      <a href="mailto:drop@chandra.com">CONTACT</a>
+      <a href="#" class="snipcart-checkout" style="color:var(--primary);">CART (<span class="snipcart-items-count">0</span>)</a>
     </div>
   </nav>
 
+  <!-- HERO -->
   <header>
-    <h1 class="logo">CHANDRA</h1>
+    <h1 class="logo" onclick="scrollToTop()">CHANDRA</h1>
     <p class="tagline">THUG MODE ACTIVATED // EMPIRE IN MOTION</p>
-    <div class="hero-btns">
+    <div class="hero-ctas">
       <a href="#shop" class="btn">SHOP DROPS</a>
-      <button class="btn snipcart-checkout">OPEN CART</button>
+      <a href="#services" class="btn btn-outline">HIRE US</a>
+      <a href="#careers" class="btn btn-outline">JOIN EMPIRE</a>
     </div>
   </header>
 
+  <!-- SHOP – Updated Products -->
   <section id="shop">
     <h2>SHOP THE DROP</h2>
     <div class="shop-grid">
 
-      <!-- THUG RIDE -->
       <div class="product">
         <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80" alt="Thug Ride">
         <div class="info">
@@ -198,7 +260,6 @@
         </div>
       </div>
 
-      <!-- ORGANIC POWER PACK -->
       <div class="product">
         <img src="https://images.unsplash.com/photo-1498837167921-ddd2754d6185?auto=format&fit=crop&q=80" alt="Organic">
         <div class="info">
@@ -215,9 +276,8 @@
         </div>
       </div>
 
-      <!-- CLOTHES -->
       <div class="product">
-        <img src="https://images.unsplash.com/photo-1495121603519-3e695ae6d86d?auto=format&fit=crop&q=80" alt="Cotton Wear">
+        <img src="https://images.unsplash.com/photo-1495121603519-3e695ae6d86d?auto=format&fit=crop&q=80" alt="Cotton">
         <div class="info">
           <h3>COTTON WEAR</h3>
           <p>Men’s shirts & pants</p>
@@ -225,14 +285,13 @@
           <button class="add-cart snipcart-add-item"
             data-item-id="cotton"
             data-item-price="79"
-            data-item-name="Cotton Shirts & Pants"
+            data-item-name="Cotton Wear"
             data-item-url="https://chandrahere.github.io/Chandra.com">
             ADD TO CART
           </button>
         </div>
       </div>
 
-      <!-- BOOKS -->
       <div class="product">
         <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80" alt="Books">
         <div class="info">
@@ -249,7 +308,6 @@
         </div>
       </div>
 
-      <!-- SHOES -->
       <div class="product">
         <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80" alt="Shoes">
         <div class="info">
@@ -266,7 +324,6 @@
         </div>
       </div>
 
-      <!-- TECH -->
       <div class="product">
         <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80" alt="Tech">
         <div class="info">
@@ -276,19 +333,18 @@
           <button class="add-cart snipcart-add-item"
             data-item-id="tech"
             data-item-price="599"
-            data-item-name="Electronics & Gadgets"
+            data-item-name="Tech & Gadgets"
             data-item-url="https://chandrahere.github.io/Chandra.com">
             ADD TO CART
           </button>
         </div>
       </div>
 
-      <!-- TODAY’S SPECIAL -->
       <div class="product">
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&q=80" alt="Food">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&q=80" alt="Special">
         <div class="info">
           <h3>TODAY’S SPECIAL</h3>
-          <p>Butter biscuits • Roti & curry • Juices<br><small>Locals: FREE home delivery</small></p>
+          <p>Butter biscuits • Roti & curry • Juices<br><small>Locals: FREE delivery</small></p>
           <p class="price">$15</p>
           <button class="add-cart snipcart-add-item"
             data-item-id="special"
@@ -303,9 +359,51 @@
     </div>
   </section>
 
+  <!-- GALLERY -->
+  <section id="gallery" style="background:#111;">
+    <h2>GALLERY OF HEAT</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&q=80"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516961642265-531546235294?auto=format&fit=crop&q=80"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1549298916-b41d501d9382?auto=format&fit=crop&q=80"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80"></div>
+    </div>
+  </section>
+
+  <!-- SERVICES & CAREERS -->
+  <section id="services">
+    <h2>SERVICES // THUG EMPIRE</h2>
+    <div class="services-grid">
+      <div class="service-card"><h3>SPORTS</h3><ul><li>Badminton</li><li>Cricket</li><li>Swimming</li></ul></div>
+      <div class="service-card"><h3>DRIVING</h3><ul><li>Car</li><li>Bike</li></ul></div>
+      <div class="service-card"><h3>ENTERTAINERS</h3><ul><li>Writers</li><li>Actors</li><li>Producers</li></ul></div>
+      <div class="service-card"><h3>IT</h3><ul><li>Web Dev</li><li>AI</li><li>Training</li></ul></div>
+      <div class="service-card"><h3>SUPPLY</h3><ul><li>Sourcing</li><li>Logistics</li></ul></div>
+      <div class="service-card"><h3>EVENTS</h3><ul><li>Weddings</li><li>Launches</li></ul></div>
+    </div>
+  </section>
+
+  <section id="careers" style="background:#111;">
+    <h2>CAREERS // JOIN THE EMPIRE</h2>
+    <div class="careers-grid">
+      <div class="job-card"><h3>Product Sales Manager</h3><p>Hustle. Close. Earn.</p><a href="mailto:hr@chandra.com?subject=Apply: Sales" class="apply-btn">APPLY</a></div>
+      <div class="job-card"><h3>DevOps Engineer</h3><p>AWS. Docker. Scale.</p><a href="mailto:hr@chandra.com?subject=Apply: DevOps" class="apply-btn">APPLY</a></div>
+      <div class="job-card"><h3>Badminton Pro</h3><p>Own racket. Smash.</p><a href="mailto:hr@chandra.com?subject=Apply: Badminton" class="apply-btn">APPLY</a></div>
+      <div class="job-card"><h3>Office Assistant</h3><p>Run the empire.</p><a href="mailto:hr@chandra.com?subject=Apply: Assistant" class="apply-btn">APPLY</a></div>
+    </div>
+  </section>
+
   <footer>
-    © 2025 Chandra.com • Thug Mode Forever • <a href="https://x.com/ChanduNaveen5" style="color:#ff0044;">@ChanduNaveen5</a>
+    © 2025 Chandra.com • Thug Mode Forever • <a href="https://x.com/ChanduNaveen5" style="color:var(--primary);">@ChanduNaveen5</a>
   </footer>
 
+  <script>
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
