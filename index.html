@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,12 +14,13 @@
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { color:#fff; font-family:'Roboto Mono',monospace; overflow-x:hidden; line-height:1.6; transition: background 2s ease; background: #000; /* fallback */ }
+    body { color:#333; font-family:'Roboto Mono',monospace; overflow-x:hidden; line-height:1.6; transition: background 2s ease; background: transparent; /* no fallback black */ }
     a { color:#ff0044; text-decoration:none; }
     a:hover { color:#ff3366; }
 
-    header { height:100vh; background:linear-gradient(135deg,#111,#222),url('https://images.unsplash.com/photo-1518991667988-3c27c2f0c6e9?auto=format&fit=crop&q=80') center/cover no-repeat; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; position:relative; }
-    header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,0.7); }
+    header { height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; position:relative; background: transparent; /* removed dark gradient and image */ }
+    /* removed header::before dark overlay */
+
     .logo { font-family:'Orbitron',sans-serif; font-size:4rem; color:#ff0044; text-shadow:0 0 15px #ff0044; z-index:1; cursor:pointer; transition:0.3s; }
     .logo:hover { text-shadow:0 0 25px #ff0044; transform:scale(1.05); }
     .tagline { font-size:1.3rem; margin:1rem 0 2rem; z-index:1; letter-spacing:2px; }
@@ -30,7 +32,7 @@
     .btn-outline { background:transparent; border:2px solid #ff0044; }
     .btn-outline:hover { background:#ff0044; }
 
-    nav { position:fixed; top:0; left:0; right:0; background:rgba(0,0,0,0.9); padding:1rem 5%; display:flex; justify-content:space-between; align-items:center; z-index:99; backdrop-filter:blur(8px); }
+    nav { position:fixed; top:0; left:0; right:0; background:rgba(255,255,255,0.9); padding:1rem 5%; display:flex; justify-content:space-between; align-items:center; z-index:99; backdrop-filter:blur(8px); }
     .nav-links a { margin-left:2rem; font-weight:bold; text-transform:uppercase; font-size:0.9rem; }
     .hamburger { display:none; cursor:pointer; z-index:100; }
     .hamburger span { display:block; width:25px; height:3px; background:#ff0044; margin:5px; transition:0.3s; }
@@ -39,7 +41,7 @@
     h2 { font-family:'Orbitron',sans-serif; font-size:2.5rem; color:#ff0044; text-align:center; margin-bottom:3rem; text-shadow:0 0 10px #ff0044; }
 
     .shop-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
-    .product { background:#111; border:2px solid #333; border-radius:8px; overflow:hidden; transition:0.3s; }
+    .product { background:#f5f5f5; border:2px solid #ccc; border-radius:8px; overflow:hidden; transition:0.3s; }
     .product:hover { border-color:#ff0044; transform:translateY(-8px); box-shadow:0 0 20px rgba(255,0,68,0.3); }
     .product img { width:100%; height:200px; object-fit:cover; }
     .info { padding:1rem; text-align:center; }
@@ -50,24 +52,17 @@
     .gallery-item img { width:100%; height:250px; object-fit:cover; transition:0.4s; }
     .gallery-item:hover img { transform:scale(1.1); }
 
-    .service-card, .job-card { background:#111; border:2px solid #333; border-radius:8px; padding:1.5rem; transition:0.3s; }
+    .service-card, .job-card { background:#f5f5f5; border:2px solid #ccc; border-radius:8px; padding:1.5rem; transition:0.3s; }
     .service-card:hover, .job-card:hover { border-color:#ff0044; transform:translateY(-5px); }
     .service-card h3, .job-card h3 { color:#ff0044; margin-bottom:0.8rem; }
     .apply-btn { display:inline-block; margin-top:1rem; background:#ff0044; color:#fff; padding:8px 16px; border-radius:4px; font-size:0.9rem; }
 
-    footer { text-align:center; padding:2rem; background:#111; font-size:0.9rem; border-top:1px solid #333; }
-
-    .weather-bg {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: -1;
-      transition: all 2s ease;
-    }
+    footer { text-align:center; padding:2rem; background:#f5f5f5; font-size:0.9rem; border-top:1px solid #ddd; }
 
     @media (max-width:768px) {
       .logo { font-size:2.5rem; }
       .hero-ctas { flex-direction:column; align-items:center; }
-      .nav-links { position:fixed; top:0; right:-100%; height:100vh; width:70%; background:#111; flex-direction:column; justify-content:center; align-items:center; transition:0.3s; padding-top:70px; }
+      .nav-links { position:fixed; top:0; right:-100%; height:100vh; width:70%; background:#f5f5f5; flex-direction:column; justify-content:center; align-items:center; transition:0.3s; padding-top:70px; }
       .nav-links a { margin:1.5rem 0; font-size:1.2rem; }
       .nav-links.active { right:0; }
       .hamburger { display:block; }
@@ -75,8 +70,6 @@
   </style>
 </head>
 <body>
-
-  <div class="weather-bg" id="weatherBg"></div>
 
   <!-- SNIPCART: FIXED URL + TEST KEY -->
   <div hidden id="snipcart" 
@@ -215,7 +208,7 @@
   </section>
 
   <!-- GALLERY, SERVICES, CAREERS (unchanged from last version) -->
-  <section id="gallery" style="background:#111;">
+  <section id="gallery">
     <h2>GALLERY OF HEAT</h2>
     <div class="gallery-grid">
       <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&q=80" alt="1"></div>
@@ -237,7 +230,7 @@
     </div>
   </section>
 
-  <section id="careers" style="background:#111;">
+  <section id="careers">
     <h2>CAREERS // JOIN THE EMPIRE</h2>
     <div class="careers-grid">
       <div class="job-card"><h3>Product Sales Manager</h3><p>Hustle. Close. Earn.</p><a href="mailto:hr@chandra.com?subject=Apply: Sales" class="apply-btn">APPLY</a></div>
@@ -261,20 +254,19 @@
 
     // Weather integration
     const API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your OpenWeatherMap API key
-    const weatherBg = document.getElementById('weatherBg');
 
-    // Calmer weather styles
+    // Calmer weather styles without black
     const weatherStyles = {
       Clear:    { bg: 'linear-gradient(135deg, #87CEEB, #E0F7FA)', effect: 'none' }, // Soft sky blue
       Clouds:   { bg: 'linear-gradient(135deg, #A9A9A9, #D3D3D3)', effect: 'none' }, // Gentle gray
       Rain:     { bg: 'linear-gradient(135deg, #696969, #A9A9A9)', effect: 'rain' }, // Subtle dark gray with light rain
       Drizzle:  { bg: 'linear-gradient(135deg, #778899, #B0C4DE)', effect: 'none' }, // Light slate
-      Thunderstorm: { bg: 'linear-gradient(135deg, #2F4F4F, #696969)', effect: 'none' }, // Calm dark slate (no flash)
+      Thunderstorm: { bg: 'linear-gradient(135deg, #A9A9A9, #D3D3D3)', effect: 'none' }, // Calm gray (lightened)
       Snow:     { bg: 'linear-gradient(135deg, #F0F8FF, #E6E6FA)', effect: 'snow' }, // Soft white/blue with gentle snow
       Mist:     { bg: 'linear-gradient(135deg, #DCDCDC, #F5F5F5)', effect: 'none' }, // Misty light gray
       Fog:      { bg: 'linear-gradient(135deg, #DCDCDC, #F5F5F5)', effect: 'none' },
       Haze:     { bg: 'linear-gradient(135deg, #DAA520, #F0E68C)', effect: 'none' }, // Soft golden
-      Default:  { bg: 'linear-gradient(135deg, #000000, #434343)', effect: 'none' } // Original calm black
+      Default:  { bg: 'linear-gradient(135deg, #f0f0f0, #d0d0d0)', effect: 'none' } // Light gray default
     };
 
     async function updateWeatherBackground() {
@@ -291,15 +283,14 @@
         const condition = data.weather[0].main;
         const style = weatherStyles[condition] || weatherStyles.Default;
 
-        weatherBg.style.background = style.bg;
-        weatherBg.style.backgroundSize = 'cover';
+        document.body.style.background = style.bg + ' no-repeat center/cover';
 
         if (style.effect === 'rain') addRainEffect();
         if (style.effect === 'snow') addSnowEffect();
 
       } catch (err) {
         console.log("Weather fetch failed - using default.");
-        weatherBg.style.background = weatherStyles.Default.bg;
+        document.body.style.background = weatherStyles.Default.bg + ' no-repeat center/cover';
       }
     }
 
@@ -309,9 +300,9 @@
       rain.style.top = 0; rain.style.left = 0;
       rain.style.width = '100%'; rain.style.height = '100%';
       rain.style.pointerEvents = 'none';
-      rain.style.background = `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px)`;
+      rain.style.background = `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px)`; // subtle dark streaks for visibility
       rain.style.animation = 'rain 1s linear infinite';
-      weatherBg.appendChild(rain);
+      document.body.appendChild(rain);
 
       const style = document.createElement('style');
       style.innerHTML = `
@@ -329,14 +320,14 @@
         snow.style.position = 'absolute';
         snow.style.width = '3px';
         snow.style.height = '3px';
-        snow.style.background = 'white';
+        snow.style.background = '#333'; // dark flakes for visibility on light bg
         snow.style.borderRadius = '50%';
         snow.style.opacity = Math.random() * 0.5 + 0.3;
         snow.style.left = Math.random() * 100 + 'vw';
         snow.style.top = '-10px';
         snow.style.animation = `snowfall ${5 + Math.random() * 5}s linear infinite`;
         snow.style.animationDelay = Math.random() * 5 + 's';
-        weatherBg.appendChild(snow);
+        document.body.appendChild(snow);
       }
 
       const style = document.createElement('style');
