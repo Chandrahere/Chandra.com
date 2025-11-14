@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,55 +13,259 @@
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { color:#333; font-family:'Roboto Mono',monospace; overflow-x:hidden; line-height:1.6; transition: background 2s ease; background: transparent; /* no fallback black */ }
+    body { 
+      color:#333; 
+      font-family:'Roboto Mono',monospace; 
+      overflow-x:hidden; 
+      line-height:1.6; 
+      transition: all 2s ease; 
+      background: transparent; 
+      position: relative;
+    }
+    .weather-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+      transition: all 2s ease;
+    }
     a { color:#ff0044; text-decoration:none; }
     a:hover { color:#ff3366; }
 
-    header { height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; position:relative; background: transparent; /* removed dark gradient and image */ }
-    /* removed header::before dark overlay */
+    header { 
+      height:100vh; 
+      display:flex; 
+      flex-direction:column; 
+      justify-content:center; 
+      align-items:center; 
+      text-align:center; 
+      position:relative; 
+      background: transparent; 
+    }
 
-    .logo { font-family:'Orbitron',sans-serif; font-size:4rem; color:#ff0044; text-shadow:0 0 15px #ff0044; z-index:1; cursor:pointer; transition:0.3s; }
-    .logo:hover { text-shadow:0 0 25px #ff0044; transform:scale(1.05); }
-    .tagline { font-size:1.3rem; margin:1rem 0 2rem; z-index:1; letter-spacing:2px; }
+    .logo { 
+      font-family:'Orbitron',sans-serif; 
+      font-size:4rem; 
+      color:#ff0044; 
+      text-shadow:0 0 15px #ff0044; 
+      z-index:1; 
+      cursor:pointer; 
+      transition:0.3s; 
+    }
+    .logo:hover { 
+      text-shadow:0 0 25px #ff0044; 
+      transform:scale(1.05); 
+    }
+    .tagline { 
+      font-size:1.3rem; 
+      margin:1rem 0 2rem; 
+      z-index:1; 
+      letter-spacing:2px; 
+    }
     
     /* NEW HERO CTAs */
-    .hero-ctas { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; z-index:1; }
-    .btn { background:#ff0044; color:#fff; padding:12px 30px; border-radius:4px; font-weight:bold; letter-spacing:1px; transition:0.3s; border:none; cursor:pointer; }
-    .btn:hover { background:#ff3366; transform:scale(1.05); }
-    .btn-outline { background:transparent; border:2px solid #ff0044; }
-    .btn-outline:hover { background:#ff0044; }
+    .hero-ctas { 
+      display:flex; 
+      gap:1rem; 
+      flex-wrap:wrap; 
+      justify-content:center; 
+      z-index:1; 
+    }
+    .btn { 
+      background:#ff0044; 
+      color:#fff; 
+      padding:12px 30px; 
+      border-radius:4px; 
+      font-weight:bold; 
+      letter-spacing:1px; 
+      transition:0.3s; 
+      border:none; 
+      cursor:pointer; 
+    }
+    .btn:hover { 
+      background:#ff3366; 
+      transform:scale(1.05); 
+    }
+    .btn-outline { 
+      background:transparent; 
+      border:2px solid #ff0044; 
+    }
+    .btn-outline:hover { 
+      background:#ff0044; 
+    }
 
-    nav { position:fixed; top:0; left:0; right:0; background:rgba(255,255,255,0.9); padding:1rem 5%; display:flex; justify-content:space-between; align-items:center; z-index:99; backdrop-filter:blur(8px); }
-    .nav-links a { margin-left:2rem; font-weight:bold; text-transform:uppercase; font-size:0.9rem; }
-    .hamburger { display:none; cursor:pointer; z-index:100; }
-    .hamburger span { display:block; width:25px; height:3px; background:#ff0044; margin:5px; transition:0.3s; }
+    nav { 
+      position:fixed; 
+      top:0; 
+      left:0; 
+      right:0; 
+      background:rgba(255,255,255,0.9); 
+      padding:1rem 5%; 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      z-index:99; 
+      backdrop-filter:blur(8px); 
+      transition: background 2s ease;
+    }
+    .nav-links a { 
+      margin-left:2rem; 
+      font-weight:bold; 
+      text-transform:uppercase; 
+      font-size:0.9rem; 
+    }
+    .hamburger { 
+      display:none; 
+      cursor:pointer; 
+      z-index:100; 
+    }
+    .hamburger span { 
+      display:block; 
+      width:25px; 
+      height:3px; 
+      background:#ff0044; 
+      margin:5px; 
+      transition:0.3s; 
+    }
 
-    section { padding:5rem 5%; }
-    h2 { font-family:'Orbitron',sans-serif; font-size:2.5rem; color:#ff0044; text-align:center; margin-bottom:3rem; text-shadow:0 0 10px #ff0044; }
+    section { 
+      padding:5rem 5%; 
+      transition: background 2s ease;
+    }
+    h2 { 
+      font-family:'Orbitron',sans-serif; 
+      font-size:2.5rem; 
+      color:#ff0044; 
+      text-align:center; 
+      margin-bottom:3rem; 
+      text-shadow:0 0 10px #ff0044; 
+    }
 
-    .shop-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
-    .product { background:#f5f5f5; border:2px solid #ccc; border-radius:8px; overflow:hidden; transition:0.3s; }
-    .product:hover { border-color:#ff0044; transform:translateY(-8px); box-shadow:0 0 20px rgba(255,0,68,0.3); }
-    .product img { width:100%; height:200px; object-fit:cover; }
-    .info { padding:1rem; text-align:center; }
-    .price { color:#ff0044; font-weight:bold; font-size:1.2rem; }
+    .shop-grid { 
+      display:grid; 
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); 
+      gap:2rem; 
+      max-width:1200px; 
+      margin:0 auto; 
+    }
+    .product { 
+      background:rgba(255,255,255,0.8); 
+      border:2px solid #ccc; 
+      border-radius:8px; 
+      overflow:hidden; 
+      transition:0.3s; 
+    }
+    .product:hover { 
+      border-color:#ff0044; 
+      transform:translateY(-8px); 
+      box-shadow:0 0 20px rgba(255,0,68,0.3); 
+    }
+    .product img { 
+      width:100%; 
+      height:200px; 
+      object-fit:cover; 
+    }
+    .info { 
+      padding:1rem; 
+      text-align:center; 
+    }
+    .price { 
+      color:#ff0044; 
+      font-weight:bold; 
+      font-size:1.2rem; 
+    }
 
-    .gallery-grid, .services-grid, .careers-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
-    .gallery-item { overflow:hidden; border-radius:8px; box-shadow:0 0 15px rgba(255,0,68,0.2); }
-    .gallery-item img { width:100%; height:250px; object-fit:cover; transition:0.4s; }
-    .gallery-item:hover img { transform:scale(1.1); }
+    .gallery-grid, .services-grid, .careers-grid { 
+      display:grid; 
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); 
+      gap:2rem; 
+      max-width:1200px; 
+      margin:0 auto; 
+    }
+    .gallery-item { 
+      overflow:hidden; 
+      border-radius:8px; 
+      box-shadow:0 0 15px rgba(255,0,68,0.2); 
+    }
+    .gallery-item img { 
+      width:100%; 
+      height:250px; 
+      object-fit:cover; 
+      transition:0.4s; 
+    }
+    .gallery-item:hover img { 
+      transform:scale(1.1); 
+    }
 
-    .service-card, .job-card { background:#f5f5f5; border:2px solid #ccc; border-radius:8px; padding:1.5rem; transition:0.3s; }
-    .service-card:hover, .job-card:hover { border-color:#ff0044; transform:translateY(-5px); }
-    .service-card h3, .job-card h3 { color:#ff0044; margin-bottom:0.8rem; }
-    .apply-btn { display:inline-block; margin-top:1rem; background:#ff0044; color:#fff; padding:8px 16px; border-radius:4px; font-size:0.9rem; }
+    .service-card, .job-card { 
+      background:rgba(255,255,255,0.8); 
+      border:2px solid #ccc; 
+      border-radius:8px; 
+      padding:1.5rem; 
+      transition:0.3s; 
+    }
+    .service-card:hover, .job-card:hover { 
+      border-color:#ff0044; 
+      transform:translateY(-5px); 
+    }
+    .service-card h3, .job-card h3 { 
+      color:#ff0044; 
+      margin-bottom:0.8rem; 
+    }
+    .apply-btn { 
+      display:inline-block; 
+      margin-top:1rem; 
+      background:#ff0044; 
+      color:#fff; 
+      padding:8px 16px; 
+      border-radius:4px; 
+      font-size:0.9rem; 
+    }
 
-    footer { text-align:center; padding:2rem; background:#f5f5f5; font-size:0.9rem; border-top:1px solid #ddd; }
+    footer { 
+      text-align:center; 
+      padding:2rem; 
+      background:rgba(255,255,255,0.8); 
+      font-size:0.9rem; 
+      border-top:1px solid #ddd; 
+      transition: background 2s ease;
+    }
+
+    /* Weather icons */
+    .weather-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      display: block;
+    }
+
+    .weather-status {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.9);
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1000;
+      font-size: 0.9rem;
+      transition: background 2s ease;
+    }
 
     @media (max-width:768px) {
       .logo { font-size:2.5rem; }
       .hero-ctas { flex-direction:column; align-items:center; }
-      .nav-links { position:fixed; top:0; right:-100%; height:100vh; width:70%; background:#f5f5f5; flex-direction:column; justify-content:center; align-items:center; transition:0.3s; padding-top:70px; }
+      .nav-links { 
+        position:fixed; 
+        top:0; 
+        right:-100%; 
+        height:100vh; 
+        width:70%; 
+        background:rgba(255,255,255,0.9); 
+        flex-direction:column; 
+        justify-content:center; 
+        align-items:center; 
+        transition:0.3s; 
+        padding-top:70px; 
+      }
       .nav-links a { margin:1.5rem 0; font-size:1.2rem; }
       .nav-links.active { right:0; }
       .hamburger { display:block; }
@@ -71,14 +274,21 @@
 </head>
 <body>
 
+  <div class="weather-bg" id="weatherBg"></div>
+
+  <div class="weather-status" id="weatherStatus">
+    <div id="weatherIcon" class="weather-icon">🌤️</div>
+    <div id="weatherText">Loading weather...</div>
+  </div>
+
   <!-- SNIPCART: FIXED URL + TEST KEY -->
   <div hidden id="snipcart" 
-       data-api-key="YOUR_PUBLIC_TEST_KEY_HERE"
-       data-config-modal-style="dark">
+       data-api-key="YOUR_SNIPCART_PUBLIC_TEST_KEY_HERE"
+       data-config-modal-style="custom">
   </div>
 
   <!-- NAV -->
-  <nav>
+  <nav id="nav">
     <a href="#" class="logo" onclick="scrollToTop()">CHANDRA</a>
     <div class="hamburger" onclick="toggleMenu()">
       <span></span><span></span><span></span>
@@ -94,7 +304,7 @@
   </nav>
 
   <!-- HERO: 3 CTAs -->
-  <header>
+  <header id="hero">
     <h1 class="logo" onclick="scrollToTop()">CHANDRA</h1>
     <p class="tagline">THUG MODE ACTIVATED // EMPIRE IN MOTION</p>
     <div class="hero-ctas">
@@ -104,49 +314,28 @@
     </div>
   </header>
 
-  <!-- SHOP: 8 PRODUCTS -->
+  <!-- SHOP: Updated Categories -->
   <section id="shop">
     <h2>SHOP THE DROP</h2>
     <div class="shop-grid">
-      <!-- 1. Shoes -->
+      <!-- Thug Ride - No change -->
       <div class="product">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80" alt="Thug Kicks">
+        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80" alt="Thug Ride">
         <div class="info">
-          <h3>THUG KICKS</h3>
-          <p class="price">$199</p>
-          <button class="btn snipcart-add-item"
-            data-item-id="thug-kicks"
-            data-item-price="199.00"
-            data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-name="Thug Kicks"
-            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
-            ADD TO CART
-          </button>
+          <h3>THUG RIDE</h3>
+          <p class="price">STARTING AT $20K</p>
+          <a href="thug-ride.html" class="btn" style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;display:block;text-align:center;">
+            EXPLORE INVENTORY
+          </a>
         </div>
       </div>
 
-      <!-- 2. Watch -->
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80" alt="Chrono Thug">
-        <div class="info">
-          <h3>CHRONO THUG</h3>
-          <p class="price">$899</p>
-          <button class="btn snipcart-add-item"
-            data-item-id="chrono-thug"
-            data-item-price="899.00"
-            data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-name="Chrono Thug Watch"
-            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <!-- 3. Organic Food -->
+      <!-- Organic Power Pack - Updated -->
       <div class="product">
         <img src="https://images.unsplash.com/photo-1498837167921-ddd2754d6185?auto=format&fit=crop&q=80" alt="Organic Power">
         <div class="info">
           <h3>ORGANIC POWER PACK</h3>
+          <p>Sprouted seeds, vegetables, cookies</p>
           <p class="price">$49</p>
           <button class="btn snipcart-add-item"
             data-item-id="organic-pack"
@@ -159,46 +348,91 @@
         </div>
       </div>
 
-      <!-- 4. Car (Model) -->
+      <!-- Clothes - New -->
       <div class="product">
-        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80" alt="Thug Ride">
-      <div class="info">
-        <h3>THUG RIDE</h3>
-        <p class="price">STARTING AT $20K</p>
-        <a href="thug-ride.html" class="btn" style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;display:block;text-align:center;">
-          EXPLORE INVENTORY
-        </a>
-      </div>
-    </div>
-
-      <!-- 5. Chair -->
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1506434308070-4c286b0a5a4b?auto=format&fit=crop&q=80" alt="Throne Chair">
+        <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&q=80" alt="Cotton Shirts & Pants">
         <div class="info">
-          <h3>THRONE CHAIR</h3>
-          <p class="price">$299</p>
+          <h3>COTTON CLOTHES</h3>
+          <p>Mens wear: shirts, pants</p>
+          <p class="price">$79</p>
           <button class="btn snipcart-add-item"
-            data-item-id="throne-chair"
-            data-item-price="299.00"
+            data-item-id="cotton-shirts"
+            data-item-price="79.00"
             data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-name="Throne Chair"
+            data-item-name="Cotton Shirts & Pants"
             style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
             ADD TO CART
           </button>
         </div>
       </div>
 
-      <!-- 6. Electronics -->
+      <!-- Writer Books - New -->
       <div class="product">
-        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80" alt="Tech Drop">
+        <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80" alt="Story of Hidalgo">
         <div class="info">
-          <h3>TECH DROP</h3>
+          <h3>WRITER BOOKS</h3>
+          <p>Story of Hidalgo, A Bear on Ice</p>
+          <p class="price">$29</p>
+          <button class="btn snipcart-add-item"
+            data-item-id="writer-books"
+            data-item-price="29.00"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-name="Writer Books"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- Shoes - Updated -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80" alt="Sneakers & Sport">
+        <div class="info">
+          <h3>SHOES</h3>
+          <p>Sneakers, sport</p>
+          <p class="price">$199</p>
+          <button class="btn snipcart-add-item"
+            data-item-id="thug-shoes"
+            data-item-price="199.00"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-name="Thug Shoes"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- Electronics & Gadgets - Updated -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80" alt="Watches & Gadgets">
+        <div class="info">
+          <h3>ELECTRONICS & GADGETS</h3>
+          <p>Watches, AIBI robot, fidget</p>
           <p class="price">$599</p>
           <button class="btn snipcart-add-item"
-            data-item-id="tech-drop"
+            data-item-id="tech-gadgets"
             data-item-price="599.00"
             data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-name="Tech Drop Gadget"
+            data-item-name="Electronics & Gadgets"
+            style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <!-- Today's Special - New -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&q=80" alt="Today's Special">
+        <div class="info">
+          <h3>TODAY’S SPECIAL</h3>
+          <p>Approved by specialists: Butter biscuits, roti & curry, juices. Locals get free home delivery</p>
+          <p class="price">$15</p>
+          <button class="btn snipcart-add-item"
+            data-item-id="todays-special"
+            data-item-price="15.00"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-name="Today's Special"
+            data-item-custom1="Free delivery for locals"
             style="font-size:0.8rem;padding:8px 16px;margin-top:8px;width:100%;">
             ADD TO CART
           </button>
@@ -207,7 +441,7 @@
     </div>
   </section>
 
-  <!-- GALLERY, SERVICES, CAREERS (unchanged from last version) -->
+  <!-- GALLERY -->
   <section id="gallery">
     <h2>GALLERY OF HEAT</h2>
     <div class="gallery-grid">
@@ -240,7 +474,7 @@
     </div>
   </section>
 
-  <footer>
+  <footer id="footer">
     ©️ 2025 Chandra.com | Thug Mode Forever | <a href="https://x.com/ChanduNaveen5" target="_blank">@ChanduNaveen5</a>
   </footer>
 
@@ -252,96 +486,214 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Weather integration
-    const API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your OpenWeatherMap API key
+    // Weather integration - Enhanced for UI elements
+    const API_KEY = 'YOUR_OPENWEATHERMAP_API_KEY_HERE'; // Sign up at https://openweathermap.org/api
+    const weatherBg = document.getElementById('weatherBg');
+    const weatherStatus = document.getElementById('weatherStatus');
+    const weatherIcon = document.getElementById('weatherIcon');
+    const weatherText = document.getElementById('weatherText');
+    const nav = document.getElementById('nav');
+    const hero = document.getElementById('hero');
+    const sections = document.querySelectorAll('section');
+    const footer = document.getElementById('footer');
 
-    // Calmer weather styles without black
+    // Weather styles with adaptive colors
     const weatherStyles = {
-      Clear:    { bg: 'linear-gradient(135deg, #87CEEB, #E0F7FA)', effect: 'none' }, // Soft sky blue
-      Clouds:   { bg: 'linear-gradient(135deg, #A9A9A9, #D3D3D3)', effect: 'none' }, // Gentle gray
-      Rain:     { bg: 'linear-gradient(135deg, #696969, #A9A9A9)', effect: 'rain' }, // Subtle dark gray with light rain
-      Drizzle:  { bg: 'linear-gradient(135deg, #778899, #B0C4DE)', effect: 'none' }, // Light slate
-      Thunderstorm: { bg: 'linear-gradient(135deg, #A9A9A9, #D3D3D3)', effect: 'none' }, // Calm gray (lightened)
-      Snow:     { bg: 'linear-gradient(135deg, #F0F8FF, #E6E6FA)', effect: 'snow' }, // Soft white/blue with gentle snow
-      Mist:     { bg: 'linear-gradient(135deg, #DCDCDC, #F5F5F5)', effect: 'none' }, // Misty light gray
-      Fog:      { bg: 'linear-gradient(135deg, #DCDCDC, #F5F5F5)', effect: 'none' },
-      Haze:     { bg: 'linear-gradient(135deg, #DAA520, #F0E68C)', effect: 'none' }, // Soft golden
-      Default:  { bg: 'linear-gradient(135deg, #f0f0f0, #d0d0d0)', effect: 'none' } // Light gray default
+      Clear: { 
+        bg: 'linear-gradient(135deg, #87CEEB, #98FB98)', 
+        textColor: '#006400',
+        accent: '#FF4500',
+        icon: '☀️',
+        effect: 'none',
+        uiBg: 'rgba(255,255,255,0.95)',
+        navBg: 'rgba(135, 206, 235, 0.9)'
+      },
+      Clouds: { 
+        bg: 'linear-gradient(135deg, #B0C4DE, #D3D3D3)', 
+        textColor: '#2F4F4F',
+        accent: '#FF6347',
+        icon: '☁️',
+        effect: 'none',
+        uiBg: 'rgba(240,248,255,0.9)',
+        navBg: 'rgba(176, 196, 222, 0.9)'
+      },
+      Rain: { 
+        bg: 'linear-gradient(135deg, #708090, #A9A9A9)', 
+        textColor: '#000080',
+        accent: '#DC143C',
+        icon: '🌧️',
+        effect: 'rain',
+        uiBg: 'rgba(255,255,255,0.9)',
+        navBg: 'rgba(112, 128, 144, 0.9)'
+      },
+      Drizzle: { 
+        bg: 'linear-gradient(135deg, #B0E0E6, #E0FFFF)', 
+        textColor: '#008B8B',
+        accent: '#FF69B4',
+        icon: '🌦️',
+        effect: 'none',
+        uiBg: 'rgba(255,255,255,0.95)',
+        navBg: 'rgba(176, 224, 230, 0.9)'
+      },
+      Thunderstorm: { 
+        bg: 'linear-gradient(135deg, #4B0082, #8A2BE2)', 
+        textColor: '#FFF8DC',
+        accent: '#FFD700',
+        icon: '⛈️',
+        effect: 'none',
+        uiBg: 'rgba(255,248,220,0.9)',
+        navBg: 'rgba(75, 0, 130, 0.9)'
+      },
+      Snow: { 
+        bg: 'linear-gradient(135deg, #F0F8FF, #E6E6FA)', 
+        textColor: '#191970',
+        accent: '#4169E1',
+        icon: '❄️',
+        effect: 'snow',
+        uiBg: 'rgba(255,255,255,0.98)',
+        navBg: 'rgba(240, 248, 255, 0.9)'
+      },
+      Mist: { 
+        bg: 'linear-gradient(135deg, #F5F5F5, #DCDCDC)', 
+        textColor: '#696969',
+        accent: '#FF8C00',
+        icon: '🌫️',
+        effect: 'none',
+        uiBg: 'rgba(245,245,245,0.9)',
+        navBg: 'rgba(245, 245, 245, 0.9)'
+      },
+      Fog: { 
+        bg: 'linear-gradient(135deg, #F5F5F5, #DCDCDC)', 
+        textColor: '#696969',
+        accent: '#FF8C00',
+        icon: '🌫️',
+        effect: 'none',
+        uiBg: 'rgba(245,245,245,0.9)',
+        navBg: 'rgba(245, 245, 245, 0.9)'
+      },
+      Haze: { 
+        bg: 'linear-gradient(135deg, #F0E68C, #DAA520)', 
+        textColor: '#8B4513',
+        accent: '#CD853F',
+        icon: '🌫️',
+        effect: 'none',
+        uiBg: 'rgba(240,230,140,0.9)',
+        navBg: 'rgba(240, 230, 140, 0.9)'
+      },
+      Default: { 
+        bg: 'linear-gradient(135deg, #F5F5DC, #FAFAD2)', 
+        textColor: '#333',
+        accent: '#ff0044',
+        icon: '🌤️',
+        effect: 'none',
+        uiBg: 'rgba(255,255,255,0.9)',
+        navBg: 'rgba(245,245,220,0.9)'
+      }
     };
 
-    async function updateWeatherBackground() {
+    async function updateWeather() {
       try {
         const locRes = await fetch('https://ipapi.co/json/');
         const loc = await locRes.json();
         const city = loc.city || 'Delhi';
+        const lat = loc.latitude;
+        const lon = loc.longitude;
 
         const weatherRes = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+          `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
         );
         const data = await weatherRes.json();
 
         const condition = data.weather[0].main;
+        const temp = Math.round(data.main.temp);
         const style = weatherStyles[condition] || weatherStyles.Default;
 
-        document.body.style.background = style.bg + ' no-repeat center/cover';
+        // Update background
+        weatherBg.style.background = style.bg + ' no-repeat center/cover';
 
-        if (style.effect === 'rain') addRainEffect();
-        if (style.effect === 'snow') addSnowEffect();
+        // Update UI elements
+        document.body.style.color = style.textColor;
+        const products = document.querySelectorAll('.product, .service-card, .job-card');
+        products.forEach(p => p.style.background = style.uiBg);
+        nav.style.background = style.navBg;
+        footer.style.background = style.uiBg;
+        hero.style.background = style.bg; // Hero full bg
+
+        // Update accent colors (simplified - update btns)
+        const buttons = document.querySelectorAll('.btn');
+        buttons.forEach(b => {
+          if (!b.classList.contains('btn-outline')) {
+            b.style.background = style.accent;
+          } else {
+            b.style.borderColor = style.accent;
+          }
+        });
+        const links = document.querySelectorAll('a');
+        links.forEach(l => l.style.color = style.accent);
+
+        // Update weather status
+        weatherIcon.textContent = style.icon;
+        weatherText.textContent = `${condition} | ${temp}°C in ${city}`;
+
+        // Effects
+        clearEffects();
+        if (style.effect === 'rain') addRainEffect(style.textColor);
+        if (style.effect === 'snow') addSnowEffect(style.textColor);
 
       } catch (err) {
         console.log("Weather fetch failed - using default.");
-        document.body.style.background = weatherStyles.Default.bg + ' no-repeat center/cover';
+        const style = weatherStyles.Default;
+        weatherBg.style.background = style.bg;
+        // Apply default UI
       }
     }
 
-    function addRainEffect() {
+    let effects = [];
+    function clearEffects() {
+      effects.forEach(e => e.remove());
+      effects = [];
+    }
+
+    function addRainEffect(color) {
       const rain = document.createElement('div');
-      rain.style.position = 'fixed';
-      rain.style.top = 0; rain.style.left = 0;
-      rain.style.width = '100%'; rain.style.height = '100%';
-      rain.style.pointerEvents = 'none';
-      rain.style.background = `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px)`; // subtle dark streaks for visibility
-      rain.style.animation = 'rain 1s linear infinite';
-      document.body.appendChild(rain);
-
-      const style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes rain {
-          from { background-position: 0 0; }
-          to { background-position: 0 50px; }
-        }
+      rain.style.cssText = `
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        pointerEvents: none; z-index: -1;
+        background: repeating-linear-gradient(0deg, transparent, transparent 2px, ${color}10 2px, ${color}10 4px);
+        animation: rain 1s linear infinite;
       `;
-      document.head.appendChild(style);
+      weatherBg.appendChild(rain);
+      effects.push(rain);
+
+      const animStyle = document.createElement('style');
+      animStyle.textContent = `@keyframes rain { from { background-position: 0 0; } to { background-position: 0 50px; } }`;
+      document.head.appendChild(animStyle);
     }
 
-    function addSnowEffect() {
-      for (let i = 0; i < 30; i++) { // Fewer flakes for calmer effect
+    function addSnowEffect(color) {
+      for (let i = 0; i < 30; i++) {
         const snow = document.createElement('div');
-        snow.style.position = 'absolute';
-        snow.style.width = '3px';
-        snow.style.height = '3px';
-        snow.style.background = '#333'; // dark flakes for visibility on light bg
-        snow.style.borderRadius = '50%';
-        snow.style.opacity = Math.random() * 0.5 + 0.3;
-        snow.style.left = Math.random() * 100 + 'vw';
-        snow.style.top = '-10px';
-        snow.style.animation = `snowfall ${5 + Math.random() * 5}s linear infinite`;
-        snow.style.animationDelay = Math.random() * 5 + 's';
-        document.body.appendChild(snow);
+        snow.style.cssText = `
+          position: absolute; width: 3px; height: 3px; background: ${color};
+          border-radius: 50%; opacity: ${Math.random() * 0.5 + 0.3};
+          left: ${Math.random() * 100}vw; top: -10px;
+          animation: snowfall ${5 + Math.random() * 5}s linear infinite;
+          animation-delay: ${Math.random() * 5}s;
+        `;
+        weatherBg.appendChild(snow);
+        effects.push(snow);
       }
 
-      const style = document.createElement('style');
-      style.innerHTML = `
-        @keyframes snowfall {
-          to { transform: translateY(100vh); opacity: 0; }
-        }
-      `;
-      document.head.appendChild(style);
+      const animStyle = document.createElement('style');
+      animStyle.textContent = `@keyframes snowfall { to { transform: translateY(100vh); opacity: 0; } }`;
+      document.head.appendChild(animStyle);
     }
 
-    updateWeatherBackground();
-    setInterval(updateWeatherBackground, 600000); // Update every 10 minutes
+    // Init
+    updateWeather();
+    setInterval(updateWeather, 600000); // 10 min
+
+    // Cart works via Snipcart - no separate file needed, checkout modal handles it
   </script>
 </body>
 </html>
-```
