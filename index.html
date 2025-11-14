@@ -13,7 +13,7 @@
 
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#000; color:#fff; font-family:'Roboto Mono',monospace; overflow-x:hidden; line-height:1.6; }
+    body { color:#fff; font-family:'Roboto Mono',monospace; overflow-x:hidden; line-height:1.6; transition: background 2s ease; background: #000; /* fallback */ }
     a { color:#ff0044; text-decoration:none; }
     a:hover { color:#ff3366; }
 
@@ -57,6 +57,13 @@
 
     footer { text-align:center; padding:2rem; background:#111; font-size:0.9rem; border-top:1px solid #333; }
 
+    .weather-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+      transition: all 2s ease;
+    }
+
     @media (max-width:768px) {
       .logo { font-size:2.5rem; }
       .hero-ctas { flex-direction:column; align-items:center; }
@@ -68,6 +75,8 @@
   </style>
 </head>
 <body>
+
+  <div class="weather-bg" id="weatherBg"></div>
 
   <!-- SNIPCART: FIXED URL + TEST KEY -->
   <div hidden id="snipcart" 
@@ -239,7 +248,7 @@
   </section>
 
   <footer>
-    © 2025 Chandra.com | Thug Mode Forever | <a href="https://x.com/ChanduNaveen5" target="_blank">@ChanduNaveen5</a>
+    ©️ 2025 Chandra.com | Thug Mode Forever | <a href="https://x.com/ChanduNaveen5" target="_blank">@ChanduNaveen5</a>
   </footer>
 
   <script>
@@ -249,8 +258,99 @@
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // Weather integration
+    const API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your OpenWeatherMap API key
+    const weatherBg = document.getElementById('weatherBg');
+
+    // Calmer weather styles
+    const weatherStyles = {
+      Clear:    { bg: 'linear-gradient(135deg, #87CEEB, #E0F7FA)', effect: 'none' }, // Soft sky blue
+      Clouds:   { bg: 'linear-gradient(135deg, #A9A9A9, #D3D3D3)', effect: 'none' }, // Gentle gray
+      Rain:     { bg: 'linear-gradient(135deg, #696969, #A9A9A9)', effect: 'rain' }, // Subtle dark gray with light rain
+      Drizzle:  { bg: 'linear-gradient(135deg, #778899, #B0C4DE)', effect: 'none' }, // Light slate
+      Thunderstorm: { bg: 'linear-gradient(135deg, #2F4F4F, #696969)', effect: 'none' }, // Calm dark slate (no flash)
+      Snow:     { bg: 'linear-gradient(135deg, #F0F8FF, #E6E6FA)', effect: 'snow' }, // Soft white/blue with gentle snow
+      Mist:     { bg: 'linear-gradient(135deg, #DCDCDC, #F5F5F5)', effect: 'none' }, // Misty light gray
+      Fog:      { bg: 'linear-gradient(135deg, #DCDCDC, #F5F5F5)', effect: 'none' },
+      Haze:     { bg: 'linear-gradient(135deg, #DAA520, #F0E68C)', effect: 'none' }, // Soft golden
+      Default:  { bg: 'linear-gradient(135deg, #000000, #434343)', effect: 'none' } // Original calm black
+    };
+
+    async function updateWeatherBackground() {
+      try {
+        const locRes = await fetch('https://ipapi.co/json/');
+        const loc = await locRes.json();
+        const city = loc.city || 'Delhi';
+
+        const weatherRes = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+        );
+        const data = await weatherRes.json();
+
+        const condition = data.weather[0].main;
+        const style = weatherStyles[condition] || weatherStyles.Default;
+
+        weatherBg.style.background = style.bg;
+        weatherBg.style.backgroundSize = 'cover';
+
+        if (style.effect === 'rain') addRainEffect();
+        if (style.effect === 'snow') addSnowEffect();
+
+      } catch (err) {
+        console.log("Weather fetch failed - using default.");
+        weatherBg.style.background = weatherStyles.Default.bg;
+      }
+    }
+
+    function addRainEffect() {
+      const rain = document.createElement('div');
+      rain.style.position = 'fixed';
+      rain.style.top = 0; rain.style.left = 0;
+      rain.style.width = '100%'; rain.style.height = '100%';
+      rain.style.pointerEvents = 'none';
+      rain.style.background = `repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.01) 2px, rgba(255,255,255,0.01) 4px)`;
+      rain.style.animation = 'rain 1s linear infinite';
+      weatherBg.appendChild(rain);
+
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes rain {
+          from { background-position: 0 0; }
+          to { background-position: 0 50px; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    function addSnowEffect() {
+      for (let i = 0; i < 30; i++) { // Fewer flakes for calmer effect
+        const snow = document.createElement('div');
+        snow.style.position = 'absolute';
+        snow.style.width = '3px';
+        snow.style.height = '3px';
+        snow.style.background = 'white';
+        snow.style.borderRadius = '50%';
+        snow.style.opacity = Math.random() * 0.5 + 0.3;
+        snow.style.left = Math.random() * 100 + 'vw';
+        snow.style.top = '-10px';
+        snow.style.animation = `snowfall ${5 + Math.random() * 5}s linear infinite`;
+        snow.style.animationDelay = Math.random() * 5 + 's';
+        weatherBg.appendChild(snow);
+      }
+
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes snowfall {
+          to { transform: translateY(100vh); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    updateWeatherBackground();
+    setInterval(updateWeatherBackground, 600000); // Update every 10 minutes
   </script>
 </body>
 </html>
-
-
+```
