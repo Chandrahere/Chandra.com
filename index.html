@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,25 +67,7 @@
       transition: 0.3s;
     }
     .nav-links a:hover { color: var(--primary); }
-    <a href="#open-land">OPEN LAND</a>
-    <a href="#membership">MEMBERSHIP</a>
-    
 
-    /* Hero */
-    <header>
-  <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
-  <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
-  <div class="hero-content">
-    <h1 class="logo" onclick="scrollToTop()">CHANDRA</h1>
-    <p class="tagline">THUG MODE ACTIVATED // EMPIRE IN MOTION</p>
-    <div class="hero-ctas">
-      <a href="#shop" class="btn">SHOP DROPS</a>
-      <a href="#services" class="btn btn-outline">HIRE US</a>
-      <a href="#careers" class="btn btn-outline">JOIN EMPIRE</a>
-    </div>
-  </div>
-</header>
-```
     /* Updated Hero Styles */
 header {
   height: 100vh;
@@ -92,7 +75,7 @@ header {
   place-items: center;
   position: relative;
   overflow: hidden;
-  background: url('https://images.unsplash.com/photo-1518991667988-3c27c2f0c6e9?auto=format&fit=crop&q=80') center/cover no-repeat fixed; /* Added fixed for parallax feel */
+  background: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80') center/cover no-repeat fixed; /* Changed to tech/code background for dev focus */
   padding: 0;
 }
 
@@ -101,7 +84,7 @@ header {
   border-radius: 50%;
   filter: blur(100px);
   z-index: 1;
-  opacity: 0.6;
+  opacity: 0.4; /* Reduced opacity for better content visibility */
   animation-duration: 20s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
@@ -177,11 +160,27 @@ header {
   opacity: 0.9;
 }
 
+.hero-ctas {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; /* Added for better spacing */
+}
+
 .hero-ctas .btn {
   padding: 1rem 3rem;
   font-size: 1.2rem;
   transition: all 0.4s ease;
   text-shadow: 0 0 10px var(--glow);
+  background: var(--primary);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  border: 2px solid var(--primary);
+}
+
+.hero-ctas .btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
 }
 
 .hero-ctas .btn:hover {
@@ -194,6 +193,7 @@ header {
     padding: 2rem 1.5rem;
   }
   .hero-ctas {
+    flex-direction: column;
     gap: 1rem;
   }
 }
@@ -293,9 +293,66 @@ header {
       .nav-links.active { right: 0; }
       .hamburger { display: block; }
     }
+
+    /* New Styles for Fancy Tech and Dev Focus */
+    #matrix-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.3; /* Low opacity to not overwhelm content */
+      pointer-events: none;
+    }
+
+    section {
+      padding: 80px 5%;
+      text-align: center;
+    }
+
+    section h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      color: var(--primary);
+      text-shadow: 0 0 20px var(--glow);
+      margin-bottom: 50px;
+      animation: neonPulse 2s infinite alternate;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 40px;
+      background: linear-gradient(45deg, var(--primary), #ff0077);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      text-transform: uppercase;
+      box-shadow: 0 0 20px var(--glow);
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px var(--glow);
+    }
+
+    /* Enhanced Dev-Focused Elements */
+    .dev-highlight {
+      background: rgba(0, 255, 204, 0.1); /* Neon cyan glow */
+      border: 1px solid #00ffcc;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+    }
   </style>
 </head>
 <body>
+
+  <!-- Matrix Rain Background for Fancy Tech Vibe -->
+  <canvas id="matrix-canvas"></canvas>
 
   <!-- SNIPCART (replace with your free test key from snipcart.com) -->
   <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5"></div>
@@ -311,19 +368,26 @@ header {
       <a href="#gallery">GALLERY</a>
       <a href="#services">SERVICES</a>
       <a href="#careers">CAREERS</a>
+      <a href="#open-land">OPEN LAND</a>
+      <a href="#membership">MEMBERSHIP</a>
       <a href="mailto:drop@chandra.com">CONTACT</a>
       <a href="#" class="snipcart-checkout" style="color:var(--primary);">CART (<span class="snipcart-items-count">0</span>)</a>
     </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- HERO - Updated for better visibility and dev focus -->
   <header>
-    <h1 class="logo" onclick="scrollToTop()">CHANDRA</h1>
-    <p class="tagline">THUG MODE ACTIVATED // EMPIRE IN MOTION</p>
-    <div class="hero-ctas">
-      <a href="#shop" class="btn">SHOP DROPS</a>
-      <a href="#services" class="btn btn-outline">HIRE US</a>
-      <a href="#careers" class="btn btn-outline">JOIN EMPIRE</a>
+    <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
+    <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 class="logo" onclick="scrollToTop()">CHANDRA</h1>
+      <p class="tagline">THUG MODE DEV EMPIRE // CODE, BUILD, CONQUER</p> <!-- Updated tagline for dev focus -->
+      <div class="hero-ctas">
+        <a href="#shop" class="btn">SHOP DROPS</a>
+        <a href="#services" class="btn btn-outline">HIRE US</a>
+        <a href="#careers" class="btn btn-outline">JOIN EMPIRE</a>
+        <a href="#open-land" class="btn btn-outline">LAUNCH PLAYGROUND</a> <!-- New CTA for dev playground -->
+      </div>
     </div>
   </header>
 
@@ -392,7 +456,7 @@ header {
   </div>
 </section>
 
-<!-- OPEN LAND -->
+<!-- OPEN LAND - Enhanced with GitHub Codespaces integration for basic playground -->
 <section id="open-land" style="background:#111;">
   <h2>OPEN LAND // YOUR PERSONAL ONLINE SERVER</h2>
 
@@ -434,11 +498,15 @@ header {
     <a href="https://cloud.chandra.com/login" class="btn">
       GO TO CLOUD DASHBOARD
     </a>
+    <a href="https://codespaces.new/chandrahere/open-playground?quickstart=1" class="btn" style="margin-left: 20px;"> <!-- Placeholder repo - replace with your GitHub repo -->
+      LAUNCH BASIC PLAYGROUND (GITHUB CODESPACES)
+    </a>
+    <p class="dev-highlight">Join as a member to unlock full access, private repos, and premium resources. Build, code, and hustle in your online dev home!</p>
   </div>
 
 </section>
   
-  <!-- SHOP – Updated Products -->
+  <!-- SHOP – Updated Products - Added dev-focused products -->
   <section id="shop">
     <h2>SHOP THE DROP</h2>
     <div class="shop-grid">
@@ -548,6 +616,39 @@ header {
         </div>
       </div>
 
+      <!-- New Dev-Focused Products -->
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1517694711122-e66818c5c610?auto=format&fit=crop&q=80" alt="Dev Kit">
+        <div class="info">
+          <h3>DEV KIT</h3>
+          <p>Stickers, Hoodie, Mug for Coders</p>
+          <p class="price">$49</p>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="dev-kit"
+            data-item-price="49"
+            data-item-name="Thug Dev Kit"
+            data-item-url="https://chandrahere.github.io/Chandra.com">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
+      <div class="product">
+        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80" alt="Code Book">
+        <div class="info">
+          <h3>CODE EMPIRE BOOK</h3>
+          <p>Guide to Building Your Tech Hustle</p>
+          <p class="price">$39</p>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="code-book"
+            data-item-price="39"
+            data-item-name="Code Empire Book"
+            data-item-url="https://chandrahere.github.io/Chandra.com">
+            ADD TO CART
+          </button>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -562,16 +663,19 @@ header {
     </div>
   </section>
 
-  <!-- SERVICES & CAREERS -->
+  <!-- SERVICES & CAREERS - Enhanced with more dev focus -->
   <section id="services">
     <h2>SERVICES // THUG EMPIRE</h2>
     <div class="services-grid">
       <div class="service-card"><h3>SPORTS</h3><ul><li>Badminton</li><li>Cricket</li><li>Swimming</li></ul></div>
       <div class="service-card"><h3>DRIVING</h3><ul><li>Car</li><li>Bike</li></ul></div>
       <div class="service-card"><h3>ENTERTAINERS</h3><ul><li>Writers</li><li>Actors</li><li>Producers</li></ul></div>
-      <div class="service-card"><h3>IT</h3><ul><li>Web Dev</li><li>AI</li><li>Training</li></ul></div>
+      <div class="service-card"><h3>IT</h3><ul><li>Web Dev</li><li>AI</li><li>Training</li><li>DevOps Consulting</li><li>ML Model Building</li></ul></div> <!-- Enhanced IT for dev focus -->
       <div class="service-card"><h3>SUPPLY</h3><ul><li>Sourcing</li><li>Logistics</li></ul></div>
       <div class="service-card"><h3>EVENTS</h3><ul><li>Weddings</li><li>Launches</li></ul></div>
+      <!-- New Dev Services -->
+      <div class="service-card"><h3>CODE AUDITS</h3><ul><li>Security Reviews</li><li>Performance Optimization</li></ul></div>
+      <div class="service-card"><h3>API DEVELOPMENT</h3><ul><li>REST/GraphQL</li><li>Integration Services</li></ul></div>
     </div>
   </section>
 
@@ -582,11 +686,14 @@ header {
       <div class="job-card"><h3>DevOps Engineer</h3><p>AWS. Docker. Scale.</p><a href="mailto:hr@chandra.com?subject=Apply: DevOps" class="apply-btn">APPLY</a></div>
       <div class="job-card"><h3>Badminton Pro</h3><p>Own racket. Smash.</p><a href="mailto:hr@chandra.com?subject=Apply: Badminton" class="apply-btn">APPLY</a></div>
       <div class="job-card"><h3>Office Assistant</h3><p>Run the empire.</p><a href="mailto:hr@chandra.com?subject=Apply: Assistant" class="apply-btn">APPLY</a></div>
+      <!-- New Dev Jobs -->
+      <div class="job-card"><h3>Full-Stack Developer</h3><p>Build empires in code.</p><a href="mailto:hr@chandra.com?subject=Apply: Full-Stack" class="apply-btn">APPLY</a></div>
+      <div class="job-card"><h3>AI Specialist</h3><p>Train models, conquer data.</p><a href="mailto:hr@chandra.com?subject=Apply: AI" class="apply-btn">APPLY</a></div>
     </div>
   </section>
 
   <footer>
-    © 2025 Chandra.com • Thug Mode Forever • <a href="https://x.com/ChanduNaveen5" style="color:var(--primary);">@ChanduNaveen5</a>
+    ©️ 2025 Chandra.com • Thug Mode Forever • <a href="https://x.com/ChanduNaveen5" style="color:var(--primary);">@ChanduNaveen5</a>
   </footer>
 
   <script>
@@ -596,8 +703,52 @@ header {
     function scrollToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
+    // Matrix Rain JS for Fancy Tech Background
+    var canvas = document.getElementById('matrix-canvas'),
+        ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZ';
+    letters = letters.split('');
+
+    var fontSize = 10,
+        columns = canvas.width / fontSize;
+
+    var drops = [];
+    for (var i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, .1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < drops.length; i++) {
+        var text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillStyle = '#0f0';
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        drops[i]++;
+        if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
+          drops[i] = 0;
+        }
+      }
+    }
+
+    setInterval(draw, 33);
+
+    // Resize canvas on window resize
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = canvas.width / fontSize;
+      drops = [];
+      for (var i = 0; i < columns; i++) {
+        drops[i] = 1;
+      }
+    });
   </script>
 </body>
 </html>
-
-
+```
