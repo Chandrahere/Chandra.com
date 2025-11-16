@@ -3,163 +3,281 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Thug Ride Inventory | Chandra</title>
-  <meta name="description" content="Browse cars and motorcycles in the Thug Ride inventory. Make your offer and ride out." />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <title>THUG RIDE INVENTORY • CHANDRA THUG MODE EMPIRE</title>
+  <meta name="description" content="Explore premium thug rides. Luxury vehicles starting at $20K. Code your empire while cruising in style."/>
+  
+  <!-- Security Headers via Meta Tags -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.snipcart.com 'unsafe-inline'; style-src 'self' https://cdn.snipcart.com https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com data:; connect-src 'self' https://app.snipcart.com https://cdn.snipcart.com https://api.snipcart.com; form-action 'self' https:; frame-ancestors 'self'; base-uri 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), interest-cohort=()">
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- SNIPCART -->
+  <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
+  <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
+
   <style>
+    :root {
+      --primary: #ff0044;
+      --bg: #0a0a0a;
+      --card: #111;
+      --text: #fff;
+      --glow: rgba(255,0,68,0.4);
+    }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#000; color:#fff; font-family:'Roboto Mono',monospace; overflow-x:hidden; line-height:1.6; }
-    a { color:#ff0044; text-decoration:none; }
-    a:hover { color:#ff3366; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      animation: empirePulse 30s infinite alternate;
+    }
+    @keyframes empirePulse {
+      0%   { background: linear-gradient(135deg, #0f0f0f, #1a1a1a); }
+      33%  { background: linear-gradient(135deg, #1a0033, #330011); }
+      66%  { background: linear-gradient(135deg, #001133, #003366); }
+      100% { background: linear-gradient(135deg, #000000, #220011); }
+    }
 
-    nav { position:fixed; top:0; left:0; right:0; background:rgba(0,0,0,0.9); padding:1rem 5%; display:flex; justify-content:space-between; align-items:center; z-index:99; backdrop-filter:blur(8px); }
-    .nav-links a { margin-left:2rem; font-weight:bold; text-transform:uppercase; font-size:0.9rem; }
-    .logo { font-family:'Orbitron',sans-serif; font-size:2rem; color:#ff0044; text-shadow:0 0 15px #ff0044; }
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(12px);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 999;
+      border-bottom: 1px solid #333;
+    }
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.8rem;
+      color: var(--primary);
+      text-shadow: 0 0 20px var(--primary);
+      cursor: pointer;
+    }
+    .hamburger { display: none; cursor: pointer; z-index: 1000; }
+    .hamburger span { display: block; width: 28px; height: 3px; background: var(--primary); margin: 6px; transition: 0.3s; }
+    .nav-links a {
+      margin-left: 2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+    .nav-links a:hover { color: var(--primary); }
 
-    section { padding:5rem 5%; }
-    h2 { font-family:'Orbitron',sans-serif; font-size:2.5rem; color:#ff0044; text-align:center; margin-bottom:3rem; text-shadow:0 0 10px #ff0044; }
+    /* Inventory Grid */
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 100px 5% 80px;
+    }
+    .ride-card {
+      background: var(--card);
+      border: 2px solid #333;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: 0.4s;
+      text-align: center;
+    }
+    .ride-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-15px);
+      box-shadow: 0 0 40px var(--glow);
+    }
+    .ride-card img { width: 100%; height: 250px; object-fit: cover; }
+    .ride-info { padding: 20px; }
+    .ride-info h3 { color: var(--primary); font-size: 1.8rem; margin-bottom: 10px; }
+    .ride-info p { margin-bottom: 15px; }
+    .price { color: var(--primary); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
+    .buy-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 6px;
+    }
 
-    .breadcrumbs { text-align:center; margin-bottom:2rem; font-size:0.9rem; }
-    .breadcrumbs a { margin:0 0.5rem; }
+    footer {
+      text-align: center;
+      padding: 50px;
+      background: #000;
+      border-top: 1px solid #333;
+      font-size: 1rem;
+    }
 
-    .inventory-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; max-width:1200px; margin:0 auto; }
-    .vehicle { background:#111; border:2px solid #333; border-radius:8px; overflow:hidden; transition:0.3s; padding:1rem; }
-    .vehicle:hover { border-color:#ff0044; transform:translateY(-8px); box-shadow:0 0 20px rgba(255,0,68,0.3); }
-    .vehicle img { width:100%; height:200px; object-fit:cover; border-radius:4px; }
-    .details { margin-top:1rem; }
-    .details ul { list-style:none; }
-    .details li { margin-bottom:0.5rem; }
-    .price { color:#ff0044; font-weight:bold; font-size:1.2rem; margin:1rem 0; }
-    form { margin-top:1rem; display:flex; flex-direction:column; gap:1rem; }
-    input, textarea { background:#222; border:1px solid #333; color:#fff; padding:0.8rem; border-radius:4px; }
-    .btn { background:#ff0044; color:#fff; padding:12px; border:none; cursor:pointer; border-radius:4px; font-weight:bold; transition:0.3s; }
-    .btn:hover { background:#ff3366; }
+    @media (max-width: 768px) {
+      .logo { font-size: 2.2rem; }
+      .nav-links {
+        position: fixed; top: 0; right: -100%; height: 100vh; width: 70%;
+        background: #000; flex-direction: column; justify-content: center;
+        align-items: center; transition: 0.4s; padding-top: 80px; z-index: 998;
+      }
+      .nav-links a { margin: 20px 0; font-size: 1.4rem; }
+      .nav-links.active { right: 0; }
+      .hamburger { display: block; }
+    }
 
-    footer { text-align:center; padding:2rem; background:#111; font-size:0.9rem; border-top:1px solid #333; }
+    section h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      color: var(--primary);
+      text-shadow: 0 0 20px var(--glow);
+      margin-bottom: 50px;
+      animation: neonPulse 2s infinite alternate;
+      text-align: center;
+      padding-top: 80px;
+    }
 
-    @media (max-width:768px) {
-      .inventory-grid { grid-template-columns:1fr; }
+    @keyframes neonPulse {
+      from { text-shadow: 0 0 15px var(--primary), 0 0 30px var(--glow); }
+      to { text-shadow: 0 0 25px var(--primary), 0 0 50px var(--glow); }
     }
   </style>
 </head>
 <body>
 
+  <!-- SNIPCART -->
+  <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5"></div>
+
+  <!-- NAV -->
   <nav>
-    <a href="index.html" class="logo">CHANDRA</a>
-    <div class="nav-links">
-      <a href="index.html#shop">SHOP</a>
+    <div class="logo" onclick="window.location.href='index.html'">CHANDRA</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#shop">BACK TO SHOP</a>
+      <a href="index.html#digital">DIGITAL DROPS</a>
+      <a href="index.html#courses">COURSES</a>
       <a href="index.html#gallery">GALLERY</a>
       <a href="index.html#services">SERVICES</a>
       <a href="index.html#careers">CAREERS</a>
+      <a href="index.html#open-land">OPEN LAND</a>
+      <a href="index.html#membership">MEMBERSHIP</a>
+      <a href="index.html#community">COMMUNITY</a>
       <a href="mailto:drop@chandra.com">CONTACT</a>
+      <a href="#" class="snipcart-checkout" style="color:var(--primary);">CART (<span class="snipcart-items-count">0</span>)</a>
     </div>
   </nav>
 
+  <!-- INVENTORY SECTION -->
   <section id="inventory">
-    <div class="breadcrumbs">
-      <a href="index.html">Home</a> > <a href="index.html#shop">Shop</a> > Thug Ride
-    </div>
     <h2>THUG RIDE INVENTORY</h2>
-    <p style="text-align:center; margin-bottom:2rem;">Browse the fleet. Make an offer on your rate. We'll hit you back if it bangs.</p>
     <div class="inventory-grid">
-      <!-- Vehicle 1: Car -->
-      <div class="vehicle">
-        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&q=80" alt="Muscle Car">
-        <div class="details">
-          <h3>MUSCLE CAR V8</h3>
-          <ul>
-            <li>Year: 2023</li>
-            <li>Mileage: 5,000 mi</li>
-            <li>Engine: 6.2L V8</li>
-            <li>Features: Leather seats, turbo, custom rims</li>
-          </ul>
-          <p class="price">Base: $45,000</p>
-          <!-- Form: Option 1 - Mailto (simple, no external service) -->
-          <form action="mailto:orders@chandra.com?subject=Offer for Muscle Car V8" method="post" enctype="text/plain">
-            <input type="number" name="offer" placeholder="Your Offer ($)" required min="10000">
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="notes" placeholder="Notes (e.g., color preference)" rows="3"></textarea>
-            <button type="submit" class="btn">MAKE OFFER</button>
-          </form>
-          <!-- Option 2: Use Formspree (sign up at formspree.io for a free form endpoint, replace ACTION_URL) -->
-          <!-- <form action="https://formspree.io/f/ACTION_URL" method="POST">
-            <input type="hidden" name="vehicle" value="Muscle Car V8">
-            <input type="number" name="offer" placeholder="Your Offer ($)" required min="10000">
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="notes" placeholder="Notes" rows="3"></textarea>
-            <button type="submit" class="btn">MAKE OFFER</button>
-          </form> -->
+
+      <div class="ride-card">
+        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80" alt="2016 Lexus GS">
+        <div class="ride-info">
+          <h3>2016 LEXUS GS</h3>
+          <p>Luxury midsize sedan with powerful engine, sleek design, and advanced tech. Perfect for the thug mode hustle.</p>
+          <p class="price">$22,500</p>
+          <button class="buy-btn snipcart-add-item"
+            data-item-id="lexus-gs-2016"
+            data-item-price="22500"
+            data-item-name="2016 Lexus GS"
+            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
+            data-item-description="Luxury midsize sedan ready for empire building.">
+            BUY NOW
+          </button>
         </div>
       </div>
 
-      <!-- Vehicle 2: Motorcycle -->
-      <div class="vehicle">
-        <img src="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?auto=format&fit=crop&q=80" alt="Sport Bike">
-        <div class="details">
-          <h3>SPORT BIKE 1000CC</h3>
-          <ul>
-            <li>Year: 2024</li>
-            <li>Mileage: 1,200 mi</li>
-            <li>Engine: 998cc Inline-4</li>
-            <li>Features: ABS brakes, LED lights, quick shifter</li>
-          </ul>
-          <p class="price">Base: $15,000</p>
-          <form action="mailto:orders@chandra.com?subject=Offer for Sport Bike 1000CC" method="post" enctype="text/plain">
-            <input type="number" name="offer" placeholder="Your Offer ($)" required min="5000">
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="notes" placeholder="Notes" rows="3"></textarea>
-            <button type="submit" class="btn">MAKE OFFER</button>
-          </form>
+      <div class="ride-card">
+        <img src="https://images.unsplash.com/photo-1507136566006-c5f32ff5d65d?auto=format&fit=crop&q=80" alt="2019 Genesis G80">
+        <div class="ride-info">
+          <h3>2019 GENESIS G80</h3>
+          <p>Elegant and refined luxury sedan with premium features, comfort, and performance for conquering the streets.</p>
+          <p class="price">$24,000</p>
+          <button class="buy-btn snipcart-add-item"
+            data-item-id="genesis-g80-2019"
+            data-item-price="24000"
+            data-item-name="2019 Genesis G80"
+            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
+            data-item-description="Premium luxury sedan for the ultimate thug mode experience.">
+            BUY NOW
+          </button>
         </div>
       </div>
 
-      <!-- Add more vehicles here, e.g. -->
-      <div class="vehicle">
-        <img src="https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&q=80" alt="Luxury Sedan">
-        <div class="details">
-          <h3>LUXURY SEDAN</h3>
-          <ul>
-            <li>Year: 2022</li>
-            <li>Mileage: 10,000 mi</li>
-            <li>Engine: 3.0L Turbo</li>
-            <li>Features: Panoramic roof, adaptive cruise, premium audio</li>
-          </ul>
-          <p class="price">Base: $35,000</p>
-          <form action="mailto:orders@chandra.com?subject=Offer for Luxury Sedan" method="post" enctype="text/plain">
-            <input type="number" name="offer" placeholder="Your Offer ($)" required min="20000">
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="notes" placeholder="Notes" rows="3"></textarea>
-            <button type="submit" class="btn">MAKE OFFER</button>
-          </form>
+      <div class="ride-card">
+        <img src="https://images.unsplash.com/photo-1541348263662-e068662d82af?auto=format&fit=crop&q=80" alt="2019 BMW 5-Series">
+        <div class="ride-info">
+          <h3>2019 BMW 5-SERIES</h3>
+          <p>Dynamic luxury sedan blending sporty handling with sophisticated tech. Build your empire on wheels.</p>
+          <p class="price">$23,800</p>
+          <button class="buy-btn snipcart-add-item"
+            data-item-id="bmw-5series-2019"
+            data-item-price="23800"
+            data-item-name="2019 BMW 5-Series"
+            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
+            data-item-description="Sporty luxury sedan for devpreneurs on the move.">
+            BUY NOW
+          </button>
         </div>
       </div>
 
-      <!-- Vehicle 4: Cruiser Bike -->
-      <div class="vehicle">
-        <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&q=80" alt="Cruiser Bike">
-        <div class="details">
-          <h3>CRUISER BIKE</h3>
-          <ul>
-            <li>Year: 2023</li>
-            <li>Mileage: 3,500 mi</li>
-            <li>Engine: 1700cc V-Twin</li>
-            <li>Features: Saddlebags, windshield, chrome accents</li>
-          </ul>
-          <p class="price">Base: $12,000</p>
-          <form action="mailto:orders@chandra.com?subject=Offer for Cruiser Bike" method="post" enctype="text/plain">
-            <input type="number" name="offer" placeholder="Your Offer ($)" required min="8000">
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="notes" placeholder="Notes" rows="3"></textarea>
-            <button type="submit" class="btn">MAKE OFFER</button>
-          </form>
+      <div class="ride-card">
+        <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80" alt="2018 Lexus GX">
+        <div class="ride-info">
+          <h3>2018 LEXUS GX</h3>
+          <p>Rugged luxury SUV with off-road capability and premium interior. Conquer any terrain in thug style.</p>
+          <p class="price">$24,500</p>
+          <button class="buy-btn snipcart-add-item"
+            data-item-id="lexus-gx-2018"
+            data-item-price="24500"
+            data-item-name="2018 Lexus GX"
+            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
+            data-item-description="Luxury SUV for empire expansion beyond the code.">
+            BUY NOW
+          </button>
         </div>
       </div>
+
+      <div class="ride-card">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80" alt="2017 Audi A4">
+        <div class="ride-info">
+          <h3>2017 AUDI A4</h3>
+          <p>Compact luxury sedan with sharp design, tech-savvy interior, and agile performance for the modern hustler.</p>
+          <p class="price">$21,000</p>
+          <button class="buy-btn snipcart-add-item"
+            data-item-id="audi-a4-2017"
+            data-item-price="21000"
+            data-item-name="2017 Audi A4"
+            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
+            data-item-description="Agile luxury sedan to fuel your dev empire.">
+            BUY NOW
+          </button>
+        </div>
+      </div>
+
     </div>
   </section>
 
   <footer>
-    ©️ 2025 Chandra.com | Thug Mode Forever | <a href="https://x.com/ChanduNaveen5" target="_blank">@ChanduNaveen5</a>
+    ©️ 2025 Chandra.com • Thug Mode Forever • <a href="https://x.com/ChanduNaveen5" style="color:var(--primary);" rel="noopener noreferrer">@ChanduNaveen5</a>
   </footer>
 
+  <script>
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+  </script>
 </body>
 </html>
