@@ -1,26 +1,20 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CHANDRA • DEV EMPIRE HUB</title>
-  <meta name="description" content="Your one-stop hub for developers to code, learn, monetize, and grow. Access AI tools, cloud playgrounds, digital products, courses, and community support."/>
-  
+  <meta name="description" content="Your one-stop dev empire: AI tools, cloud playgrounds, digital drops, courses, community & daily growth."/>
+
   <!-- Security Headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.snipcart.com 'unsafe-inline'; style-src 'self' https://cdn.snipcart.com https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com data:; connect-src 'self' https://app.snipcart.com https://cdn.snipcart.com https://api.snipcart.com; form-action 'self' https:; frame-ancestors 'self'; base-uri 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.snipcart.com 'unsafe-inline' https://cdn.sheetjs.com; style-src 'self' https://cdn.snipcart.com https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com https://*.pexels.com data:; media-src https://videos.pexels.com; connect-src 'self' https://app.snipcart.com https://cdn.snipcart.com https://api.snipcart.com; form-action 'self' https:; frame-ancestors 'self';">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), interest-cohort=()">
 
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Snipcart -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
   <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
-
-  <!-- SheetJS for Excel -->
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 
   <style>
@@ -28,48 +22,62 @@
       --primary: #4a90e2;
       --bg: #f8f9fa;
       --card: #ffffff;
-      --text: #333333;
-      --glow: rgba(74,144,226,0.2);
-      --accent: #6c757d;
+      --text: #1a1a1a;
+      --accent: #555;
+      --light: #f1f3f5;
     }
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background: var(--bg); color: var(--text); font-family: 'Roboto', sans-serif; line-height: 1.6; }
-    
-    nav { position: fixed; top: 0; left: 0; right: 0; background: var(--card); box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; z-index: 999; }
-    .logo { font-size: 2rem; color: var(--primary); cursor: pointer; }
-    .hamburger { display: none; cursor: pointer; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: var(--primary); margin: 5px; }
-    .nav-links { display: flex; overflow-x: auto; white-space: nowrap; gap: 1rem; }
-    .nav-links a { padding: 0.5rem 1rem; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; color: var(--accent); cursor: pointer; }
-    .nav-links a.active, .nav-links a:hover { color: var(--primary); border-bottom: 2px solid var(--primary); }
-    
-    .section-content { display: none; padding: 4rem 5%; }
-    .section-content.active { display: block; }
-    .theory-note { background: var(--glow); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-style: italic; }
-    
-    .slider { position: relative; max-width: 100%; height: 400px; overflow: hidden; }
-    .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s; }
-    .slide.active { opacity: 1; }
-    video { width: 100%; height: 100%; object-fit: cover; }
-    
-    .shop-grid, .services-grid, .careers-grid, .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .product, .service-card, .job-card, .gallery-item { background: var(--card); border: 1px solid #ddd; border-radius: 8px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-    .product img, .gallery-item img { width: 100%; height: 180px; object-fit: cover; }
-    .info { padding: 15px; text-align: center; }
-    .price { color: var(--primary); font-size: 1.4rem; }
-    .add-cart, .apply-btn { background: var(--primary); color: #fff; border: none; padding: 10px; width: 100%; cursor: pointer; border-radius: 4px; }
-    
-    .community-form { max-width: 500px; margin: 0 auto; padding: 15px; background: var(--card); border: 1px solid #ddd; border-radius: 8px; }
-    .community-form input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
-    .community-form button { background: var(--primary); color: #fff; border: none; padding: 10px; width: 100%; cursor: pointer; border-radius: 4px; }
-    
-    footer { text-align: center; padding: 30px; background: var(--bg); border-top: 1px solid #ddd; }
-    
-    @media (max-width: 768px) { 
-      .nav-links { display: none; flex-direction: column; position: fixed; top: 0; right: -100%; height: 100vh; width: 80%; background: var(--card); justify-content: center; align-items: center; transition: 0.4s; }
-      .nav-links.active { display: flex; right: 0; }
-      .hamburger { display: block; }
-      .slider { height: 200px; }
+    body { font-family: 'Inter', sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+
+    nav {
+      position:fixed; top:0; left:0; right:0; background:var(--card); box-shadow:0 2px 15px rgba(0,0,0,0.08);
+      padding:1rem 5%; display:flex; justify-content:space-between; align-items:center; z-index:999;
+    }
+    .logo { font-size:2rem; font-weight:700; color:var(--primary); cursor:pointer; }
+    .hamburger { display:none; cursor:pointer; }
+    .hamburger span { display:block; width:25px; height:3px; background:var(--primary); margin:5px; transition:0.3s; }
+    .nav-links { display:flex; gap:1.2rem; overflow-x:auto; white-space:nowrap; }
+    .nav-links a {
+      padding:0.6rem 1rem; font-weight:600; text-transform:uppercase; font-size:0.9rem;
+      color:var(--accent); cursor:pointer; transition:0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color:var(--primary); border-bottom:3px solid var(--primary); }
+
+    .section-content { display:none; padding:5rem 5% 3rem; min-height:90vh; }
+    .section-content.active { display:block; }
+    .theory-note { background:rgba(74,144,226,0.1); padding:1.2rem; border-radius:10px; margin-bottom:2rem; font-style:italic; }
+
+    /* Hero Video Slider */
+    .hero-slider { position:relative; height:70vh; overflow:hidden; }
+    .slide { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition:opacity 1.5s; }
+    .slide.active { opacity:1; }
+    .slide video { width:100%; height:100%; object-fit:cover; }
+
+    h1 { font-size:clamp(2.8rem,7vw,5rem); color:var(--primary); text-align:center; margin:2rem 0 1rem; }
+    h2 { font-size:2.5rem; text-align:center; margin-bottom:1rem; color:var(--primary); }
+    .price { font-size:1.6rem; color:var(--primary); font-weight:700; }
+
+    /* Grids */
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:25px; margin-top:2rem; }
+    .card, .product, .service-card { background:var(--card); border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.06); transition:0.3s; }
+    .card:hover, .product:hover { transform:translateY(-8px); box-shadow:0 12px 25px rgba(0,0,0,0.12); }
+    .card img, .product img { width:100%; height:200px; object-fit:cover; }
+    .info { padding:1.2rem; text-align:center; }
+
+    .btn, .add-cart, .apply-btn {
+      background:var(--primary); color:#fff; border:none; padding:12px 20px; border-radius:8px;
+      font-weight:600; cursor:pointer; width:100%; margin-top:10px; transition:0.3s;
+    }
+    .btn:hover, .add-cart:hover { background:#357abd; }
+
+    footer { text-align:center; padding:3rem; background:var(--light); border-top:1px solid #ddd; font-size:0.9rem; }
+
+    @media (max-width:768px) {
+      .hamburger { display:block; }
+      .nav-links { position:fixed; top:0; right:-100%; height:100vh; width:80%; background:var(--card); flex-direction:column; justify-content:center; align-items:center; transition:0.4s; z-index:998; }
+      .nav-links.active { right:0; display:flex; }
+      .nav-links a { font-size:1.3rem; margin:15px 0; }
+      .hero-slider { height:50vh; }
     }
   </style>
 </head>
@@ -85,6 +93,7 @@
       <span></span><span></span><span></span>
     </div>
     <div class="nav-links" id="navLinks">
+      <a onclick="showSection('home')">HOME</a>
       <a onclick="showSection('shop')">SHOP</a>
       <a onclick="showSection('digital')">DIGITAL DROPS</a>
       <a onclick="showSection('courses')">COURSES</a>
@@ -99,48 +108,147 @@
     </div>
   </nav>
 
-  <!-- Home Section with Slider -->
+  <!-- HOME + AI VIDEO SLIDER -->
   <section id="home" class="section-content active">
-    <div class="slider">
-      <div class="slide active"><video autoplay muted loop src="https://videos.pexels.com/video-files/18069232/18069232-sd_640_360_30fps.mp4"></video></div>
-      <div class="slide"><video autoplay muted loop src="https://videos.pexels.com/video-files/3194523/3194523-sd_640_360_25fps.mp4"></video></div>
-      <div class="slide"><video autoplay muted loop src="https://videos.pexels.com/video-files/856079/856079-sd_640_360_25fps.mp4"></video></div>
-      <div class="slide"><video autoplay muted loop src="https://videos.pexels.com/video-files/853851/853851-sd_640_360_30fps.mp4"></video></div>
-      <div class="slide"><video autoplay muted loop src="https://videos.pexels.com/video-files/3209828/3209828-sd_640_360_30fps.mp4"></video></div>
+    <div class="hero-slider">
+      <div class="slide active"><video autoplay muted loop playsinline src="https://videos.pexels.com/video-files/18069232/18069232-uhd_2560_1440_30fps.mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline src="https://videos.pexels.com/video-files/3194523/3194523-uhd_2560_1440_30fps.mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline src="https://videos.pexels.com/video-files/856079/856079-uhd_2560_1440_30fps.mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline src="https://videos.pexels.com/video-files/853851/853851-uhd_2560_1440_30fps.mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_30fps.mp4"></video></div>
     </div>
     <h1>CHANDRA DEV EMPIRE</h1>
-    <p>Your hub for daily dev tools, learning, and growth.</p>
+    <p style="max-width:900px;margin:0 auto 2rem;font-size:1.3rem;text-align:center;">
+      Your daily hub to code, deploy AI, learn, earn, and grow — everything a modern developer needs in one place.
+    </p>
   </section>
 
-  <!-- Other sections with updates... (alphabetical examples, new categories, etc.) -->
-  <!-- For brevity, assuming similar structure as before, with alphabetical reordering and additions like in Shop: A-Arts (ID001), B-Business (ID002), etc. -->
-  <!-- Membership ad: <p class="promo">Members get free sticker pack delivered!</p> -->
-  <!-- Basic Land download: <a href="basic.land" download>Download .land Template</a> -->
+  <!-- MEMBERSHIP -->
+  <section id="membership" class="section-content">
+    <h2>MEMBERSHIP // CLOUD PLAYGROUND</h2>
+    <p class="theory-note">Scalable cloud servers + free monthly products delivered to your door. Grow without limits.</p>
+    <div class="grid">
+      <div class="card">
+        <div class="info">
+          <h3>BASIC LAND • $9/mo</h3>
+          <ul style="text-align:left;margin:1rem 0;">
+            <li>1vCPU / 1GB RAM</li>
+            <li>Website + AI script hosting</li>
+            <li>SSH Access</li>
+            <li>Free Sticker Pack (delivered)</li>
+          </ul>
+          <p class="price">$9/month</p>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="basic-land" data-item-price="9" data-item-name="Basic Land Membership"
+            data-item-url="https://chandrahere.github.io/Chandra.com">GET BASIC LAND</button>
+        </div>
+      </div>
+      <!-- Add PRO / GPU / ENTERPRISE the same way -->
+    </div>
+  </section>
+
+  <!-- OPEN LAND -->
+  <section id="open-land" class="section-content">
+    <h2>OPEN LAND // YOUR PERSONAL CLOUD SERVER</h2>
+    <p class="theory-note">Deploy anything, anytime — full control, SSH, Docker, AI models.</p>
+    <div style="text-align:center;margin-top:3rem;">
+      <a href="https://cloud.chandra.com/login" class="btn" style="display:inline-block;width:auto;padding:15px 40px;">GO TO DASHBOARD</a>
+    </div>
+  </section>
+
+  <!-- SHOP (A-Z) -->
+  <section id="shop" class="section-content">
+    <h2>SHOP THE DROP • A-Z</h2>
+    <p class="theory-note">Everything from tech gadgets to daily essentials — alphabetized for fast finds.</p>
+    <div class="grid">
+      <div class="product"><img src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd" alt="Arts"><div class="info"><h3>A - ARTS (ID001)</h3><p class="price">$49</p><button class="add-cart snipcart-add-item" data-item-id="arts-001" data-item-price="49" data-item-name="Arts Collection">ADD</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978" alt="Business"><div class="info"><h3>B - BUSINESS TOOLS (ID002)</h3><p class="price">$99</p><button class="add-cart snipcart-add-item" data-item-id="biz-002" data-item-price="99" data-item-name="Business Kit">ADD</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cars"><div class="info"><h3>C - CARS / THUG RIDE (ID003)</h3><p class="price">From $20K</p><a href="thug-ride.html" class="add-cart">EXPLORE</a></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1541592106381-b31e9678c0e7" alt="Chocolates"><div class="info"><h3>C - CHOCOLATES (ID004)</h3><p class="price">$29</p><button class="add-cart snipcart-add-item" data-item-id="choco-004" data-item-price="29" data-item-name="Premium Chocolates">ADD</button></div></div>
+      <!-- Continue up to Z as needed -->
+    </div>
+  </section>
+
+  <!-- DIGITAL DROPS (A-Z Examples) -->
+  <section id="digital" class="section-content">
+    <h2>DIGITAL DROPS</h2>
+    <div class="grid">
+      <div class="product"><img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee" alt="AI Agent Kit"><div class="info"><h3>AI Agent Starter Kit</h3><p class="price">$49</p><button class="add-cart snipcart-add-item" data-item-id="ai-agent" data-item-price="49" data-item-name="AI Agent Kit" data-item-file-guid="YOUR_GUID">BUY</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1620712943544-b4e2c6b5c3f9" alt="WeatherBot Pro"><div class="info"><h3>WeatherBot Pro</h3><p class="price">$99</p><button class="add-cart snipcart-add-item" data-item-id="weatherbot" data-item-price="99" data-item-name="WeatherBot Pro" data-item-file-guid="YOUR_GUID">BUY</button></div></div>
+      <!-- Add more alphabetically -->
+    </div>
+  </section>
+
+  <!-- COURSES (A-Z Examples) -->
+  <section id="courses" class="section-content">
+    <h2>COURSES & WORKSHOPS</h2>
+    <div class="grid">
+      <div class="card"><div class="info"><h3>AI Automation Masterclass</h3><p class="price">$199</p><button class="add-cart snipcart-add-item" data-item-id="ai-course" data-item-price="199" data-item-name="AI Automation Course">ENROLL</button></div></div>
+      <div class="card"><div class="info"><h3>DevOps From Zero</h3><p class="price">$299</p><button class="add-cart snipcart-add-item" data-item-id="devops" data-item-price="299" data-item-name="DevOps Masterclass">ENROLL</button></div></div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="section-content">
+    <h2>GALLERY OF HEAT</h2>
+    <div class="grid">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519389950474-4e6c8a5c9b0a" alt="AI Art"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee" alt="Code"></div>
+      <!-- Add more -->
+    </div>
+  </section>
+
+  <!-- SERVICES (Alphabetical) -->
+  <section id="services" class="section-content">
+    <h2>SERVICES</h2>
+    <div class="grid">
+      <div class="service-card"><div class="info"><h3>AI WORKSHOPS</h3></div></div>
+      <div class="service-card"><div class="info"><h3>ORGANIC GROW PLANT FOOD</h3></div></div>
+      <div class="service-card"><div class="info"><h3>GYM & SPORTS (Badminton, Cricket, Swimming)</h3></div></div>
+      <div class="service-card"><div class="info"><h3>PACKAGING SOLUTIONS</h3></div></div>
+      <!-- Continue A-Z -->
+    </div>
+  </section>
+
+  <!-- CAREERS & COMMUNITY (kept clean) -->
+  <section id="careers" class="section-content"><h2>CAREERS</h2><!-- cards --></section>
+  <section id="community" class="section-content"><h2>COMMUNITY</h2><!-- Discord + newsletter --></section>
+
+  <footer>
+    © 2025 Chandra.com • Dev Empire Hub • <a href="https://x.com/ChanduNaveen5">@ChanduNaveen5</a>
+  </footer>
 
   <script>
-    // Slider
-    let slides = document.querySelectorAll('.slide');
-    let current = 0;
-    setInterval(() => {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
-    }, 5000);
+    function toggleMenu(){ document.getElementById('navLinks').classList.toggle('active'); }
+    function showSection(id){
+      document.querySelectorAll('.section-content').forEach(s=>s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+      event.target.classList.add('active');
+      if(window.innerWidth<=768) toggleMenu();
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
 
-    // Snipcart Invoice
+    // Video Slider
+    let slides = document.querySelectorAll('.slide');
+    let i = 0;
+    setInterval(()=>{
+      slides[i].classList.remove('active');
+      i = (i+1) % slides.length;
+      slides[i].classList.add('active');
+    }, 6000);
+
+    // Auto Excel Invoice on Purchase
     document.addEventListener('snipcart.ready', () => {
-      Snipcart.events.on('order.completed', (order) => {
-        const data = [[ 'Name', 'Email', 'Product ID', 'Amount' ]];
-        order.items.forEach(item => data.push([order.billingAddress.name, order.email, item.id, item.totalPrice]));
+      Snipcart.events.on('order.completed', order => {
+        const rows = [['Name','Email','Product','Amount']];
+        order.items.forEach(item => rows.push([order.billingAddress.name, order.email, item.name, item.totalPrice]));
+        const ws = XLSX.utils.aoa_to_sheet(rows);
         const wb = XLSX.utils.book_new();
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, 'Purchase');
-        XLSX.writeFile(wb, 'invoice.xlsx');
+        XLSX.utils.book_append_sheet(wb, ws, "Invoice");
+        XLSX.writeFile(wb, `Invoice_${order.invoiceNumber || Date.now()}.xlsx`);
       });
     });
-
-    // Other JS as before
   </script>
 </body>
 </html>
-```
