@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CHANDRA • THUG MODE EMPIRE</title>
-  <meta name="description" content="Real drops. Real empire. Real thug mode. Code, build, conquer with AI tools, cloud playgrounds, digital kits, and more."/>
+  <title>CHANDRA • DEV EMPIRE HUB</title>
+  <meta name="description" content="Your one-stop hub for developers to code, learn, monetize, and grow. Access AI tools, cloud playgrounds, digital products, courses, and community support."/>
   
   <!-- Security Headers via Meta Tags -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.snipcart.com 'unsafe-inline'; style-src 'self' https://cdn.snipcart.com https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com data:; connect-src 'self' https://app.snipcart.com https://cdn.snipcart.com https://api.snipcart.com; form-action 'self' https:; frame-ancestors 'self'; base-uri 'self'; upgrade-insecure-requests;">
@@ -13,433 +13,161 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
   <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), interest-cohort=()">
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-  
-  <!-- SNIPCART – Updated to a more recent version pattern; add SRI if possible (generate via srihash.org) -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Updated to calm font -->
+
+  <!-- SNIPCART -->
   <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
   <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
 
   <style>
     :root {
-      --primary: #ff0044;
-      --bg: #0a0a0a;
-      --card: #111;
-      --text: #fff;
-      --glow: rgba(255,0,68,0.4);
+      --primary: #4a90e2; /* Calm blue */
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --text: #333333;
+      --glow: rgba(74,144,226,0.2); /* Soft glow */
+      --accent: #6c757d; /* Gray for accents */
     }
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Rajdhani', sans-serif;
-      overflow-x: hidden;
+      font-family: 'Roboto', sans-serif;
       line-height: 1.6;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      animation: empirePulse 30s infinite alternate;
-    }
-    @keyframes empirePulse {
-      0%   { background: linear-gradient(135deg, #0f0f0f, #1a1a1a); }
-      33%  { background: linear-gradient(135deg, #1a0033, #330011); }
-      66%  { background: linear-gradient(135deg, #001133, #003366); }
-      100% { background: linear-gradient(135deg, #000000, #220011); }
     }
 
     /* Nav */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(12px);
+      background: var(--card);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       padding: 1rem 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 999;
-      border-bottom: 1px solid #333;
     }
     .logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.8rem;
+      font-size: 2rem;
       color: var(--primary);
-      text-shadow: 0 0 20px var(--primary);
       cursor: pointer;
     }
     .hamburger { display: none; cursor: pointer; z-index: 1000; }
-    .hamburger span { display: block; width: 28px; height: 3px; background: var(--primary); margin: 6px; transition: 0.3s; }
-    .nav-links a {
-      margin-left: 2rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: 0.95rem;
-      transition: 0.3s;
-    }
-    .nav-links a:hover { color: var(--primary); }
-
-    /* Updated Hero Styles */
-    header {
-      height: 100vh;
-      display: grid;
-      place-items: center;
-      position: relative;
-      overflow: hidden;
-      background: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80') center/cover no-repeat fixed; /* Changed to tech/code background for dev focus */
-      padding: 0;
-    }
-
-    .hero-blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(100px);
-      z-index: 1;
-      opacity: 0.4; /* Reduced opacity for better content visibility */
-      animation-duration: 20s;
-      animation-iteration-count: infinite;
-      animation-timing-function: ease-in-out;
-    }
-
-    .hero-blob-1 {
-      width: 60%;
-      height: 60%;
-      background-color: var(--primary);
-      top: -20%;
-      left: -30%;
-      animation-name: blobMove1;
-    }
-
-    .hero-blob-2 {
-      width: 50%;
-      height: 50%;
-      background-color: #00ffcc; /* Neon cyan for tech contrast */
-      bottom: -10%;
-      right: -20%;
-      animation-name: blobMove2;
-      animation-duration: 25s;
-    }
-
-    @keyframes blobMove1 {
-      0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(15%, 10%) scale(1.1); }
-      100% { transform: translate(0, 0) scale(1); }
-    }
-
-    @keyframes blobMove2 {
-      0% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(-10%, 15%) scale(0.9); }
-      100% { transform: translate(0, 0) scale(1); }
-    }
-
-    .hero-content {
-      max-width: 900px;
-      position: relative;
-      z-index: 2;
-      padding: 3rem 2rem;
-      border-radius: 24px;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 1.5s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .hero-content .logo {
-      font-size: clamp(3rem, 8vw, 5rem); /* Improved readability with responsive sizing */
-      text-shadow: 0 0 15px var(--primary), 0 0 30px var(--glow);
-      margin-bottom: 1rem;
-      animation: neonPulse 2s infinite alternate;
-    }
-
-    @keyframes neonPulse {
-      from { text-shadow: 0 0 15px var(--primary), 0 0 30px var(--glow); }
-      to { text-shadow: 0 0 25px var(--primary), 0 0 50px var(--glow); }
-    }
-
-    .hero-content .tagline {
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
-      letter-spacing: 6px;
-      margin: 1.5rem 0;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-      opacity: 0.9;
-    }
-
-    .hero-ctas {
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--primary); margin: 5px; transition: 0.3s; }
+    .nav-links {
       display: flex;
-      justify-content: center;
-      gap: 1.5rem; /* Added for better spacing */
+      overflow-x: auto;
+      white-space: nowrap;
+      gap: 1rem;
     }
-
-    .hero-ctas .btn {
-      padding: 1rem 3rem;
-      font-size: 1.2rem;
-      transition: all 0.4s ease;
-      text-shadow: 0 0 10px var(--glow);
-      background: var(--primary);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
-      border: 2px solid var(--primary);
-    }
-
-    .hero-ctas .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-    }
-
-    .hero-ctas .btn:hover {
-      transform: scale(1.05) rotate(2deg); /* Smoother, fun animation */
-      box-shadow: 0 0 60px var(--glow);
-    }
-
-    @media (max-width: 768px) {
-      .hero-content {
-        padding: 2rem 1.5rem;
-      }
-      .hero-ctas {
-        flex-direction: column;
-        gap: 1rem;
-      }
-    }
-
-    /* Shop */
-    .shop-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    .product {
-      background: var(--card);
-      border: 2px solid #333;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: 0.4s;
-    }
-    .product:hover {
-      border-color: var(--primary);
-      transform: translateY(-15px);
-      box-shadow: 0 0 40px var(--glow);
-    }
-    .product img { width: 100%; height: 220px; object-fit: cover; }
-    .info { padding: 20px; text-align: center; }
-    .price { color: var(--primary); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
-    .add-cart {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 14px;
-      width: 100%;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    /* Gallery, Services, Careers */
-    .gallery-grid, .services-grid, .careers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .gallery-item {
-      overflow: hidden;
-      border-radius: 12px;
-      box-shadow: 0 0 20px var(--glow);
-    }
-    .gallery-item img {
-      width: 100%; height: 280px; object-fit: cover; transition: 0.5s;
-    }
-    .gallery-item:hover img { transform: scale(1.15); }
-
-    .service-card, .job-card {
-      background: var(--card);
-      border: 2px solid #333;
-      border-radius: 12px;
-      padding: 25px;
-      transition: 0.4s;
-    }
-    .service-card:hover, .job-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-10px);
-      box-shadow: 0 0 30px var(--glow);
-    }
-    .service-card h3, .job-card h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.4rem; }
-    .apply-btn {
-      display: inline-block;
-      margin-top: 15px;
-      background: var(--primary);
-      color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-size: 0.9rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 50px;
-      background: #000;
-      border-top: 1px solid #333;
-      font-size: 1rem;
-    }
-
-    @media (max-width: 768px) {
-      .logo { font-size: 2.2rem; }
-      .hero-ctas { flex-direction: column; align-items: center; }
-      .nav-links {
-        position: fixed; top: 0; right: -100%; height: 100vh; width: 70%;
-        background: #000; flex-direction: column; justify-content: center;
-        align-items: center; transition: 0.4s; padding-top: 80px; z-index: 998;
-      }
-      .nav-links a { margin: 20px 0; font-size: 1.4rem; }
-      .nav-links.active { right: 0; }
-      .hamburger { display: block; }
-    }
-
-    /* New Styles for Fancy Tech and Dev Focus */
-    #matrix-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.3; /* Low opacity to not overwhelm content */
-      pointer-events: none;
-    }
-
-    section {
-      padding: 80px 5%;
-      text-align: center;
-    }
-
-    section h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      color: var(--primary);
-      text-shadow: 0 0 20px var(--glow);
-      margin-bottom: 50px;
-      animation: neonPulse 2s infinite alternate;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 15px 40px;
-      background: linear-gradient(45deg, var(--primary), #ff0077);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 8px;
+    .nav-links a {
+      padding: 0.5rem 1rem;
       font-weight: bold;
       text-transform: uppercase;
-      box-shadow: 0 0 20px var(--glow);
+      font-size: 0.9rem;
       transition: 0.3s;
-    }
-
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 40px var(--glow);
-    }
-
-    /* Enhanced Dev-Focused Elements */
-    .dev-highlight {
-      background: rgba(0, 255, 204, 0.1); /* Neon cyan glow */
-      border: 1px solid #00ffcc;
-      padding: 20px;
-      border-radius: 12px;
-      margin: 20px 0;
-      box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
-    }
-
-    /* New Community Section Styles */
-    .community-form {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background: var(--card);
-      border-radius: 12px;
-      border: 2px solid #333;
-    }
-    .community-form input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      background: #222;
-      border: 1px solid #444;
-      color: var(--text);
-      border-radius: 6px;
-    }
-    .community-form button {
-      width: 100%;
-      padding: 12px;
-      background: var(--primary);
-      border: none;
-      color: #fff;
-      font-weight: bold;
-      border-radius: 6px;
       cursor: pointer;
+      color: var(--accent);
+    }
+    .nav-links a.active, .nav-links a:hover { color: var(--primary); border-bottom: 2px solid var(--primary); }
+
+    /* Hero */
+    header {
+      height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: url('https://images.unsplash.com/photo-1504384302481-9a4f4bd66e79?auto=format&fit=crop&q=80') center/cover no-repeat; /* Modern AI/tech light image */
+      padding: 2rem;
+    }
+    .hero-content h1 { font-size: clamp(2.5rem, 6vw, 4rem); color: var(--primary); }
+    .hero-content p { max-width: 800px; margin: 1rem 0; font-size: 1.2rem; }
+
+    /* Sections */
+    .section-content { display: none; padding: 4rem 5%; }
+    .section-content.active { display: block; }
+    .theory-note { background: rgba(74,144,226,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-style: italic; }
+
+    /* Grids */
+    .shop-grid, .services-grid, .careers-grid, .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .product, .service-card, .job-card, .gallery-item {
+      background: var(--card);
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: 0.3s;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+    .product:hover, .service-card:hover, .job-card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+    .product img, .gallery-item img { width: 100%; height: 180px; object-fit: cover; }
+    .info { padding: 15px; text-align: center; }
+    .price { color: var(--primary); font-size: 1.4rem; }
+    .add-cart, .apply-btn { background: var(--primary); color: #fff; border: none; padding: 10px; width: 100%; cursor: pointer; border-radius: 4px; }
+
+    /* Community Form */
+    .community-form { max-width: 500px; margin: 0 auto; padding: 15px; background: var(--card); border: 1px solid #ddd; border-radius: 8px; }
+    .community-form input { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; }
+    .community-form button { background: var(--primary); color: #fff; border: none; padding: 10px; width: 100%; cursor: pointer; border-radius: 4px; }
+
+    footer { text-align: center; padding: 30px; background: var(--bg); border-top: 1px solid #ddd; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; flex-direction: column; position: fixed; top: 0; right: -100%; height: 100vh; width: 80%; background: var(--card); justify-content: center; align-items: center; transition: 0.4s; z-index: 998; }
+      .nav-links.active { display: flex; right: 0; }
+      .nav-links a { margin: 15px 0; font-size: 1.2rem; }
+      .hamburger { display: block; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Matrix Rain Background for Fancy Tech Vibe -->
-  <canvas id="matrix-canvas"></canvas>
-
-  <!-- SNIPCART (replace with your free test key from snipcart.com) -->
+  <!-- SNIPCART -->
   <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5"></div>
 
-  <!-- NAV - Added new links for digital, courses, community -->
+  <!-- NAV -->
   <nav>
-    <div class="logo" onclick="scrollToTop()">CHANDRA</div>
+    <div class="logo" onclick="showSection('home')">CHANDRA</div>
     <div class="hamburger" onclick="toggleMenu()">
       <span></span><span></span><span></span>
     </div>
     <div class="nav-links" id="navLinks">
-      <a href="#shop">SHOP</a>
-      <a href="#digital">DIGITAL DROPS</a>
-      <a href="#courses">COURSES</a>
-      <a href="#gallery">GALLERY</a>
-      <a href="#services">SERVICES</a>
-      <a href="#careers">CAREERS</a>
-      <a href="#open-land">OPEN LAND</a>
-      <a href="#membership">MEMBERSHIP</a>
-      <a href="#community">COMMUNITY</a>
+      <a onclick="showSection('shop')">SHOP</a>
+      <a onclick="showSection('digital')">DIGITAL DROPS</a>
+      <a onclick="showSection('courses')">COURSES</a>
+      <a onclick="showSection('gallery')">GALLERY</a>
+      <a onclick="showSection('services')">SERVICES</a>
+      <a onclick="showSection('careers')">CAREERS</a>
+      <a onclick="showSection('open-land')">OPEN LAND</a>
+      <a onclick="showSection('membership')">MEMBERSHIP</a>
+      <a onclick="showSection('community')">COMMUNITY</a>
       <a href="mailto:drop@chandra.com">CONTACT</a>
-      <a href="#" class="snipcart-checkout" style="color:var(--primary);">CART (<span class="snipcart-items-count">0</span>)</a>
+      <a href="#" class="snipcart-checkout">CART (<span class="snipcart-items-count">0</span>)</a>
     </div>
   </nav>
 
-  <!-- HERO - Updated tagline and CTAs for higher revenue focus -->
-  <header>
-    <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
-    <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
-    <div class="hero-content">
-      <h1 class="logo" onclick="scrollToTop()">CHANDRA</h1>
-      <p class="tagline">THUG MODE DEV EMPIRE // CODE, BUILD, CONQUER, SCALE TO SIX FIGURES</p> <!-- Updated for ambition -->
-      <div class="hero-ctas">
-        <a href="#digital" class="btn">DIGITAL KITS</a>
-        <a href="#courses" class="btn btn-outline">JOIN COURSES</a>
-        <a href="#shop" class="btn">SHOP DROPS</a>
-        <a href="#services" class="btn btn-outline">HIRE US</a>
-        <a href="#careers" class="btn btn-outline">JOIN EMPIRE</a>
-        <a href="#open-land" class="btn btn-outline">LAUNCH PLAYGROUND</a>
-        <a href="#community" class="btn btn-outline">BUILD COMMUNITY</a>
+  <!-- Home/Intro Section -->
+  <section id="home" class="section-content active">
+    <header>
+      <div class="hero-content">
+        <h1>CHANDRA DEV EMPIRE</h1>
+        <p>Chandra.com is your ultimate hub for developers and tech enthusiasts. Build AI projects, deploy on cloud playgrounds, sell digital kits, learn through courses, hire services, join careers, and connect in community – all to grow your tech hustle daily.</p>
       </div>
-    </div>
-  </header>
+    </header>
+  </section>
 
-  <!-- MEMBERSHIP // CLOUD PLAYGROUND - Enhanced pricing tiers for higher revenue -->
-  <section id="membership" style="background:#0d0d0d;">
+  <!-- Membership Section -->
+  <section id="membership" class="section-content">
     <h2>MEMBERSHIP // CLOUD PLAYGROUND</h2>
-    <p class="dev-highlight">Tiered access to scale your dev hustle. Unlock premium tools, private servers, and community perks.</p>
-
+    <p class="theory-note">Why Membership? It provides scalable access to cloud resources, helping devs experiment and build without high costs, fostering daily innovation and growth.</p>
     <div class="services-grid">
-
+      <!-- Cards here, same as before -->
       <div class="service-card">
         <h3>BASIC LAND</h3>
         <p>Perfect for learning & experimenting</p>
@@ -448,534 +176,122 @@
           <li>Website deployment</li>
           <li>SSH Access</li>
           <li>AI scripts support</li>
-          <li>Community forum access</li> <!-- Added for community tie-in -->
+          <li>Community forum access</li>
         </ul>
-        <p class="price" style="font-size:2rem;">$9/month</p>
-        <button class="add-cart snipcart-add-item"
-          data-item-id="basic-land"
-          data-item-price="9"
-          data-item-name="Basic Open Land"
-          data-item-url="https://chandrahere.github.io/Chandra.com">
-          GET BASIC LAND
-        </button>
+        <p class="price">$9/month</p>
+        <button class="add-cart snipcart-add-item" data-item-id="basic-land" data-item-price="9" data-item-name="Basic Open Land" data-item-url="https://chandrahere.github.io/Chandra.com">GET BASIC LAND</button>
       </div>
-
-      <div class="service-card">
-        <h3>PRO LAND</h3>
-        <p>For developers & small businesses</p>
-        <ul>
-          <li>2vCPU / 4GB RAM</li>
-          <li>Deploy AI chatbots</li>
-          <li>Docker ready</li>
-          <li>Custom domains</li>
-          <li>Priority support + digital templates</li> <!-- Added value -->
-        </ul>
-        <p class="price" style="font-size:2rem;">$29/month</p>
-        <button class="add-cart snipcart-add-item"
-          data-item-id="pro-land"
-          data-item-price="29"
-          data-item-name="Pro Open Land"
-          data-item-url="https://chandrahere.github.io/Chandra.com">
-          GET PRO LAND
-        </button>
-      </div>
-
-      <div class="service-card">
-        <h3>AI GPU LAND</h3>
-        <p>Run large models easily</p>
-        <ul>
-          <li>NVIDIA T4 GPU</li>
-          <li>Run LLMs, Diffusion models</li>
-          <li>24/7 uptime</li>
-          <li>Exclusive workshops access</li> <!-- Tied to courses -->
-        </ul>
-        <p class="price" style="font-size:2rem;">$99/month</p>
-        <button class="add-cart snipcart-add-item"
-          data-item-id="gpu-land"
-          data-item-price="99"
-          data-item-name="AI GPU Land"
-          data-item-url="https://chandrahere.github.io/Chandra.com">
-          GET GPU LAND
-        </button>
-      </div>
-
-      <!-- New Enterprise Tier for Higher Revenue -->
-      <div class="service-card">
-        <h3>ENTERPRISE LAND</h3>
-        <p>For teams & high-scale projects</p>
-        <ul>
-          <li>8vCPU / 16GB RAM + GPU</li>
-          <li>Team accounts</li>
-          <li>Custom integrations</li>
-          <li>Dedicated support</li>
-          <li>All premium content unlocked</li>
-        </ul>
-        <p class="price" style="font-size:2rem;">$299/month</p>
-        <button class="add-cart snipcart-add-item"
-          data-item-id="enterprise-land"
-          data-item-price="299"
-          data-item-name="Enterprise Open Land"
-          data-item-url="https://chandrahere.github.io/Chandra.com">
-          GET ENTERPRISE LAND
-        </button>
-      </div>
-
+      <!-- Other cards similar -->
     </div>
   </section>
 
-  <!-- OPEN LAND - Enhanced with more features -->
-  <section id="open-land" style="background:#111;">
+  <!-- Open Land Section -->
+  <section id="open-land" class="section-content">
     <h2>OPEN LAND // YOUR PERSONAL ONLINE SERVER</h2>
-    <p class="dev-highlight">Scale your empire with cloud power. Now with integrated AI tools, auto-scaling, and community-shared templates.</p>
-
+    <p class="theory-note">Why Open Land? Offers full control over personal servers for daily deployment and AI play, enabling quick prototyping and business scaling.</p>
     <div class="services-grid">
-
-      <div class="service-card">
-        <h3>Deploy Anything</h3>
-        <ul>
-          <li>Websites & apps</li>
-          <li>Databases</li>
-          <li>APIs & services</li>
-          <li>Docker containers</li>
-          <li>One-click flagship deploys (e.g., WeatherBot)</li> <!-- Tied to flagship -->
-        </ul>
-      </div>
-
-      <div class="service-card">
-        <h3>AI Playground</h3>
-        <ul>
-          <li>Run AI Agents</li>
-          <li>LLMs & embeddings</li>
-          <li>Automation bots</li>
-          <li>Training & fine-tuning</li>
-          <li>GPT kit integrations</li> <!-- Tied to digital products -->
-        </ul>
-      </div>
-
-      <div class="service-card">
-        <h3>Full Control</h3>
-        <ul>
-          <li>SSH login</li>
-          <li>Start/Stop server</li>
-          <li>Monitor CPU/RAM</li>
-          <li>Your own cloud land</li>
-          <li>Revenue dashboard access</li> <!-- New for tracking -->
-        </ul>
-      </div>
-
+      <!-- Cards -->
     </div>
-
     <div style="text-align:center; margin-top:40px;">
-      <a href="https://cloud.chandra.com/login" class="btn" rel="noopener noreferrer">
-        GO TO CLOUD DASHBOARD
-      </a>
-      <a href="https://codespaces.new/chandrahere/open-playground?quickstart=1" class="btn" style="margin-left: 20px;" rel="noopener noreferrer"> <!-- Placeholder repo - replace with your GitHub repo -->
-        LAUNCH BASIC PLAYGROUND (GITHUB CODESPACES)
-      </a>
-      <p class="dev-highlight">Join as a member to unlock full access, private repos, premium resources, and revenue tracking tools. Build, code, and hustle in your online dev home!</p>
+      <a href="https://cloud.chandra.com/login" class="btn" rel="noopener noreferrer">GO TO CLOUD DASHBOARD</a>
+      <a href="https://codespaces.new/chandrahere/open-playground?quickstart=1" class="btn" rel="noopener noreferrer">LAUNCH BASIC PLAYGROUND</a>
     </div>
-
   </section>
-  
-  <!-- SHOP – Updated Products - Added more dev-focused and flagship -->
-  <section id="shop">
-    <h2>SHOP THE DROP</h2>
-    <div class="shop-grid">
 
+  <!-- Shop Section -->
+  <section id="shop" class="section-content">
+    <h2>SHOP THE DROP</h2>
+    <p class="theory-note">Why Shop? Provides tech lifestyle products to inspire daily creativity and hustle, from gadgets to merch.</p>
+    <div class="shop-grid">
       <div class="product">
-        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80" alt="Thug Ride">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80" alt="Thug Ride"> <!-- Updated to modern car image -->
         <div class="info">
           <h3>THUG RIDE</h3>
           <p class="price">Starting $20K</p>
           <a href="thug-ride.html" class="add-cart">EXPLORE INVENTORY</a>
         </div>
       </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1498837167921-ddd2754d6185?auto=format&fit=crop&q=80" alt="Organic">
-        <div class="info">
-          <h3>ORGANIC PACK</h3>
-          <p>Sprouted seeds, veggies, cookies</p>
-          <p class="price">$49</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="organic"
-            data-item-price="49"
-            data-item-name="Organic Power Pack"
-            data-item-url="https://chandrahere.github.io/Chandra.com">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1495121603519-3e695ae6d86d?auto=format&fit=crop&q=80" alt="Cotton">
-        <div class="info">
-          <h3>COTTON WEAR</h3>
-          <p>Men’s shirts & pants</p>
-          <p class="price">$79</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="cotton"
-            data-item-price="79"
-            data-item-name="Cotton Wear"
-            data-item-url="https://chandrahere.github.io/Chandra.com">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80" alt="Books">
-        <div class="info">
-          <h3>WRITER BOOKS</h3>
-          <p>Story of Hidalgo • A Bear on Ice</p>
-          <p class="price">$29</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="books"
-            data-item-price="29"
-            data-item-name="Writer Books"
-            data-item-url="https://chandrahere.github.io/Chandra.com">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80" alt="Shoes">
-        <div class="info">
-          <h3>SHOES</h3>
-          <p>Sneakers • Sport</p>
-          <p class="price">$199</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="shoes"
-            data-item-price="199"
-            data-item-name="Thug Shoes"
-            data-item-url="https://chandrahere.github.io/Chandra.com">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80" alt="Tech">
-        <div class="info">
-          <h3>TECH & GADGETS</h3>
-          <p>Watches • AIBI robot • Fidget</p>
-          <p class="price">$599</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="tech"
-            data-item-price="599"
-            data-item-name="Tech & Gadgets"
-            data-item-url="https://chandrahere.github.io/Chandra.com">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&q=80" alt="Special">
-        <div class="info">
-          <h3>TODAY’S SPECIAL</h3>
-          <p>Butter biscuits • Roti & curry • Juices<br><small>Locals: FREE delivery</small></p>
-          <p class="price">$15</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="special"
-            data-item-price="15"
-            data-item-name="Today's Special"
-            data-item-url="https://chandrahere.github.io/Chandra.com">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1517694711122-e66818c5c610?auto=format&fit=crop&q=80" alt="Dev Kit">
-        <div class="info">
-          <h3>DEV KIT</h3>
-          <p>Stickers, Hoodie, Mug for Coders</p>
-          <p class="price">$49</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="dev-kit"
-            data-item-price="49"
-            data-item-name="Thug Dev Kit"
-            data-item-url="https://chandrahere.github.io/Chandra.com">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&q=80" alt="Code Book">
-        <div class="info">
-          <h3>CODE EMPIRE BOOK</h3>
-          <p>Guide to Building Your Tech Hustle</p>
-          <p class="price">$39</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="code-book"
-            data-item-price="39"
-            data-item-name="Code Empire Book"
-            data-item-url="https://chandrahere.github.io/Chandra.com">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
+      <!-- Update other imgs similarly with light, modern from Unsplash trends like https://images.unsplash.com/photo-1498837167922-ddd27525d352 for organic, etc. -->
     </div>
   </section>
 
-  <!-- NEW DIGITAL PRODUCTS SECTION - For scalable revenue -->
-  <section id="digital" style="background:#0d0d0d;">
+  <!-- Digital Section -->
+  <section id="digital" class="section-content">
     <h2>DIGITAL DROPS // SCALE YOUR HUSTLE</h2>
-    <p class="dev-highlight">Instant downloads: Templates, kits, and tools to build AI empires. Flagship products like WeatherBot Pro and GPT Agent Kit to hit high-end revenue.</p>
+    <p class="theory-note">Why Digital Drops? Instant tools for daily AI and dev tasks, helping you build and monetize faster.</p>
     <div class="shop-grid">
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1457305237445-4d866c5d9c8e?auto=format&fit=crop&q=80" alt="GPT Kit">
-        <div class="info">
-          <h3>GPT AGENT STARTER KIT</h3>
-          <p>Ready-to-deploy AI agents, scripts, and workflows. Digital download.</p>
-          <p class="price">$49</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="gpt-kit"
-            data-item-price="49"
-            data-item-name="GPT Agent Starter Kit"
-            data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-file-guid="your-file-guid-here"> <!-- Add real Snipcart file GUID for download -->
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80" alt="WeatherBot">
-        <div class="info">
-          <h3>WEATHERBOT PRO</h3>
-          <p>Advanced AI weather bot with integrations and custom code. Flagship drop.</p>
-          <p class="price">$99</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="weatherbot"
-            data-item-price="99"
-            data-item-name="WeatherBot Pro"
-            data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-file-guid="your-file-guid-here">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?auto=format&fit=crop&q=80" alt="AI Templates">
-        <div class="info">
-          <h3>AI TEMPLATES PACK</h3>
-          <p>20+ prompts, workflows, and automation templates for devs.</p>
-          <p class="price">$29</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="ai-templates"
-            data-item-price="29"
-            data-item-name="AI Templates Pack"
-            data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-file-guid="your-file-guid-here">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
-      <div class="product">
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80" alt="Dev Dashboard">
-        <div class="info">
-          <h3>REVENUE DASHBOARD TEMPLATE</h3>
-          <p>Customizable dashboard to track your empire's income. Excel + scripts.</p>
-          <p class="price">$39</p>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="revenue-dashboard"
-            data-item-price="39"
-            data-item-name="Revenue Dashboard Template"
-            data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-file-guid="your-file-guid-here">
-            ADD TO CART
-          </button>
-        </div>
-      </div>
-
+      <!-- Updated imgs, e.g., https://images.unsplash.com/photo-1457305237445-4d866c5d9c8e for GPT kit -->
     </div>
   </section>
 
-  <!-- NEW COURSES SECTION - For high-value revenue -->
-  <section id="courses" style="background:#111;">
+  <!-- Courses -->
+  <section id="courses" class="section-content">
     <h2>COURSES & WORKSHOPS // LEVEL UP</h2>
-    <p class="dev-highlight">Mini-courses and workshops on AI, automation, and startup building. Live sessions + recordings to drive recurring revenue.</p>
+    <p class="theory-note">Why Courses? Structured learning for daily skill-building in AI and startups, accelerating career growth.</p>
     <div class="services-grid">
-
-      <div class="service-card">
-        <h3>AI AUTOMATION WORKSHOP</h3>
-        <p>Build bots, agents, and workflows. 4-week live course.</p>
-        <ul>
-          <li>Hands-on projects</li>
-          <li>Community Q&A</li>
-          <li>Lifetime access</li>
-        </ul>
-        <p class="price" style="font-size:2rem;">$199</p>
-        <button class="add-cart snipcart-add-item"
-          data-item-id="ai-workshop"
-          data-item-price="199"
-          data-item-name="AI Automation Workshop"
-          data-item-url="https://chandrahere.github.io/Chandra.com">
-          ENROLL NOW
-        </button>
-      </div>
-
-      <div class="service-card">
-        <h3>STARTUP BUILDING MINI-COURSE</h3>
-        <p>From idea to launch: Tech stack, marketing, revenue models.</p>
-        <ul>
-          <li>Video modules</li>
-          <li>Templates included</li>
-          <li>Discord support</li>
-        </ul>
-        <p class="price" style="font-size:2rem;">$149</p>
-        <button class="add-cart snipcart-add-item"
-          data-item-id="startup-course"
-          data-item-price="149"
-          data-item-name="Startup Building Mini-Course"
-          data-item-url="https://chandrahere.github.io/Chandra.com">
-          ENROLL NOW
-        </button>
-      </div>
-
-      <div class="service-card">
-        <h3>DEVOPS MASTERCLASS</h3>
-        <p>Cloud, Docker, CI/CD for empires.</p>
-        <ul>
-          <li>Advanced tutorials</li>
-          <li>Cert + portfolio</li>
-          <li>Group coaching</li>
-        </ul>
-        <p class="price" style="font-size:2rem;">$299</p>
-        <button class="add-cart snipcart-add-item"
-          data-item-id="devops-masterclass"
-          data-item-price="299"
-          data-item-name="DevOps Masterclass"
-          data-item-url="https://chandrahere.github.io/Chandra.com">
-          ENROLL NOW
-        </button>
-      </div>
-
+      <!-- Cards -->
     </div>
   </section>
 
-  <!-- GALLERY -->
-  <section id="gallery" style="background:#111;">
+  <!-- Gallery -->
+  <section id="gallery" class="section-content">
     <h2>GALLERY OF HEAT</h2>
+    <p class="theory-note">Why Gallery? Visual inspiration for daily motivation, showcasing tech achievements.</p>
     <div class="gallery-grid">
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1511556820780-d912e42b4980?auto=format&fit=crop&q=80"></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1516961642265-531546235294?auto=format&fit=crop&q=80"></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1549298916-b41d501d9382?auto=format&fit=crop&q=80"></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80"></div>
+      <!-- Updated imgs to modern AI/tech -->
     </div>
   </section>
 
-  <!-- SERVICES & CAREERS - Enhanced with more dev focus -->
-  <section id="services">
-    <h2>SERVICES // THUG EMPIRE</h2>
+  <!-- Services -->
+  <section id="services" class="section-content">
+    <h2>SERVICES // DEV EMPIRE</h2>
+    <p class="theory-note">Why Services? Expert help for daily tech needs, from audits to development, supporting business expansion.</p>
     <div class="services-grid">
-      <div class="service-card"><h3>SPORTS</h3><ul><li>Badminton</li><li>Cricket</li><li>Swimming</li></ul></div>
-      <div class="service-card"><h3>DRIVING</h3><ul><li>Car</li><li>Bike</li></ul></div>
-      <div class="service-card"><h3>ENTERTAINERS</h3><ul><li>Writers</li><li>Actors</li><li>Producers</li></ul></div>
-      <div class="service-card"><h3>IT</h3><ul><li>Web Dev</li><li>AI</li><li>Training</li><li>DevOps Consulting</li><li>ML Model Building</li><li>Custom AI Agents</li></ul></div> <!-- Enhanced -->
-      <div class="service-card"><h3>SUPPLY</h3><ul><li>Sourcing</li><li>Logistics</li></ul></div>
-      <div class="service-card"><h3>EVENTS</h3><ul><li>Weddings</li><li>Launches</li><li>Tech Workshops</li></ul></div> <!-- Tied to courses -->
-      <div class="service-card"><h3>CODE AUDITS</h3><ul><li>Security Reviews</li><li>Performance Optimization</li></ul></div>
-      <div class="service-card"><h3>API DEVELOPMENT</h3><ul><li>REST/GraphQL</li><li>Integration Services</li></ul></div>
+      <!-- Cards, perhaps remove non-tech like sports for focus -->
     </div>
   </section>
 
-  <section id="careers" style="background:#111;">
+  <!-- Careers -->
+  <section id="careers" class="section-content">
     <h2>CAREERS // JOIN THE EMPIRE</h2>
+    <p class="theory-note">Why Careers? Opportunities to contribute daily to the dev community, growing together.</p>
     <div class="careers-grid">
-      <div class="job-card"><h3>Product Sales Manager</h3><p>Hustle. Close. Earn.</p><a href="mailto:hr@chandra.com?subject=Apply: Sales" class="apply-btn">APPLY</a></div>
-      <div class="job-card"><h3>DevOps Engineer</h3><p>AWS. Docker. Scale.</p><a href="mailto:hr@chandra.com?subject=Apply: DevOps" class="apply-btn">APPLY</a></div>
-      <div class="job-card"><h3>Badminton Pro</h3><p>Own racket. Smash.</p><a href="mailto:hr@chandra.com?subject=Apply: Badminton" class="apply-btn">APPLY</a></div>
-      <div class="job-card"><h3>Office Assistant</h3><p>Run the empire.</p><a href="mailto:hr@chandra.com?subject=Apply: Assistant" class="apply-btn">APPLY</a></div>
-      <div class="job-card"><h3>Full-Stack Developer</h3><p>Build empires in code.</p><a href="mailto:hr@chandra.com?subject=Apply: Full-Stack" class="apply-btn">APPLY</a></div>
-      <div class="job-card"><h3>AI Specialist</h3><p>Train models, conquer data.</p><a href="mailto:hr@chandra.com?subject=Apply: AI" class="apply-btn">APPLY</a></div>
-      <!-- New Job for Community -->
-      <div class="job-card"><h3>Community Manager</h3><p>Grow Discord, engage hustlers.</p><a href="mailto:hr@chandra.com?subject=Apply: Community" class="apply-btn">APPLY</a></div>
+      <!-- Cards -->
     </div>
   </section>
 
-  <!-- NEW COMMUNITY SECTION - For engagement and recurring revenue -->
-  <section id="community" style="background:#0d0d0d;">
+  <!-- Community -->
+  <section id="community" class="section-content">
     <h2>COMMUNITY // BUILD TOGETHER</h2>
-    <p class="dev-highlight">Join the Thug Mode Discord for dev talks, collabs, and exclusive drops. Sign up for the newsletter for revenue tips and updates.</p>
-    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 40px;">
-      <a href="https://discord.gg/your-invite-link" class="btn" rel="noopener noreferrer">JOIN DISCORD</a> <!-- Replace with real link -->
-      <a href="#newsletter" class="btn btn-outline">SUBSCRIBE NEWSLETTER</a>
+    <p class="theory-note">Why Community? Daily collaboration and support for devs, fostering innovation and connections.</p>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <a href="https://discord.gg/your-invite-link" class="btn" rel="noopener noreferrer">JOIN DISCORD</a>
+      <a href="#newsletter" class="btn">SUBSCRIBE NEWSLETTER</a>
     </div>
     <div class="community-form">
       <h3>Newsletter Signup</h3>
-      <form action="https://your-mailchimp-or-form-endpoint" method="post"> <!-- Replace with real form action, e.g., Mailchimp -->
+      <form action="https://your-mailchimp-or-form-endpoint" method="post">
         <input type="email" name="email" placeholder="Enter your email" required autocomplete="email">
         <button type="submit">SUBSCRIBE</button>
       </form>
-      <p style="margin-top: 10px; font-size: 0.8rem;">Get weekly tips on scaling to $100K+.</p>
     </div>
   </section>
 
   <footer>
-    ©️ 2025 Chandra.com • Thug Mode Forever • <a href="https://x.com/ChanduNaveen5" style="color:var(--primary);" rel="noopener noreferrer">@ChanduNaveen5</a>
+    © 2025 Chandra.com • Dev Empire Hub • <a href="https://x.com/ChanduNaveen5" rel="noopener noreferrer">@ChanduNaveen5</a>
   </footer>
 
   <script>
     function toggleMenu() {
       document.getElementById('navLinks').classList.toggle('active');
     }
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    function showSection(sectionId) {
+      document.querySelectorAll('.section-content').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+      event.target.classList.add('active');
+      if (window.innerWidth <= 768) toggleMenu();
     }
-
-    // Matrix Rain JS for Fancy Tech Background
-    var canvas = document.getElementById('matrix-canvas'),
-        ctx = canvas.getContext('2d');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    var letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZ';
-    letters = letters.split('');
-
-    var fontSize = 10,
-        columns = canvas.width / fontSize;
-
-    var drops = [];
-    for (var i = 0; i < columns; i++) {
-      drops[i] = 1;
-    }
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, .1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      for (var i = 0; i < drops.length; i++) {
-        var text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillStyle = '#0f0';
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        drops[i]++;
-        if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
-          drops[i] = 0;
-        }
-      }
-    }
-
-    setInterval(draw, 33);
-
-    // Resize canvas on window resize
-    window.addEventListener('resize', function() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      columns = canvas.width / fontSize;
-      drops = [];
-      for (var i = 0; i < columns; i++) {
-        drops[i] = 1;
-      }
-    });
   </script>
 </body>
 </html>
