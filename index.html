@@ -1,253 +1,303 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CHANDRA • DEV & CLOUD EMPIRE</title>
-  <meta name="description" content="Real cloud servers, AI tools, digital drops, courses, shop – everything a developer needs to conquer."/>
+  <title>CHANDRA • CLOUD & DEV EMPIRE</title>
+  <meta name="description" content="Real cloud servers with full root • GPU ready • Pay monthly • Plus digital drops, courses, shop – everything for devs."/>
 
-  <!-- Security Headers from old -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.snipcart.com 'unsafe-inline' https://cdn.sheetjs.com; style-src 'self' https://cdn.snipcart.com https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com https://*.pexels.com data:; media-src https://videos.pexels.com; connect-src 'self' https://app.snipcart.com https://cdn.snipcart.com https://api.snipcart.com; form-action 'self' https:; frame-ancestors 'self';">
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.snipcart.com 'unsafe-inline' https://cdn.sheetjs.com; style-src 'self' https://cdn.snipcart.com https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com https://*.pexels.com data: blob:; media-src https://videos.pexels.com; connect-src 'self' https://app.snipcart.com https://cdn.snipcart.com https://api.snipcart.com; form-action 'self' https:; frame-ancestors 'self';">
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
   <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-        }
-      }
-    }
-  </script>
-
   <style>
-    body { background: #000; color: #fff; }
-    .gradient-text { background: linear-gradient(to right, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .nav-scrolled { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); }
-    .card, .product, .service-card { background: #111; border: 1px solid #333; }
-    .btn, .add-cart { background: linear-gradient(to right, #a855f7, #ec4899); }
-    .btn:hover, .add-cart:hover { opacity: 0.9; }
+    :root {
+      --primary: #6366f1; /* Indigo-500 - more modern */
+      --bg: #ffffff;
+      --card: #ffffff;
+      --text: #1e1b4b;
+      --accent: #4c1d95;
+      --light: #f8fafc;
+      --gradient-start: #a855f7;
+      --gradient-end: #ec4899;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Inter', sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+
+    nav {
+      position:fixed; top:0; left:0; right:0; background:var(--card); box-shadow:0 4px 20px rgba(0,0,0,0.1);
+      padding:1rem 5%; display:flex; justify-content:space-between; align-items:center; z-index:999; backdrop-filter: blur(10px);
+    }
+    .logo { font-size:2.2rem; font-weight:800; background: linear-gradient(to right, var(--gradient-start), var(--gradient-end)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hamburger { display:none; cursor:pointer; }
+    .hamburger span { display:block; width:30px; height:4px; background:var(--primary); margin:6px; border-radius:2px; transition:0.3s; }
+    .nav-links { display:flex; gap:2rem; align-items:center; }
+    .nav-links a {
+      font-weight:700; text-transform:uppercase; font-size:0.95rem; color:var(--text); position:relative; transition:0.3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color:var(--primary); }
+    .nav-links a::after { content:''; position:absolute; bottom:-5px; left:0; width:0; height:3px; background:var(--primary); transition:0.3s; }
+    .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+
+    .section-content { display:none; padding:5rem 5% 4rem; min-height:100vh; }
+    .section-content.active { display:block; }
+    .theory-note { background:rgba(99,102,241,0.1); padding:1.5rem; border-radius:12px; margin-bottom:2rem; border-left:5px solid var(--primary); font-style:italic; }
+
+    /* Hero Video Slider - Optimized */
+    .hero-slider { position:relative; height:100vh; overflow:hidden; }
+    .slide { position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition:opacity 1.5s ease; }
+    .slide.active { opacity:1; }
+    .slide video { width:100%; height:100%; object-fit:cover; }
+    .hero-overlay { position:absolute; inset:0; background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.6)); }
+    .hero-content { position:relative; z-index:10; text-align:center; padding-top:35vh; }
+
+    h1 { font-size:clamp(3rem,8vw,6rem); background: linear-gradient(to right, var(--gradient-start), var(--gradient-end)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight:800; }
+    h2 { font-size:3rem; text-align:center; margin-bottom:2rem; color:var(--accent); font-weight:700; }
+    .price { font-size:2rem; color:var(--primary); font-weight:800; }
+
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:30px; margin-top:3rem; }
+    .card, .product, .service-card { background:var(--card); border-radius:16px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.1); transition:0.4s; border:1px solid #e0e7ff; }
+    .card:hover, .product:hover, .service-card:hover { transform:translateY(-15px); box-shadow:0 20px 40px rgba(99,102,241,0.2); }
+    .card img, .product img { width:100%; height:220px; object-fit:cover; }
+    .info { padding:1.5rem; text-align:center; }
+
+    .btn, .add-cart, .apply-btn {
+      background: linear-gradient(to right, var(--gradient-start), var(--gradient-end)); color:#fff; border:none; padding:14px 30px; border-radius:12px;
+      font-weight:700; cursor:pointer; width:100%; margin-top:15px; transition:0.3s; font-size:1.1rem;
+    }
+    .btn:hover, .add-cart:hover { transform:scale(1.05); }
+
+    .most-popular { border:3px solid var(--primary); transform:scale(1.08); }
+
+    footer { text-align:center; padding:4rem; background:var(--light); border-top:1px solid #ddd; }
+
+    @media (max-width:768px) {
+      .hamburger { display:block; }
+      .nav-links { position:fixed; top:0; right:-100%; height:100vh; width:85%; background:var(--card); flex-direction:column; justify-content:center; transition:0.5s; z-index:998; padding:2rem; }
+      .nav-links.active { right:0; }
+      .hero-content { padding-top:25vh; }
+    }
   </style>
 </head>
-<body class="bg-black text-white min-h-screen">
+<body>
 
+  <!-- SNIPCART -->
   <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5"></div>
 
-  <!-- NAV (updated with dark) -->
-  <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-      <div class="text-3xl font-bold gradient-text cursor-pointer" onclick="showSection('home')">CHANDRA</div>
-      <div class="hamburger block lg:hidden cursor-pointer" onclick="toggleMenu()">
-        <i class="fas fa-bars text-3xl text-gray-300"></i>
-      </div>
-      <div class="hidden lg:flex gap-8 text-sm font-bold uppercase text-gray-300" id="navLinks">
-        <a onclick="showSection('home')" class="hover:gradient-text transition">Home</a>
-        <a onclick="showSection('membership')" class="hover:gradient-text transition">Cloud Plans</a>
-        <a onclick="showSection('open-land')" class="hover:gradient-text transition">Dashboard</a>
-        <a onclick="showSection('shop')" class="hover:gradient-text transition">Shop</a>
-        <a onclick="showSection('digital')" class="hover:gradient-text transition">Digital</a>
-        <a onclick="showSection('courses')" class="hover:gradient-text transition">Courses</a>
-        <a onclick="showSection('gallery')" class="hover:gradient-text transition">Gallery</a>
-        <a onclick="showSection('services')" class="hover:gradient-text transition">Services</a>
-        <a onclick="showSection('careers')" class="hover:gradient-text transition">Careers</a>
-        <a onclick="showSection('community')" class="hover:gradient-text transition">Community</a>
-        <a href="mailto:drop@chandra.com" class="hover:gradient-text transition">Contact</a>
-        <a href="#" class="snipcart-checkout hover:gradient-text transition flex items-center gap-2">
-          Cart <i class="fas fa-shopping-cart"></i> (<span class="snipcart-items-count">0</span>)
-        </a>
-      </div>
+  <!-- NAV -->
+  <nav>
+    <div class="logo" onclick="showSection('home')">CHANDRA</div>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
     </div>
-    <!-- Mobile Menu -->
-    <div class="fixed inset-0 bg-black/95 hidden flex-col items-center justify-center gap-8 text-2xl font-bold uppercase text-gray-300" id="mobileMenu">
-      <a onclick="showSection('home');toggleMenu()" class="hover:gradient-text">Home</a>
-      <a onclick="showSection('membership');toggleMenu()" class="hover:gradient-text">Cloud Plans</a>
-      <a onclick="showSection('open-land');toggleMenu()" class="hover:gradient-text">Dashboard</a>
-      <a onclick="showSection('shop');toggleMenu()" class="hover:gradient-text">Shop</a>
-      <a onclick="showSection('digital');toggleMenu()" class="hover:gradient-text">Digital</a>
-      <a onclick="showSection('courses');toggleMenu()" class="hover:gradient-text">Courses</a>
-      <a onclick="showSection('gallery');toggleMenu()" class="hover:gradient-text">Gallery</a>
-      <a onclick="showSection('services');toggleMenu()" class="hover:gradient-text">Services</a>
-      <a onclick="showSection('careers');toggleMenu()" class="hover:gradient-text">Careers</a>
-      <a onclick="showSection('community');toggleMenu()" class="hover:gradient-text">Community</a>
-      <a href="mailto:drop@chandra.com" class="hover:gradient-text">Contact</a>
-      <div class="text-5xl cursor-pointer absolute top-8 right-8 text-gray-300" onclick="toggleMenu()">×</div>
+    <div class="nav-links" id="navLinks">
+      <a onclick="showSection('home')">HOME</a>
+      <a onclick="showSection('membership')">CLOUD PLANS</a>
+      <a onclick="showSection('open-land')">DASHBOARD</a>
+      <a onclick="showSection('shop')">SHOP</a>
+      <a onclick="showSection('digital')">DIGITAL</a>
+      <a onclick="showSection('courses')">COURSES</a>
+      <a onclick="showSection('gallery')">GALLERY</a>
+      <a onclick="showSection('services')">SERVICES</a>
+      <a onclick="showSection('careers')">CAREERS</a>
+      <a onclick="showSection('community')">COMMUNITY</a>
+      <a href="mailto:drop@chandra.com">CONTACT</a>
+      <a href="#" class="snipcart-checkout">CART (<span class="snipcart-items-count">0</span>)</a>
     </div>
   </nav>
 
-  <!-- HOME HERO (updated) -->
-  <section id="home" class="section-content active relative overflow-hidden min-h-screen flex items-center justify-center">
-    <div class="hero-slider absolute inset-0">
-      <div class="slide active"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/18069232/18069232-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
-      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/3194523/3194523-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
-      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/856079/856079-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
-      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/853851/853851-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
-      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+  <!-- HERO -->
+  <section id="home" class="section-content active">
+    <div class="hero-slider">
+      <div class="slide active"><video autoplay muted loop playsinline poster="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg"><source src="https://videos.pexels.com/video-files/18069232/18069232-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline poster="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg"><source src="https://videos.pexels.com/video-files/3194523/3194523-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline poster="https://images.pexels.com/photos/3183183/pexels-photo-3183183.jpeg"><source src="https://videos.pexels.com/video-files/856079/856079-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+      <!-- Added poster for instant load -->
     </div>
-    <div class="relative z-10 text-center px-6">
-      <h1 class="text-5xl md:text-8xl font-bold mb-6">CHANDRA <span class="gradient-text">DEV EMPIRE</span></h1>
-      <p class="text-xl md:text-3xl max-w-4xl mx-auto mb-10">Your daily hub to code, deploy AI, learn, earn, and grow — everything a modern developer needs in one place.</p>
-      <div class="flex flex-col sm:flex-row gap-6 justify-center">
-        <button onclick="showSection('membership')" class="px-12 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-xl font-bold hover:opacity-90 transition transform hover:scale-105">Get Cloud Server</button>
-        <button onclick="showSection('shop')" class="px-12 py-5 border border-gray-600 rounded-xl text-xl font-bold hover:border-purple-600 transition">Shop Now →</button>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>CHANDRA CLOUD & DEV EMPIRE</h1>
+      <p style="font-size:1.5rem;max-width:900px;margin:2rem auto 3rem;">
+        Real cloud servers with full root • GPU ready • Pay monthly auto-billed<br>
+        Plus digital drops, courses, shop – everything a modern dev needs.
+      </p>
+      <button onclick="showSection('membership')" class="btn" style="font-size:1.8rem;padding:20px 50px;">Get Your Server Now →</button>
+    </div>
+  </section>
+
+  <!-- CLOUD PLANS - MAIN FOCUS -->
+  <section id="membership" class="section-content">
+    <h2>CLOUD PLANS // MONTHLY AUTO-BILLED</h2>
+    <p class="theory-note">Full root servers on Hetzner • 20 TB traffic • Manual setup in 5 min after purchase • Dashboard coming Dec 2025</p>
+    <div class="grid">
+      <div class="card">
+        <div class="info">
+          <h3>STARTER</h3>
+          <p class="price">$19/month</p>
+          <ul style="text-align:left;margin:1.5rem 0;">
+            <li>• 2 vCPU • 4 GB RAM • 40 GB NVMe</li>
+            <li>• Full root + SSH</li>
+            <li>• Website/AI hosting</li>
+            <li>• Free sticker pack</li>
+          </ul>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="cloud-starter"
+            data-item-price="19"
+            data-item-name="Cloud Starter - Monthly"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-has-subscription="true"
+            data-item-subscription-interval="Month">GET STARTER – $19/mo</button>
+        </div>
+      </div>
+
+      <div class="card most-popular">
+        <div class="info">
+          <span style="background:var(--primary);color:white;padding:0.5rem 1rem;border-radius:50px;font-size:0.9rem;">MOST POPULAR</span>
+          <h3>PRO</h3>
+          <p class="price">$49/month</p>
+          <ul style="text-align:left;margin:1.5rem 0;">
+            <li>• 8 vCPU • 16 GB RAM • 160 GB NVMe</li>
+            <li>• One-click apps (soon)</li>
+            <li>• Auto backups</li>
+            <li>• Priority email support</li>
+          </ul>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="cloud-pro"
+            data-item-price="49"
+            data-item-name="Cloud Pro - Monthly"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-has-subscription="true"
+            data-item-subscription-interval="Month">GET PRO – $49/mo</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="info">
+          <h3>BEAST GPU</h3>
+          <p class="price">$149/month</p>
+          <ul style="text-align:left;margin:1.5rem 0;">
+            <li>• RTX 4090 or A100</li>
+            <li>• 16 vCPU • 64 GB RAM</li>
+            <li>• Perfect for AI training</li>
+            <li>• Custom setup</li>
+          </ul>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="cloud-beast"
+            data-item-price="149"
+            data-item-name="Cloud Beast GPU - Monthly"
+            data-item-url="https://chandrahere.github.io/Chandra.com"
+            data-item-has-subscription="true"
+            data-item-subscription-interval="Month">GET BEAST – $149/mo</button>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- MEMBERSHIP / CLOUD PLANS (updated with profit pricing) -->
-  <section id="membership" class="section-content py-24 px-6 bg-gray-950">
-    <div class="max-w-7xl mx-auto text-center">
-      <h2 class="text-5xl md:text-7xl font-bold mb-8 gradient-text">MEMBERSHIP // CLOUD PLAYGROUND</h2>
-      <p class="text-2xl text-gray-400 mb-16">Scalable cloud servers + free monthly products delivered to your door. Grow without limits.</p>
-      <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-        <div class="card p-8 rounded-2xl hover:shadow-2xl transition transform hover:scale-105">
-          <h3 class="text-3xl font-bold mb-4">STARTER • $19/mo</h3>
-          <ul class="text-left space-y-3 mb-8 text-gray-300">
-            <li>✓ 2vCPU / 4GB RAM / 40GB NVMe</li>
-            <li>✓ Website + AI script hosting</li>
-            <li>✓ SSH Access / Full Root</li>
-            <li>✓ Free Sticker Pack (delivered)</li>
-          </ul>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="starter-land" data-item-price="19" data-item-name="Starter Land Membership"
-            data-item-url="https://chandrahere.github.io/Chandra.com">GET STARTER – $19/mo</button>
-        </div>
-        <div class="card p-8 rounded-2xl border-2 border-purple-600 transform scale-105">
-          <div class="bg-purple-700/50 inline-block px-4 py-1 rounded-full mb-4 text-sm">MOST POPULAR</div>
-          <h3 class="text-3xl font-bold mb-4">PRO • $49/mo</h3>
-          <ul class="text-left space-y-3 mb-8 text-gray-300">
-            <li>✓ 8vCPU / 16GB RAM / 160GB NVMe</li>
-            <li>✓ One-click AI / Minecraft / WordPress</li>
-            <li>✓ Auto backups / Priority support</li>
-            <li>✓ Free monthly drops</li>
-          </ul>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="pro-land" data-item-price="49" data-item-name="Pro Land Membership"
-            data-item-url="https://chandrahere.github.io/Chandra.com">GET PRO – $49/mo</button>
-        </div>
-        <div class="card p-8 rounded-2xl hover:shadow-2xl transition transform hover:scale-105">
-          <h3 class="text-3xl font-bold mb-4">BEAST • $149/mo</h3>
-          <ul class="text-left space-y-3 mb-8 text-gray-300">
-            <li>✓ 16vCPU / 64GB RAM / 320GB NVMe + GPU</li>
-            <li>✓ Train Llama / Stable Diffusion</li>
-            <li>✓ Custom setups / 24/7</li>
-            <li>✓ Premium drops</li>
-          </ul>
-          <button class="add-cart snipcart-add-item"
-            data-item-id="beast-land" data-item-price="149" data-item-name="Beast Land Membership"
-            data-item-url="https://chandrahere.github.io/Chandra.com">GET BEAST – $149/mo</button>
-        </div>
-      </div>
+  <!-- OPEN LAND -->
+  <section id="open-land" class="section-content">
+    <h2>OPEN LAND // YOUR PERSONAL CLOUD SERVER</h2>
+    <p class="theory-note">Buy any plan above → we create your server instantly (manual for now) and send IP + credentials via email.<br>Full control • Docker • AI • Game servers • Anything.</p>
+    <div style="text-align:center;margin-top:4rem;">
+      <button onclick="showSection('membership')" class="btn" style="display:inline-block;width:auto;padding:20px 60px;font-size:1.5rem;">CHOOSE PLAN ABOVE</a>
     </div>
   </section>
 
-  <!-- OPEN LAND (updated teaser) -->
-  <section id="open-land" class="section-content py-32 px-6 text-center bg-black">
-    <h2 class="text-6xl font-bold mb-8 gradient-text">OPEN LAND // YOUR PERSONAL CLOUD SERVER</h2>
-    <p class="text-2xl text-gray-400 mb-12">Deploy anything, anytime — full control, SSH, Docker, AI models.<br>Dashboard launching soon – buy above and get manual setup in 5 min via email.</p>
-    <button onclick="showSection('membership')" class="px-12 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-2xl font-bold hover:opacity-90">Choose Plan ↑</button>
-  </section>
+  <!-- All your old sections below - 100% working, just cleaner -->
 
-  <!-- SHOP (your old, now dark) -->
-  <section id="shop" class="section-content py-24 px-6 bg-gray-950">
-    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">SHOP THE DROP • A-Z</h2>
-    <p class="theory-note bg-gray-900 p-6 rounded-xl mb-12 text-center text-gray-400">Everything from tech gadgets to daily essentials — alphabetized for fast finds.</p>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div class="product"><img src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd" alt="Arts"><div class="info p-4"><h3 class="text-xl font-bold">A - ARTS (ID001)</h3><p class="price text-2xl">$49</p><button class="add-cart snipcart-add-item" data-item-id="arts-001" data-item-price="49" data-item-name="Arts Collection">ADD</button></div></div>
-      <div class="product"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978" alt="Business"><div class="info p-4"><h3 class="text-xl font-bold">B - BUSINESS TOOLS (ID002)</h3><p class="price text-2xl">$99</p><button class="add-cart snipcart-add-item" data-item-id="biz-002" data-item-price="99" data-item-name="Business Kit">ADD</button></div></div>
-      <div class="product"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cars"><div class="info p-4"><h3 class="text-xl font-bold">C - CARS / THUG RIDE (ID003)</h3><p class="price text-2xl">From $20K</p><a href="thug-ride.html" class="add-cart">EXPLORE</a></div></div>
-      <div class="product"><img src="https://images.unsplash.com/photo-1541592106381-b31e9678c0e7" alt="Chocolates"><div class="info p-4"><h3 class="text-xl font-bold">C - CHOCOLATES (ID004)</h3><p class="price text-2xl">$29</p><button class="add-cart snipcart-add-item" data-item-id="choco-004" data-item-price="29" data-item-name="Premium Chocolates">ADD</button></div></div>
-      <!-- Add more if you have -->
+  <!-- SHOP A-Z -->
+  <section id="shop" class="section-content">
+    <h2>SHOP • A-Z DROP</h2>
+    <p class="theory-note">Tech, lifestyle, everything – fast alphabetical access.</p>
+    <div class="grid">
+      <!-- Keep adding your products in A-Z order -->
+      <div class="product"><img src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd" alt="Arts"><div class="info"><h3>A - ARTS (ID001)</h3><p class="price">$49</p><button class="add-cart snipcart-add-item" data-item-id="arts-001" data-item-price="49" data-item-name="Arts Collection">ADD TO CART</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978" alt="Business"><div class="info"><h3>B - BUSINESS TOOLS (ID002)</h3><p class="price">$99</p><button class="add-cart snipcart-add-item" data-item-id="biz-002" data-item-price="99" data-item-name="Business Kit">ADD TO CART</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cars"><div class="info"><h3>C - CARS / THUG RIDE (ID003)</h3><p class="price">From $20K</p><a href="thug-ride.html" class="btn">EXPLORE</a></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1541592106381-b31e9678c0e7" alt="Chocolates"><div class="info"><h3>C - CHOCOLATES (ID004)</h3><p class="price">$29</p><button class="add-cart snipcart-add-item" data-item-id="choco-004" data-item-price="29" data-item-name="Premium Chocolates">ADD TO CART</button></div></div>
+      <!-- Add the rest yourself in A-Z -->
     </div>
   </section>
 
-  <!-- DIGITAL DROPS (your old, dark) -->
-  <section id="digital" class="section-content py-24 px-6 bg-black">
-    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">DIGITAL DROPS</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-      <div class="product"><img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee" alt="AI Agent Kit"><div class="info p-4"><h3 class="text-xl font-bold">AI Agent Starter Kit</h3><p class="price text-2xl">$49</p><button class="add-cart snipcart-add-item" data-item-id="ai-agent" data-item-price="49" data-item-name="AI Agent Kit" data-item-file-guid="YOUR_GUID">BUY</button></div></div>
-      <div class="product"><img src="https://images.unsplash.com/photo-1620712943544-b4e2c6b5c3f9" alt="WeatherBot Pro"><div class="info p-4"><h3 class="text-xl font-bold">WeatherBot Pro</h3><p class="price text-2xl">$99</p><button class="add-cart snipcart-add-item" data-item-id="weatherbot" data-item-price="99" data-item-name="WeatherBot Pro" data-item-file-guid="YOUR_GUID">BUY</button></div></div>
+  <!-- DIGITAL DROPS -->
+  <section id="digital" class="section-content">
+    <h2>DIGITAL DROPS • A-Z</h2>
+    <div class="grid">
+      <div class="product"><img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee" alt="AI Agent Kit"><div class="info"><h3>AI Agent Starter Kit</h3><p class="price">$49</p><button class="add-cart snipcart-add-item" data-item-id="ai-agent" data-item-price="49" data-item-name="AI Agent Kit" data-item-file-guid="YOUR_GUID">BUY NOW</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1620712943544-b4e2c6b5c3f9" alt="WeatherBot"><div class="info"><h3>WeatherBot Pro</h3><p class="price">$99</p><button class="add-cart snipcart-add-item" data-item-id="weatherbot" data-item-price="99" data-item-name="WeatherBot Pro" data-item-file-guid="YOUR_GUID">BUY NOW</button></div></div>
     </div>
   </section>
 
-  <!-- COURSES (your old, dark) -->
-  <section id="courses" class="section-content py-24 px-6 bg-gray-950">
-    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">COURSES & WORKSHOPS</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-      <div class="card p-4"><div class="info"><h3 class="text-xl font-bold">AI Automation Masterclass</h3><p class="price text-2xl">$199</p><button class="add-cart snipcart-add-item" data-item-id="ai-course" data-item-price="199" data-item-name="AI Automation Course">ENROLL</button></div></div>
-      <div class="card p-4"><div class="info"><h3 class="text-xl font-bold">DevOps From Zero</h3><p class="price text-2xl">$299</p><button class="add-cart snipcart-add-item" data-item-id="devops" data-item-price="299" data-item-name="DevOps Masterclass">ENROLL</button></div></div>
+  <!-- COURSES -->
+  <section id="courses" class="section-content">
+    <h2>COURSES & WORKSHOPS</h2>
+    <div class="grid">
+      <div class="card"><div class="info"><h3>AI Automation Masterclass</h3><p class="price">$199</p><button class="add-cart snipcart-add-item" data-item-id="ai-course" data-item-price="199" data-item-name="AI Automation Course">ENROLL</button></div></div>
+      <div class="card"><div class="info"><h3>DevOps From Zero</h3><p class="price">$299</p><button class="add-cart snipcart-add-item" data-item-id="devops" data-item-price="299" data-item-name="DevOps Masterclass">ENROLL</button></div></div>
     </div>
   </section>
 
-  <!-- GALLERY (your old, dark) -->
-  <section id="gallery" class="section-content py-24 px-6 bg-black">
-    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">GALLERY OF HEAT</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519389950474-4e6c8a5c9b0a" alt="AI Art" class="w-full rounded-xl"></div>
-      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee" alt="Code" class="w-full rounded-xl"></div>
+  <!-- GALLERY, SERVICES, CAREERS, COMMUNITY - all kept clean -->
+  <section id="gallery" class="section-content">
+    <h2>GALLERY OF HEAT</h2>
+    <div class="grid">
+      <div><img src="https://images.unsplash.com/photo-1519389950474-4e6c8a5c9b0a" alt="AI Art" style="border-radius:12px;"></div>
+      <div><img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee" alt="Code" style="border-radius:12px;"></div>
       <!-- Add more -->
     </div>
   </section>
 
-  <!-- SERVICES (your old, dark) -->
-  <section id="services" class="section-content py-24 px-6 bg-gray-950">
-    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">SERVICES</h2>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div class="service-card p-4"><div class="info"><h3 class="text-xl font-bold">AI WORKSHOPS</h3></div></div>
-      <div class="service-card p-4"><div class="info"><h3 class="text-xl font-bold">ORGANIC GROW PLANT FOOD</h3></div></div>
-      <div class="service-card p-4"><div class="info"><h3 class="text-xl font-bold">GYM & SPORTS (Badminton, Cricket, Swimming)</h3></div></div>
-      <div class="service-card p-4"><div class="info"><h3 class="text-xl font-bold">PACKAGING SOLUTIONS</h3></div></div>
-      <!-- Continue A-Z -->
+  <section id="services" class="section-content">
+    <h2>SERVICES • A-Z</h2>
+    <div class="grid">
+      <div class="service-card"><div class="info"><h3>AI WORKSHOPS</h3></div></div>
+      <div class="service-card"><div class="info"><h3>ORGANIC PLANT FOOD</h3></div></div>
+      <div class="service-card"><div class="info"><h3>GYM & SPORTS</h3></div></div>
+      <div class="service-card"><div class="info"><h3>PACKAGING SOLUTIONS</h3></div></div>
     </div>
   </section>
 
-  <!-- CAREERS & COMMUNITY (placeholders, add if needed) -->
-  <section id="careers" class="section-content py-24 px-6 bg-black text-center">
-    <h2 class="text-5xl font-bold mb-8 gradient-text">CAREERS</h2>
-    <p class="text-2xl text-gray-400">Join the empire – email drop@chandra.com</p>
-  </section>
-  <section id="community" class="section-content py-24 px-6 bg-gray-950 text-center">
-    <h2 class="text-5xl font-bold mb-8 gradient-text">COMMUNITY</h2>
-    <p class="text-2xl text-gray-400">Discord coming soon – join waitlist via contact</p>
+  <section id="careers" class="section-content">
+    <h2>CAREERS</h2>
+    <p class="theory-note">Want to join the empire? Email drop@chandra.com</p>
   </section>
 
-  <footer class="py-12 text-center bg-black border-t border-gray-800 text-gray-400">
-    © 2025 Chandra.com • Dev & Cloud Empire • <a href="https://x.com/ChanduNaveen5" class="hover:gradient-text">@ChanduNaveen5</a>
+  <section id="community" class="section-content">
+    <h2>COMMUNITY</h2>
+    <p class="theory-note">Discord & newsletter coming soon – stay tuned!</p>
+  </section>
+
+  <footer>
+    © 2025 Chandra • Cloud & Dev Empire • Made with 🔥 by ChanduNaveen5
   </footer>
 
   <script>
-    function toggleMenu(){ document.getElementById('mobileMenu').classList.toggle('hidden'); }
+    function toggleMenu(){ document.getElementById('navLinks').classList.toggle('active'); }
     function showSection(id){
       document.querySelectorAll('.section-content').forEach(s=>s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      toggleMenu();
+      document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+      if(event) event.target.classList.add('active');
+      if(window.innerWidth<=768) toggleMenu();
       window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    // Video Slider
-    let slides = document.querySelectorAll('.slide');
-    let i = 0;
-    setInterval(()=>{
-      slides[i].classList.remove('active');
-      i = (i+1) % slides.length;
-      slides[i].classList.add('active');
-    }, 6000);
+    // Video Slider - Fixed & Fast
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 7000);
 
-    // Nav scroll
-    window.addEventListener('scroll', () => {
-      document.getElementById('navbar').classList.toggle('nav-scrolled', window.scrollY > 50);
-    });
-
-    // Excel Invoice on Purchase
+    // Excel Invoice - Still Works
     document.addEventListener('snipcart.ready', () => {
       Snipcart.events.on('order.completed', order => {
         const rows = [['Name','Email','Product','Amount']];
