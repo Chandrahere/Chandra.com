@@ -6,6 +6,12 @@
   <title>CHANDRA • DEV & CLOUD EMPIRE</title>
   <meta name="description" content="Real cloud servers, AI tools, digital drops, courses, shop – everything a developer needs to conquer."/>
 
+  <!-- Security Headers from old -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.snipcart.com 'unsafe-inline' https://cdn.sheetjs.com; style-src 'self' https://cdn.snipcart.com https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com https://*.pexels.com data:; media-src https://videos.pexels.com; connect-src 'self' https://app.snipcart.com https://cdn.snipcart.com https://api.snipcart.com; form-action 'self' https:; frame-ancestors 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -28,170 +34,220 @@
     body { background: #000; color: #fff; }
     .gradient-text { background: linear-gradient(to right, #a855f7, #ec4899); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .nav-scrolled { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); }
+    .card, .product, .service-card { background: #111; border: 1px solid #333; }
+    .btn, .add-cart { background: linear-gradient(to right, #a855f7, #ec4899); }
+    .btn:hover, .add-cart:hover { opacity: 0.9; }
   </style>
 </head>
 <body class="bg-black text-white min-h-screen">
 
   <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5"></div>
 
-  <!-- NAV -->
+  <!-- NAV (updated with dark) -->
   <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
       <div class="text-3xl font-bold gradient-text cursor-pointer" onclick="showSection('home')">CHANDRA</div>
       <div class="hamburger block lg:hidden cursor-pointer" onclick="toggleMenu()">
-        <i class="fas fa-bars text-3xl"></i>
+        <i class="fas fa-bars text-3xl text-gray-300"></i>
       </div>
-      <div class="hidden lg:flex gap-8 text-sm font-bold" id="navLinks">
-        <a onclick="showSection('home')" class="hover:text-purple-400 transition">HOME</a>
-        <a onclick="showSection('membership')" class="hover:text-purple-400 transition">CLOUD PLANS</a>
-        <a onclick="showSection('open-land')" class="hover:text-purple-400 transition">DASHBOARD</a>
-        <a onclick="showSection('shop')" class="hover:text-purple-400 transition">SHOP</a>
-        <a onclick="showSection('digital')" class="hover:text-purple-400 transition">DIGITAL</a>
-        <a onclick="showSection('courses')" class="hover:text-purple-400 transition">COURSES</a>
-        <a href="mailto:drop@chandra.com" class="hover:text-purple-400 transition">CONTACT</a>
-        <a href="#" class="snipcart-checkout hover:text-purple-400 transition flex items-center gap-2">
-          CART <i class="fas fa-shopping-cart"></i> (<span class="snipcart-items-count">0</span>)
+      <div class="hidden lg:flex gap-8 text-sm font-bold uppercase text-gray-300" id="navLinks">
+        <a onclick="showSection('home')" class="hover:gradient-text transition">Home</a>
+        <a onclick="showSection('membership')" class="hover:gradient-text transition">Cloud Plans</a>
+        <a onclick="showSection('open-land')" class="hover:gradient-text transition">Dashboard</a>
+        <a onclick="showSection('shop')" class="hover:gradient-text transition">Shop</a>
+        <a onclick="showSection('digital')" class="hover:gradient-text transition">Digital</a>
+        <a onclick="showSection('courses')" class="hover:gradient-text transition">Courses</a>
+        <a onclick="showSection('gallery')" class="hover:gradient-text transition">Gallery</a>
+        <a onclick="showSection('services')" class="hover:gradient-text transition">Services</a>
+        <a onclick="showSection('careers')" class="hover:gradient-text transition">Careers</a>
+        <a onclick="showSection('community')" class="hover:gradient-text transition">Community</a>
+        <a href="mailto:drop@chandra.com" class="hover:gradient-text transition">Contact</a>
+        <a href="#" class="snipcart-checkout hover:gradient-text transition flex items-center gap-2">
+          Cart <i class="fas fa-shopping-cart"></i> (<span class="snipcart-items-count">0</span>)
         </a>
       </div>
     </div>
     <!-- Mobile Menu -->
-    <div class="fixed inset-0 bg-black/95 backdrop-blur-lg hidden flex-col items-center justify-center gap-8 text-2xl font-bold" id="id="mobileMenu">
-      <a onclick="showSection('home');toggleMenu()" class="hover:text-purple-400">HOME</a>
-      <a onclick="showSection('membership');toggleMenu()" class="hover:text-purple-400">CLOUD PLANS</a>
-      <a onclick="showSection('open-land');toggleMenu()" class="hover:text-purple-400">DASHBOARD</a>
-      <a onclick="showSection('shop');toggleMenu()" class="hover:text-purple-400">SHOP</a>
-      <a onclick="showSection('digital');toggleMenu()" class="hover:text-purple-400">DIGITAL</a>
-      <a onclick="showSection('courses');toggleMenu()" class="hover:text-purple-400">COURSES</a>
-      <a href="mailto:drop@chandra.com" class="hover:text-purple-400">CONTACT</a>
-      <div class="text-4xl cursor-pointer absolute top-8 right-8" onclick="toggleMenu()">×</div>
+    <div class="fixed inset-0 bg-black/95 hidden flex-col items-center justify-center gap-8 text-2xl font-bold uppercase text-gray-300" id="mobileMenu">
+      <a onclick="showSection('home');toggleMenu()" class="hover:gradient-text">Home</a>
+      <a onclick="showSection('membership');toggleMenu()" class="hover:gradient-text">Cloud Plans</a>
+      <a onclick="showSection('open-land');toggleMenu()" class="hover:gradient-text">Dashboard</a>
+      <a onclick="showSection('shop');toggleMenu()" class="hover:gradient-text">Shop</a>
+      <a onclick="showSection('digital');toggleMenu()" class="hover:gradient-text">Digital</a>
+      <a onclick="showSection('courses');toggleMenu()" class="hover:gradient-text">Courses</a>
+      <a onclick="showSection('gallery');toggleMenu()" class="hover:gradient-text">Gallery</a>
+      <a onclick="showSection('services');toggleMenu()" class="hover:gradient-text">Services</a>
+      <a onclick="showSection('careers');toggleMenu()" class="hover:gradient-text">Careers</a>
+      <a onclick="showSection('community');toggleMenu()" class="hover:gradient-text">Community</a>
+      <a href="mailto:drop@chandra.com" class="hover:gradient-text">Contact</a>
+      <div class="text-5xl cursor-pointer absolute top-8 right-8 text-gray-300" onclick="toggleMenu()">×</div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section id="home" class="section-content active min-h-screen flex items-center justify-center relative overflow-hidden">
-    <div class="hero-slider">
-      <div class="slide active"><video autoplay muted loop playsinline class="w-full h-full object-cover"><source src="https://videos.pexels.com/video-files/18069232/18069232-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
-      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover"><source src="https://videos.pexels.com/video-files/3194523/3194523-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
-      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover"><source src="https://videos.pexels.com/video-files/856079/856079-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+  <!-- HOME HERO (updated) -->
+  <section id="home" class="section-content active relative overflow-hidden min-h-screen flex items-center justify-center">
+    <div class="hero-slider absolute inset-0">
+      <div class="slide active"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/18069232/18069232-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/3194523/3194523-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/856079/856079-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/853851/853851-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
+      <div class="slide"><video autoplay muted loop playsinline class="w-full h-full object-cover opacity-50"><source src="https://videos.pexels.com/video-files/3209828/3209828-uhd_2560_1440_30fps.mp4" type="video/mp4"></video></div>
     </div>
-    <div class="absolute inset-0 bg-black/50"></div>
     <div class="relative z-10 text-center px-6">
-      <h1 class="text-5xl md:text-8xl font-bold mb-6">CHANDRA <span class="gradient-text">CLOUD EMPIRE</span></h1>
-      <p class="text-xl md:text-3xl max-w-4xl mx-auto mb-10">Real root servers • GPU ready • Pay monthly • Full control<br>Deploy AI, Minecraft, WordPress, anything – in minutes.</p>
+      <h1 class="text-5xl md:text-8xl font-bold mb-6">CHANDRA <span class="gradient-text">DEV EMPIRE</span></h1>
+      <p class="text-xl md:text-3xl max-w-4xl mx-auto mb-10">Your daily hub to code, deploy AI, learn, earn, and grow — everything a modern developer needs in one place.</p>
       <div class="flex flex-col sm:flex-row gap-6 justify-center">
-        <button onclick="showSection('membership')" class="px-12 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-xl font-bold hover:opacity-90 transition transform hover:scale-105">Get Server Now</button>
-        <button onclick="showSection('open-land')" class="px-12 py-5 border border-gray-600 rounded-xl text-xl font-bold hover:border-purple-600 transition">Open Dashboard →</button>
+        <button onclick="showSection('membership')" class="px-12 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-xl font-bold hover:opacity-90 transition transform hover:scale-105">Get Cloud Server</button>
+        <button onclick="showSection('shop')" class="px-12 py-5 border border-gray-600 rounded-xl text-xl font-bold hover:border-purple-600 transition">Shop Now →</button>
       </div>
     </div>
   </section>
 
-  <!-- CLOUD PLANS (MEMBERSHIP) -->
+  <!-- MEMBERSHIP / CLOUD PLANS (updated with profit pricing) -->
   <section id="membership" class="section-content py-24 px-6 bg-gray-950">
     <div class="max-w-7xl mx-auto text-center">
-      <h2 class="text-5xl md:text-7xl font-bold mb-8">CLOUD PLANS <span class="gradient-text"> (150–200% margin)</span></h2>
-      <p class="text-2xl mb-16">Full root • 20 TB traffic • One-click apps • Manual setup in 5 min if you buy today</p>
+      <h2 class="text-5xl md:text-7xl font-bold mb-8 gradient-text">MEMBERSHIP // CLOUD PLAYGROUND</h2>
+      <p class="text-2xl text-gray-400 mb-16">Scalable cloud servers + free monthly products delivered to your door. Grow without limits.</p>
       <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
-        <!-- Starter -->
-        <div class="bg-gray-900 p-10 rounded-2xl border border-gray-800 hover:border-purple-600 transition transform hover:scale-105">
-          <h3 class="text-3xl font-bold mb-4">STARTER</h3>
-          <p class="text-6xl font-bold mb-6">$19<span class="text-2xl text-gray-400">/mo</span></p>
-          <ul class="text-left space-y-3 mb-8">
-            <li>✓ 2 vCPU • 4 GB RAM • 40 GB NVMe</li>
-            <li>✓ Full root + SSH</li>
-            <li>✓ Website/AI script hosting</li>
-            <li>✓ Free sticker pack</li>
+        <div class="card p-8 rounded-2xl hover:shadow-2xl transition transform hover:scale-105">
+          <h3 class="text-3xl font-bold mb-4">STARTER • $19/mo</h3>
+          <ul class="text-left space-y-3 mb-8 text-gray-300">
+            <li>✓ 2vCPU / 4GB RAM / 40GB NVMe</li>
+            <li>✓ Website + AI script hosting</li>
+            <li>✓ SSH Access / Full Root</li>
+            <li>✓ Free Sticker Pack (delivered)</li>
           </ul>
-          <button class="w-full py-4 bg-purple-600 rounded-xl font-bold hover:bg-purple-700 snipcart-add-item"
-            data-item-id="cloud-starter"
-            data-item-price="19.00"
-            data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-name="Cloud Starter Monthly"
-            data-item-description="2vCPU / 4GB RAM server">GET SERVER – $19/mo</button>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="starter-land" data-item-price="19" data-item-name="Starter Land Membership"
+            data-item-url="https://chandrahere.github.io/Chandra.com">GET STARTER – $19/mo</button>
         </div>
-
-        <!-- Pro (Most Popular) -->
-        <div class="bg-gradient-to-br from-purple-900 to-pink-900 p-10 rounded-2xl transform scale-110 border-2 border-purple-600">
+        <div class="card p-8 rounded-2xl border-2 border-purple-600 transform scale-105">
           <div class="bg-purple-700/50 inline-block px-4 py-1 rounded-full mb-4 text-sm">MOST POPULAR</div>
-          <h3 class="text-4xl font-bold mb-4">PRO</h3>
-          <p class="text-7xl font-bold mb-6">$49<span class="text-3xl text-gray-300">/mo</span></p>
-          <ul class="text-left space-y-3 mb-8">
-            <li>✓ 8 vCPU • 16 GB RAM • 160 GB NVMe</li>
-            <li>✓ One-click Minecraft / WordPress / AI</li>
-            <li>✓ Auto backups</li>
-            <li>✓ Priority support</li>
+          <h3 class="text-3xl font-bold mb-4">PRO • $49/mo</h3>
+          <ul class="text-left space-y-3 mb-8 text-gray-300">
+            <li>✓ 8vCPU / 16GB RAM / 160GB NVMe</li>
+            <li>✓ One-click AI / Minecraft / WordPress</li>
+            <li>✓ Auto backups / Priority support</li>
+            <li>✓ Free monthly drops</li>
           </ul>
-          <button class="w-full py-4 bg-white text-black rounded-xl font-bold hover:bg-gray-200 snipcart-add-item"
-            data-item-id="cloud-pro"
-            data-item-price="49.00"
-            data-item-url="https://chandrahere.github.io/Chandra.com"
-            data-item-name="Cloud Pro Monthly">GET PRO – $49/mo</button>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="pro-land" data-item-price="49" data-item-name="Pro Land Membership"
+            data-item-url="https://chandrahere.github.io/Chandra.com">GET PRO – $49/mo</button>
         </div>
-
-        <!-- Beast GPU -->
-        <div class="bg-gray-900 p-10 rounded-2xl border border-gray-800 hover:border-pink-600 transition transform hover:scale-105">
-          <h3 class="text-3xl font-bold mb-4">BEAST GPU</h3>
-          <p class="text-6xl font-bold mb-6">$149<span class="text-2xl text-gray-400">/mo</span></p>
-          <ul class="text-left space-y-3 mb-8">
-            <li>✓ RTX 4090 or A100</li>
-            <li>✓ 16 vCPU • 64 GB RAM</li>
-            <li>✓ Perfect for Llama, Stable Diffusion</li>
-            <li>✓ Coming Q1 2026 or contact us now</li>
+        <div class="card p-8 rounded-2xl hover:shadow-2xl transition transform hover:scale-105">
+          <h3 class="text-3xl font-bold mb-4">BEAST • $149/mo</h3>
+          <ul class="text-left space-y-3 mb-8 text-gray-300">
+            <li>✓ 16vCPU / 64GB RAM / 320GB NVMe + GPU</li>
+            <li>✓ Train Llama / Stable Diffusion</li>
+            <li>✓ Custom setups / 24/7</li>
+            <li>✓ Premium drops</li>
           </ul>
-          <a href="mailto:drop@chandra.com?subject=I want Beast GPU" class="block w-full text-center py-4 bg-gradient-to-r from-pink-600 to-purple-600 rounded-xl font-bold">CONTACT FOR GPU</a>
+          <button class="add-cart snipcart-add-item"
+            data-item-id="beast-land" data-item-price="149" data-item-name="Beast Land Membership"
+            data-item-url="https://chandrahere.github.io/Chandra.com">GET BEAST – $149/mo</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- OPEN LAND DASHBOARD PLACEHOLDER -->
+  <!-- OPEN LAND (updated teaser) -->
   <section id="open-land" class="section-content py-32 px-6 text-center bg-black">
-    <h2 class="text-6xl font-bold mb-8">DASHBOARD COMING SOON</h2>
-    <p class="text-2xl mb-12">Buy any plan above → we create your server in 5 minutes and send credentials.<br>Full root, your IP, your rules.</p>
-    <button onclick="showSection('membership')" class="px-12 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-2xl font-bold">Choose Plan Above</button>
+    <h2 class="text-6xl font-bold mb-8 gradient-text">OPEN LAND // YOUR PERSONAL CLOUD SERVER</h2>
+    <p class="text-2xl text-gray-400 mb-12">Deploy anything, anytime — full control, SSH, Docker, AI models.<br>Dashboard launching soon – buy above and get manual setup in 5 min via email.</p>
+    <button onclick="showSection('membership')" class="px-12 py-5 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl text-2xl font-bold hover:opacity-90">Choose Plan ↑</button>
   </section>
 
-  <!-- Keep all your old sections (shop, digital, courses, etc.) exactly the same but with dark cards -->
-  <!-- I'm copying your old sections but dark-themed for perfection -->
+  <!-- SHOP (your old, now dark) -->
+  <section id="shop" class="section-content py-24 px-6 bg-gray-950">
+    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">SHOP THE DROP • A-Z</h2>
+    <p class="theory-note bg-gray-900 p-6 rounded-xl mb-12 text-center text-gray-400">Everything from tech gadgets to daily essentials — alphabetized for fast finds.</p>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="product"><img src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd" alt="Arts"><div class="info p-4"><h3 class="text-xl font-bold">A - ARTS (ID001)</h3><p class="price text-2xl">$49</p><button class="add-cart snipcart-add-item" data-item-id="arts-001" data-item-price="49" data-item-name="Arts Collection">ADD</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978" alt="Business"><div class="info p-4"><h3 class="text-xl font-bold">B - BUSINESS TOOLS (ID002)</h3><p class="price text-2xl">$99</p><button class="add-cart snipcart-add-item" data-item-id="biz-002" data-item-price="99" data-item-name="Business Kit">ADD</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70" alt="Cars"><div class="info p-4"><h3 class="text-xl font-bold">C - CARS / THUG RIDE (ID003)</h3><p class="price text-2xl">From $20K</p><a href="thug-ride.html" class="add-cart">EXPLORE</a></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1541592106381-b31e9678c0e7" alt="Chocolates"><div class="info p-4"><h3 class="text-xl font-bold">C - CHOCOLATES (ID004)</h3><p class="price text-2xl">$29</p><button class="add-cart snipcart-add-item" data-item-id="choco-004" data-item-price="29" data-item-name="Premium Chocolates">ADD</button></div></div>
+      <!-- Add more if you have -->
+    </div>
+  </section>
 
-  <section id="shop" class="section-content py-24 px-6 bg-gray-950">... (your shop code here – same as before but add bg-gray-900 to cards) </section>
-  <section id="digital" class="section-content py-24 px-6 bg-black">... (your digital drops) </section>
-  <section id="courses" class="section-content py-24 px-6 bg-gray-950">... (your courses) </section>
-  <!-- I didn't paste all to save space – just keep your existing grid cards, they will work perfectly with dark mode -->
+  <!-- DIGITAL DROPS (your old, dark) -->
+  <section id="digital" class="section-content py-24 px-6 bg-black">
+    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">DIGITAL DROPS</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="product"><img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee" alt="AI Agent Kit"><div class="info p-4"><h3 class="text-xl font-bold">AI Agent Starter Kit</h3><p class="price text-2xl">$49</p><button class="add-cart snipcart-add-item" data-item-id="ai-agent" data-item-price="49" data-item-name="AI Agent Kit" data-item-file-guid="YOUR_GUID">BUY</button></div></div>
+      <div class="product"><img src="https://images.unsplash.com/photo-1620712943544-b4e2c6b5c3f9" alt="WeatherBot Pro"><div class="info p-4"><h3 class="text-xl font-bold">WeatherBot Pro</h3><p class="price text-2xl">$99</p><button class="add-cart snipcart-add-item" data-item-id="weatherbot" data-item-price="99" data-item-name="WeatherBot Pro" data-item-file-guid="YOUR_GUID">BUY</button></div></div>
+    </div>
+  </section>
 
-  <footer class="py-12 text-center bg-black border-t border-gray-800">
-    © 2025 Chandra Dev & Cloud Empire • Made with 🔥 • <a href="https://x.com/ChanduNaveen5" class="text-purple-400">@ChanduNaveen5</a>
+  <!-- COURSES (your old, dark) -->
+  <section id="courses" class="section-content py-24 px-6 bg-gray-950">
+    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">COURSES & WORKSHOPS</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="card p-4"><div class="info"><h3 class="text-xl font-bold">AI Automation Masterclass</h3><p class="price text-2xl">$199</p><button class="add-cart snipcart-add-item" data-item-id="ai-course" data-item-price="199" data-item-name="AI Automation Course">ENROLL</button></div></div>
+      <div class="card p-4"><div class="info"><h3 class="text-xl font-bold">DevOps From Zero</h3><p class="price text-2xl">$299</p><button class="add-cart snipcart-add-item" data-item-id="devops" data-item-price="299" data-item-name="DevOps Masterclass">ENROLL</button></div></div>
+    </div>
+  </section>
+
+  <!-- GALLERY (your old, dark) -->
+  <section id="gallery" class="section-content py-24 px-6 bg-black">
+    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">GALLERY OF HEAT</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1519389950474-4e6c8a5c9b0a" alt="AI Art" class="w-full rounded-xl"></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee" alt="Code" class="w-full rounded-xl"></div>
+      <!-- Add more -->
+    </div>
+  </section>
+
+  <!-- SERVICES (your old, dark) -->
+  <section id="services" class="section-content py-24 px-6 bg-gray-950">
+    <h2 class="text-5xl font-bold text-center mb-8 gradient-text">SERVICES</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="service-card p-4"><div class="info"><h3 class="text-xl font-bold">AI WORKSHOPS</h3></div></div>
+      <div class="service-card p-4"><div class="info"><h3 class="text-xl font-bold">ORGANIC GROW PLANT FOOD</h3></div></div>
+      <div class="service-card p-4"><div class="info"><h3 class="text-xl font-bold">GYM & SPORTS (Badminton, Cricket, Swimming)</h3></div></div>
+      <div class="service-card p-4"><div class="info"><h3 class="text-xl font-bold">PACKAGING SOLUTIONS</h3></div></div>
+      <!-- Continue A-Z -->
+    </div>
+  </section>
+
+  <!-- CAREERS & COMMUNITY (placeholders, add if needed) -->
+  <section id="careers" class="section-content py-24 px-6 bg-black text-center">
+    <h2 class="text-5xl font-bold mb-8 gradient-text">CAREERS</h2>
+    <p class="text-2xl text-gray-400">Join the empire – email drop@chandra.com</p>
+  </section>
+  <section id="community" class="section-content py-24 px-6 bg-gray-950 text-center">
+    <h2 class="text-5xl font-bold mb-8 gradient-text">COMMUNITY</h2>
+    <p class="text-2xl text-gray-400">Discord coming soon – join waitlist via contact</p>
+  </section>
+
+  <footer class="py-12 text-center bg-black border-t border-gray-800 text-gray-400">
+    © 2025 Chandra.com • Dev & Cloud Empire • <a href="https://x.com/ChanduNaveen5" class="hover:gradient-text">@ChanduNaveen5</a>
   </footer>
 
   <script>
-    function toggleMenu() {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    }
-    function showSection(id) {
-      document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+    function toggleMenu(){ document.getElementById('mobileMenu').classList.toggle('hidden'); }
+    function showSection(id){
+      document.querySelectorAll('.section-content').forEach(s=>s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-      document.getElementById('mobileMenu')?.classList.add('hidden');
-      window.scrollTo({top: 0, behavior: 'smooth'});
+      toggleMenu();
+      window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    // Video slider
+    // Video Slider
     let slides = document.querySelectorAll('.slide');
     let i = 0;
-    setInterval(() => {
+    setInterval(()=>{
       slides[i].classList.remove('active');
-      i = (i + 1) % slides.length;
+      i = (i+1) % slides.length;
       slides[i].classList.add('active');
     }, 6000);
 
-    // Nav scroll effect
+    // Nav scroll
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        document.getElementById('navbar').classList.add('nav-scrolled');
-      } else {
-        document.getElementById('navbar').classList.remove('nav-scrolled');
-      }
+      document.getElementById('navbar').classList.toggle('nav-scrolled', window.scrollY > 50);
     });
 
-    // Excel invoice still works exactly the same
+    // Excel Invoice on Purchase
     document.addEventListener('snipcart.ready', () => {
       Snipcart.events.on('order.completed', order => {
         const rows = [['Name','Email','Product','Amount']];
