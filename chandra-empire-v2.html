@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CHANDRA • Cloud & Dev Empire 2025</title>
+  <meta name="description" content="Root servers • GPU • AI training • Full-stack observability coming • Monthly drops • Everything a 2025 dev needs."/>
+
+  <!-- Snipcart -->
+  <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
+  <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #8b5cf6;     /* purple-500 */
+      --accent: #ec4899;      /* pink-500 */
+      --bg: #fafafa;
+      --card: rgba(255,255,255,0.7);
+      --text: #1e1b4b;
+      --border: rgba(139,92,246,0.2);
+    }
+    [data-theme="dark"] {
+      --bg: #0f0f1a;
+      --card: rgba(30,27,75,0.6);
+      --text: #e2e8f0;
+      --border: rgba(139,92,246,0.3);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.5s;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      backdrop-filter: blur(20px);
+      background: rgba(255,255,255,0.8);
+      border-bottom: 1px solid var(--border);
+      z-index: 999;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    [data-theme="dark"] nav { background: rgba(15,15,26,0.9); }
+
+    .logo {
+      font-size: 2.4rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      cursor: pointer;
+    }
+    .nav-links a {
+      margin: 0 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      color: var(--text);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: 0;
+      width: 0; height: 3px;
+      background: var(--primary);
+      transition: width 0.4s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(139,92,246,0.6), rgba(236,72,153,0.4));
+      z-index: -1;
+    }
+    .hero h1 {
+      font-size: clamp(3.5rem, 9vw, 7rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #ddd);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    /* Sections */
+    section {
+      padding: 120px 5% 80px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease-out;
+    }
+    section.visible { opacity: 1; transform: none; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .card {
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s;
+    }
+    .card:hover { transform: translateY(-20px); box-shadow: 0 25px 50px rgba(139,92,246,0.25); }
+
+    .most-popular {
+      border: 3px solid var(--primary);
+      transform: scale(1.05);
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 16px 32px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+    .btn:hover { transform: scale(1.05); }
+
+    footer {
+      text-align: center;
+      padding: 4rem;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo" onclick="show('home')">CHANDRA</div>
+    <div class="nav-links">
+      <a onclick="show('home')">Home</a>
+      <a onclick="show('membership')">Cloud</a>
+      <a onclick="show('shop')">Shop</a>
+      <a onclick="show('digital')">Digital</a>
+      <a onclick="show('courses')">Courses</a>
+      <a href="mailto:drop@chandra.com">Contact</a>
+      <a class="snipcart-checkout">Cart (<span class="snipcart-items-count">0</span>)</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <video autoplay muted loop playsinline poster="https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg">
+      <source src="https://videos.pexels.com/video-files/18069232/18069232-uhd_2560_1440_30fps.mp4" type="video/mp4">
+    </video>
+    <div>
+      <h1>CHANDRA 2025</h1>
+      <p style="font-size:1.8rem;color:white;max-width:900px;margin:2rem auto;">
+        Full-root GPU servers • Deploy Llama 70B in 2 clicks • Full-stack observability SaaS launching Q1 2026<br>
+        Monthly drops • AI kits • Courses • Zero to empire.
+      </p>
+      <button class="btn" style="font-size:1.8rem;padding:20px 60px;" onclick="show('membership')">Launch Your Server Now →</button>
+    </div>
+  </section>
+
+  <!-- CLOUD PLANS -->
+  <section id="membership">
+    <h2 style="text-align:center;font-size:3.5rem;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;color:transparent;">
+      Cloud Plans • Monthly • Cancel Anytime
+    </h2>
+    <p style="text-align:center;font-size:1.3rem;max-width:900px;margin:2rem auto;">
+      Full root • 20 TB traffic • Hetzner backbone • Manual setup 5 min • Full-stack observability SaaS included free from 2026
+    </p>
+    <div class="grid">
+      <div class="card">
+        <div style="padding:2rem;">
+          <h3>STARTER</h3>
+          <p style="font-size:2.5rem;font-weight:800;color:var(--primary);">$19<span style="font-size:1rem;">/mo</span></p>
+          <ul style="text-align:left;margin:1.5rem 0;">
+            <li>• 2 vCPU • 4 GB RAM • 40 GB NVMe</li>
+            <li>• Full root + SSH</li>
+            <li>• Free sticker drop</li>
+          </ul>
+          <button class="btn snipcart-add-item"
+            data-item-id="cloud-starter-2025"
+            data-item-price="19"
+            data-item-name="Cloud Starter 2025"
+            data-item-url="/"
+            data-item-has-subscription="true"
+            data-item-subscription-interval="Month">
+            Get Starter – $19/mo
+          </button>
+        </div>
+      </div>
+
+      <div class="card most-popular">
+        <div style="padding:2rem;">
+          <span style="background:var(--primary);color:white;padding:0.5rem 1rem;border-radius:50px;font-size:0.9rem;">2025 BEST VALUE</span>
+          <h3>PRO</h3>
+          <p style="font-size:2.5rem;font-weight:800;color:var(--primary);">$49<span style="font-size:1rem;">/mo</span></p>
+          <ul style="text-align:left;margin:1.5rem 0;">
+            <li>• 8 vCPU • 16 GB RAM • 160 GB NVMe</li>
+            <li>• One-click AI / Minecraft / WP (soon)</li>
+            <li>• Auto backups + priority support</li>
+          </ul>
+          <button class="btn snipcart-add-item"
+            data-item-id="cloud-pro-2025"
+            data-item-price="49"
+            data-item-name="Cloud Pro 2025"
+            data-item-url="/"
+            data-item-has-subscription="true"
+            data-item-subscription-interval="Month">
+            Get Pro – $49/mo
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="padding:2rem;">
+          <h3>BEAST GPU</h3>
+          <p style="font-size:2.5rem;font-weight:800;color:var(--primary);">$149<span style="font-size:1rem;">/mo</span></p>
+          <ul style="text-align:left;margin:1.5rem 0;">
+            <li>• RTX 4090 / A100 class GPU</li>
+            <li>• 16 vCPU • 64 GB RAM • 320 GB NVMe</li>
+            <li>• Train Stable Diffusion / Llama 70B</li>
+          </ul>
+          <button class="btn snipcart-add-item"
+            data-item-id="cloud-beast-2025"
+            data-item-price="149"
+            data-item-name="Cloud Beast GPU 2025"
+            data-item-url="/"
+            data-item-has-subscription="true"
+            data-item-subscription-interval="Month">
+            Get Beast – $149/mo
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keep all your other sections (shop, digital, courses, etc.) exactly the same or copy-paste from your old file -->
+
+  <footer>
+    © 2025 Chandra Dev Empire • Built with love, rage & AI by ChanduNaveen5
+  </footer>
+
+  <script>
+    // Theme toggle
+    function toggleTheme() {
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+    }
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+
+    // Section reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+
+    // Snipcart invoice export (still works!)
+    document.addEventListener('snipcart.ready', () => {
+      Snipcart.events.on('order.completed', order => {
+        const rows = [['Name','Email','Product','Amount']];
+        order.items.forEach(i => rows.push([order.billingAddress.name, order.email, i.name, i.totalPrice]));
+        const ws = XLSX.utils.aoa_to_sheet(rows);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Invoice");
+        XLSX.writeFile(wb, `Chandra_Invoice_${order.invoiceNumber || Date.now()}.xlsx`);
+      });
+    });
+  </script>
+</body>
+</html>
