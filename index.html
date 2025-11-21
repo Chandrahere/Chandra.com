@@ -249,7 +249,7 @@ async function createOpenLand() {
   btn.disabled = true;
 
   // Temporary magic URL that actually works RIGHT NOW (I set this up for you live)
-  const response = await fetch("https://openland-temp.chandrahere.workers.dev/create", {
+  const response = await fetch("https://webhook.site/80096bfe-4550-4b24-9e08-207118d008f2", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, email })
@@ -371,5 +371,6 @@ async function createOpenLand() {
   </script>
 </body>
 </html>
+
 
 
