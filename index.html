@@ -208,7 +208,67 @@
       <button onclick="showSection('membership')" class="btn" style="display:inline-block;width:auto;padding:20px 60px;font-size:1.5rem;">CHOOSE PLAN ABOVE</a>
     </div>
   </section>
+<!-- ==== CHANDRA OPEN LAND – ONE CLICK EMPIRE BUILDER ==== -->
+<section style="margin: 40px 0; padding: 30px; background: linear-gradient(135deg, #1a1a2e, #16213e); border-radius: 16px; text-align: center; box-shadow: 0 10px 30px rgba(0,255,255,0.2);">
+  <h2 style="color: #00ffff; font-size: 2.5em; margin-bottom: 20px;">🚀 CHANDRA OPEN LAND</h2>
+  <p style="color: #aaa; font-size: 1.3em; max-width: 800px; margin: 0 auto 30px;">
+    One click → Your personal cloud workspace spawns instantly.<br>
+    Build websites, AI agents, SaaS, online stores — all in browser.<br>
+    <strong>Zero setup. Free AI assistant included.</strong>
+  </p>
+  
+  <button onclick="createOpenLand()" style="
+    background: #00ffff; 
+    color: #000; 
+    font-weight: bold; 
+    padding: 18px 40px; 
+    font-size: 1.4em; 
+    border: none; 
+    border-radius: 50px; 
+    cursor: pointer;
+    box-shadow: 0 0 20px #00ffff88;
+    transition: all 0.3s;
+  "
+  onmouseover="this.style.transform='scale(1.05)'"
+  onmouseout="this.style.transform='scale(1)'">
+    ⚡ LAUNCH MY OPEN LAND NOW ($19/month)
+  </button>
 
+  <p style="color: #00ffff; margin-top: 20px;">Server ready in < 60 seconds • Cancel anytime</p>
+</section>
+
+<script>
+async function createOpenLand() {
+  const name = prompt("👤 Your name (for your workspace):", "bro-empire");
+  const email = prompt("📧 Your email (we send access link):", "you@gmail.com");
+  
+  if (!name || !email) return alert("Need both bro!");
+
+  const btn = event.target;
+  btn.innerHTML = "⏳ Spinning up your empire...";
+  btn.disabled = true;
+
+  // THIS IS WHERE THE MAGIC HAPPENS (replace with your real webhook later)
+  const response = await fetch("https://hook.chandrahere.workers.dev/create-openland", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name, email, plan: "openland-v1" })
+  });
+
+  const data = await response.json();
+  
+  if (data.url) {
+    alert("🔥 YOUR OPEN LAND IS LIVE!\n\nAccess: " + data.url + "\nCheck email in 30s!");
+    window.open(data.url, "_blank");
+  } else {
+    alert("Something went wrong bro, ping Chandra!");
+  }
+  
+  btn.innerHTML = "⚡ LAUNCH MY OPEN LAND NOW";
+  btn.disabled = false;
+}
+</script>
+  
   <!-- All your old sections below - 100% working, just cleaner -->
 
   <!-- SHOP A-Z -->
@@ -311,3 +371,4 @@
   </script>
 </body>
 </html>
+
