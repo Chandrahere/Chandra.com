@@ -7,9 +7,11 @@
   <meta name="description" content="Powered by Google Cloud. Enterprise Compute, Digital Assets, Luxury Drops, and Developer Community."/>
 
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
   
   <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
+  
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 
   <style>
@@ -22,9 +24,9 @@
       --danger: #ea4335; /* Red */
       
       --bg: #ffffff;
-      --surface: #f8f9fa; /* Light Grey Surface */
+      --surface: #f8f9fa; 
       --card-bg: #ffffff;
-      --text: #202124; /* Google Dark Grey */
+      --text: #202124; 
       --text-muted: #5f6368;
       
       --shadow-sm: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
@@ -42,7 +44,7 @@
       overflow-x: hidden;
     }
 
-    /* === NAVIGATION (Light & Clean) === */
+    /* === NAVIGATION === */
     nav {
       position:fixed; top:0; left:0; right:0; 
       background: rgba(255, 255, 255, 0.95); 
@@ -56,12 +58,11 @@
       display:flex; align-items:center; gap:8px; cursor: pointer;
     }
     .logo span { color: var(--text); font-weight: 800; }
-    .logo-dot { width:8px; height:8px; background:var(--primary); border-radius:50%; }
 
     .nav-links { display:flex; gap:2rem; align-items:center; }
     .nav-links a {
       font-weight:500; font-size:0.95rem; color:var(--text-muted); text-decoration: none;
-      transition:0.2s; text-transform: capitalize;
+      transition:0.2s; text-transform: capitalize; cursor: pointer;
     }
     .nav-links a:hover, .nav-links a.active { color:var(--primary); }
     
@@ -82,12 +83,12 @@
     h2 { font-size:2.2rem; text-align:center; margin-bottom:1rem; color: #202124; font-weight:700; }
     .section-desc { text-align: center; max-width: 700px; margin: 0 auto 3rem; color: var(--text-muted); font-size: 1.1rem; }
 
-    /* === HERO (Video with White Overlay) === */
+    /* === HERO === */
     .hero-slider { position:absolute; top:0; left:0; width:100%; height:100vh; z-index:-1; overflow:hidden; }
     .slide { position:absolute; inset:0; opacity:0; transition:opacity 2s ease; }
     .slide.active { opacity:1; }
     .slide video { width:100%; height:100%; object-fit:cover; }
-    .hero-overlay { position:absolute; inset:0; background: rgba(255,255,255,0.85); backdrop-filter: blur(2px); } /* Light overlay */
+    .hero-overlay { position:absolute; inset:0; background: rgba(255,255,255,0.85); backdrop-filter: blur(2px); }
     
     .hero-content { 
       position:relative; z-index:10; text-align:center; 
@@ -97,11 +98,11 @@
       background: var(--primary); color:white; border:none; 
       padding:16px 32px; border-radius:4px; font-weight:500; font-size:1.1rem;
       cursor:pointer; transition: 0.2s;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2); text-decoration: none; display: inline-block;
     }
     .hero-btn:hover { background: var(--primary-hover); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 
-    /* === CARDS (Google Material Style) === */
+    /* === CARDS === */
     .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
     
     .card, .product { 
@@ -110,6 +111,7 @@
       border: 1px solid #e0e0e0;
       transition: 0.3s;
       overflow: hidden;
+      display: flex; flex-direction: column;
     }
     .card:hover, .product:hover { 
       transform:translateY(-4px); 
@@ -118,27 +120,28 @@
     }
     
     .card img, .product img { width:100%; height:200px; object-fit:cover; border-bottom: 1px solid #f1f3f4; }
-    .info { padding:1.5rem; }
+    .info { padding:1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
     
-    .badge { display:inline-block; padding:4px 8px; border-radius:4px; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:10px; }
+    .badge { display:inline-block; padding:4px 8px; border-radius:4px; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:10px; width: fit-content;}
     .badge.blue { background:#e8f0fe; color:var(--primary); }
     .badge.green { background:#e6f4ea; color:var(--secondary); }
+    .badge.dark { background:#202124; color:white; }
 
     .price { font-size:1.8rem; color: var(--text); font-weight:700; margin: 0.5rem 0; }
-    .features-list { list-style: none; color: var(--text-muted); font-size: 0.9rem; margin: 1rem 0; }
+    .features-list { list-style: none; color: var(--text-muted); font-size: 0.9rem; margin: 1rem 0; flex-grow: 1; }
     .features-list li { margin-bottom: 8px; display:flex; align-items:center; gap:8px; }
-    .features-list li::before { content:'check_circle'; font-family: 'Material Icons'; color:var(--secondary); font-size: 14px; } /* Simple text fallback used below */
 
     .btn-buy {
       width: 100%; padding: 10px; border-radius: 4px; 
       border: 1px solid #dadce0; background: white; 
       color: var(--primary); font-weight: 600; cursor: pointer; transition: 0.2s;
+      margin-top: auto; text-decoration: none; text-align: center; display: inline-block;
     }
     .btn-buy:hover { background: #f1f3f4; border-color: var(--primary); }
     .btn-buy.primary { background: var(--primary); color: white; border: none; }
     .btn-buy.primary:hover { background: var(--primary-hover); }
 
-    /* === TERMINAL (Cloud Shell Style) === */
+    /* === TERMINAL === */
     .terminal-window {
       background: #1e1e1e; border-radius: 8px;
       font-family: 'Roboto Mono', monospace; 
@@ -151,15 +154,18 @@
       color: #bdc1c6; font-size: 0.85rem; display: flex; justify-content: space-between;
     }
     .terminal-body { padding: 20px; color: #f1f3f4; font-size: 0.9rem; min-height: 300px; white-space: pre-wrap; text-align: left; }
-    .cmd { color: #8ab4f8; } /* Light blue for commands */
+    .cmd { color: #8ab4f8; } 
     .cursor { display: inline-block; width: 8px; height: 16px; background: #9aa0a6; animation: blink 1s infinite; vertical-align: text-bottom; }
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* === SPONSORS & COMMUNITY === */
+    /* === JOB LISTINGS === */
+    .job-meta { font-size: 0.85rem; color: #5f6368; margin-bottom: 1rem; display: flex; gap: 15px; }
+    .job-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* === SPONSORS & FOOTER === */
     .sponsors-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 2rem; opacity: 0.6; }
     .sponsor-logo { font-weight: 800; font-size: 1.5rem; color: #9aa0a6; border: 2px solid #dadce0; padding: 10px 20px; border-radius: 8px; }
 
-    /* === FOOTER === */
     footer { text-align:center; padding:3rem; background: #f8f9fa; color: var(--text-muted); border-top:1px solid #dadce0; font-size: 0.9rem; }
 
     @media (max-width:768px) {
@@ -175,7 +181,10 @@
 </head>
 <body>
 
-  <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5" data-config-modal-style="side"></div>
+  <div hidden id="snipcart" 
+       data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5" 
+       data-config-modal-style="side">
+  </div>
 
   <nav>
     <div class="logo" onclick="showSection('home')">
@@ -233,9 +242,9 @@
             <li>• 50 GB Balanced Disk</li>
             <li>• Debian / Ubuntu</li>
           </ul>
-          <button class="snipcart-add-item"
+          <button class="snipcart-add-item btn-buy"
             data-item-id="cloud-e2-standard"
-            data-item-price="25"
+            data-item-price="25.00"
             data-item-name="Standard E2 Instance"
             data-item-url="https://chandrahere.github.io/Chandra.com/index.html"
             data-item-subscription-interval="Month">Deploy Instance</button>
@@ -255,8 +264,9 @@
           </ul>
           <button class="btn-buy primary snipcart-add-item"
             data-item-id="gcp-n2"
-            data-item-price="65"
+            data-item-price="65.00"
             data-item-name="GCP N2 HighMem"
+            data-item-url="https://chandrahere.github.io/Chandra.com/index.html"
             data-item-subscription-interval="Month">Deploy Cluster</button>
         </div>
       </div>
@@ -274,8 +284,9 @@
           </ul>
           <button class="btn-buy snipcart-add-item"
             data-item-id="gcp-gpu"
-            data-item-price="180"
+            data-item-price="180.00"
             data-item-name="GCP L4 GPU Node"
+            data-item-url="https://chandrahere.github.io/Chandra.com/index.html"
             data-item-subscription-interval="Month">Provision GPU</button>
         </div>
       </div>
@@ -325,10 +336,10 @@
       <div class="product">
         <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d" alt="Supercar">
         <div class="info">
-          <div class="badge" style="background:#000; color:#fff">Thug Ride</div>
+          <div class="badge dark">Thug Ride</div>
           <h3>Model C - Obsidian</h3>
           <p class="price">$85,000</p>
-          <button class="btn-buy">Contact Sales</button>
+          <a href="mailto:sales@chandra.com" class="btn-buy">Contact Sales</a>
         </div>
       </div>
 
@@ -337,8 +348,12 @@
         <div class="info">
           <div class="badge blue">Gourmet</div>
           <h3>Swiss Dark Box</h3>
-          <p class="price">$45</p>
-          <button class="btn-buy snipcart-add-item" data-item-id="choco-01" data-item-price="45" data-item-name="Swiss Dark Box">Add to Cart</button>
+          <p class="price">$45.00</p>
+          <button class="btn-buy snipcart-add-item" 
+            data-item-id="choco-01" 
+            data-item-price="45.00" 
+            data-item-name="Swiss Dark Box"
+            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Add to Cart</button>
         </div>
       </div>
 
@@ -347,8 +362,12 @@
         <div class="info">
           <div class="badge blue">Decor</div>
           <h3>Abstract Canvas #4</h3>
-          <p class="price">$120</p>
-          <button class="btn-buy snipcart-add-item" data-item-id="art-04" data-item-price="120" data-item-name="Abstract Canvas">Add to Cart</button>
+          <p class="price">$120.00</p>
+          <button class="btn-buy snipcart-add-item" 
+            data-item-id="art-04" 
+            data-item-price="120.00" 
+            data-item-name="Abstract Canvas"
+            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Add to Cart</button>
         </div>
       </div>
 
@@ -357,8 +376,12 @@
         <div class="info">
           <div class="badge blue">Education</div>
           <h3>The Writer's Guide</h3>
-          <p class="price">$29</p>
-          <button class="btn-buy snipcart-add-item" data-item-id="book-01" data-item-price="29" data-item-name="Writers Guide">Add to Cart</button>
+          <p class="price">$29.00</p>
+          <button class="btn-buy snipcart-add-item" 
+            data-item-id="book-01" 
+            data-item-price="29.00" 
+            data-item-name="Writers Guide"
+            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Add to Cart</button>
         </div>
       </div>
       
@@ -367,8 +390,12 @@
         <div class="info">
           <div class="badge green">Instant Download</div>
           <h3>SaaS Boilerplate Kit</h3>
-          <p class="price">$59</p>
-          <button class="btn-buy snipcart-add-item" data-item-id="saas-kit" data-item-price="59" data-item-name="SaaS Kit">Download</button>
+          <p class="price">$59.00</p>
+          <button class="btn-buy snipcart-add-item" 
+            data-item-id="saas-kit" 
+            data-item-price="59.00" 
+            data-item-name="SaaS Kit"
+            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Download</button>
         </div>
       </div>
     </div>
@@ -381,9 +408,13 @@
       <div class="card">
         <div class="info">
           <h3>DevOps Zero to Hero</h3>
-          <p class="price">$199</p>
-          <p style="color:#666;">Learn Kubernetes, Docker, and Terraform on GCP.</p>
-          <button class="btn-buy snipcart-add-item" data-item-id="course-devops" data-item-price="199" data-item-name="DevOps Course">Enroll Now</button>
+          <p class="price">$199.00</p>
+          <p style="color:#666; margin-bottom:1rem;">Learn Kubernetes, Docker, and Terraform on GCP.</p>
+          <button class="btn-buy snipcart-add-item" 
+            data-item-id="course-devops" 
+            data-item-price="199.00" 
+            data-item-name="DevOps Course"
+            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Enroll Now</button>
         </div>
       </div>
     </div>
@@ -393,20 +424,76 @@
     <h2>Community & Careers</h2>
     <p class="section-desc">Join the architects of the future.</p>
     
-    <div class="grid" style="max-width:800px; margin:0 auto;">
+    <div class="grid" style="max-width:800px; margin:0 auto 4rem;">
       <div class="card" style="text-align:center; padding:2rem;">
-        <h3 style="color:var(--primary)">Join the Discord</h3>
-        <p style="margin:1rem 0;">Connect with 5,000+ developers building on Chandra Cloud.</p>
-        <button class="btn-buy primary" style="width:auto; padding:10px 30px;">Launch Discord</button>
+        <h3 style="color:#5865F2; margin-bottom:10px;">Join the Discord</h3>
+        <p style="margin:0 0 1.5rem;">Connect with 5,000+ developers building on Chandra Cloud.</p>
+        <a href="https://discord.gg/HZcSZhbM" target="_blank" class="btn-buy primary" style="width:auto; padding:10px 30px;">Launch Discord</a>
       </div>
       <div class="card" style="text-align:center; padding:2rem;">
-        <h3 style="color:var(--danger)">Google Group</h3>
-        <p style="margin:1rem 0;">Official announcements and mailing list.</p>
+        <h3 style="color:var(--danger); margin-bottom:10px;">Google Group</h3>
+        <p style="margin:0 0 1.5rem;">Official announcements and mailing list.</p>
         <button class="btn-buy" style="width:auto; padding:10px 30px;">Join Group</button>
       </div>
     </div>
 
-    <div style="margin-top:4rem; text-align:center;">
+    <h3 style="text-align:center; margin-bottom:2rem;">Open Positions</h3>
+    <div class="grid">
+      
+      <div class="card">
+        <div class="info">
+          <div class="badge blue">Engineering</div>
+          <h3 style="margin-top:5px;">Cloud Architect (GCP)</h3>
+          <div class="job-meta">
+            <span>📍 Remote (US/EU)</span>
+            <span>💰 $160k - $220k</span>
+          </div>
+          <ul class="features-list">
+            <li>• Design scalable VPC architectures</li>
+            <li>• Manage Kubernetes Clusters (GKE)</li>
+            <li>• Terraform infrastructure as code</li>
+          </ul>
+          <a href="mailto:careers@chandra.com?subject=Cloud Architect Application" class="btn-buy">Apply Now</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="info">
+          <div class="badge warning" style="background:#fef7e0; color:#b06000;">AI / ML</div>
+          <h3 style="margin-top:5px;">Vertex AI Engineer</h3>
+          <div class="job-meta">
+            <span>📍 New York / Remote</span>
+            <span>💰 $180k - $250k</span>
+          </div>
+          <ul class="features-list">
+            <li>• Fine-tune LLMs on Google TPU pods</li>
+            <li>• Build RAG pipelines for Enterprise</li>
+            <li>• Optimize Python/PyTorch workflows</li>
+          </ul>
+          <a href="mailto:careers@chandra.com?subject=AI Engineer Application" class="btn-buy">Apply Now</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="info">
+          <div class="badge green">Frontend</div>
+          <h3 style="margin-top:5px;">Full Stack Empire Builder</h3>
+          <div class="job-meta">
+            <span>📍 Remote</span>
+            <span>💰 Equity + Salary</span>
+          </div>
+          <ul class="features-list">
+            <li>• React, Three.js, WebGL Mastery</li>
+            <li>• Integrate Payment Gateways (Stripe)</li>
+            <li>• Build "Luxury" UI experiences</li>
+          </ul>
+          <a href="mailto:careers@chandra.com?subject=Frontend Application" class="btn-buy">Apply Now</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:5rem; text-align:center;">
       <p style="text-transform:uppercase; font-size:0.8rem; letter-spacing:1px; color:#999;">Trusted By Sponsors</p>
       <div class="sponsors-grid">
         <div class="sponsor-logo">Google Cloud</div>
@@ -419,23 +506,23 @@
   </section>
 
   <footer>
-    <p>© 2025 Chandra Cloud Empire. All Rights Reserved.</p>
+    <p>©️ 2025 Chandra Cloud Empire. All Rights Reserved.</p>
     <p style="margin-top:10px;">
       <a href="#" style="color:var(--primary); text-decoration:none; margin:0 10px;">Privacy</a>
       <a href="#" style="color:var(--primary); text-decoration:none; margin:0 10px;">Terms</a>
-      <a href="#" style="color:var(--primary); text-decoration:none; margin:0 10px;">Status</a>
+      <a href="https://status.cloud.google.com/" target="_blank" style="color:var(--primary); text-decoration:none; margin:0 10px;">Status</a>
     </p>
   </footer>
 
   <script>
-    // Navigation
+    // Navigation Logic
     function toggleMenu(){ document.getElementById('navLinks').classList.toggle('active'); }
     function showSection(id){
       document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       document.getElementById('navLinks').classList.remove('active');
       
-      // Reset Terminal if leaving
+      // Reset Terminal if leaving console section
       if(id !== 'console') {
         document.getElementById('terminal').style.display = 'none';
         document.getElementById('successMsg').style.display = 'none';
@@ -444,7 +531,7 @@
       window.scrollTo({top:0, behavior:'smooth'});
     }
 
-    // Video Slider
+    // Video Slider Logic
     const slides = document.querySelectorAll('.slide');
     let current = 0;
     setInterval(() => {
@@ -453,7 +540,7 @@
       slides[current].classList.add('active');
     }, 8000);
 
-    // Excel Receipt
+    // Excel Receipt Logic
     document.addEventListener('snipcart.ready', () => {
       Snipcart.events.on('order.completed', order => {
         const rows = [['Date', 'Name','Email','Total']];
@@ -465,7 +552,7 @@
       });
     });
 
-    // === CONSOLE LOGIC (FIXED) ===
+    // Console Logic
     async function runConsole() {
       const project = "chandra-empire-prod";
       const btn = document.getElementById('initBtn');
@@ -475,7 +562,7 @@
       
       btn.style.display = 'none';
       term.style.display = 'block';
-      success.style.display = 'none'; // Ensure hidden on restart
+      success.style.display = 'none'; 
       out.innerHTML = ''; 
 
       const steps = [
@@ -514,7 +601,6 @@
         await new Promise(r => setTimeout(r, step.t));
       }
 
-      // === THE FIX: HIDE TERMINAL, SHOW SUCCESS BUTTON ===
       setTimeout(() => {
         term.style.display = 'none';
         success.style.display = 'block';
@@ -529,9 +615,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
