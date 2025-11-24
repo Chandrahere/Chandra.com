@@ -8,10 +8,8 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
-  
-  <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
-  
+  <script src="https://js.stripe.com/v3/"></script>
+
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
 
   <style>
@@ -65,11 +63,6 @@
       transition:0.2s; text-transform: capitalize; cursor: pointer;
     }
     .nav-links a:hover, .nav-links a.active { color:var(--primary); }
-    
-    .cart-btn {
-      background: var(--primary); color:white !important; padding: 8px 20px; border-radius: 20px;
-      box-shadow: 0 2px 5px rgba(26, 115, 232, 0.3);
-    }
 
     .hamburger { display:none; cursor:pointer; }
     .hamburger span { display:block; width:25px; height:3px; background:var(--text); margin:5px; }
@@ -101,6 +94,12 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.2); text-decoration: none; display: inline-block;
     }
     .hero-btn:hover { background: var(--primary-hover); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+
+    .success-banner {
+      position: fixed; top: 0; left: 0; right: 0; background: var(--secondary); color: white; padding: 1rem; text-align: center; z-index: 1001; display: none;
+    }
+    .success-banner.show { display: block; animation: slideDown 0.3s ease; }
+    @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
     /* === CARDS === */
     .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
@@ -181,11 +180,6 @@
 </head>
 <body>
 
-  <div hidden id="snipcart" 
-       data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5" 
-       data-config-modal-style="side">
-  </div>
-
   <nav>
     <div class="logo" onclick="showSection('home')">
       <span style="color:#4285F4">C</span><span style="color:#EA4335">h</span><span style="color:#FBBC05">a</span><span style="color:#4285F4">n</span><span style="color:#34A853">d</span><span style="color:#EA4335">r</span><span style="color:var(--text)">a</span>
@@ -201,9 +195,12 @@
       <a onclick="showSection('shop')">Shop</a>
       <a onclick="showSection('courses')">Academy</a>
       <a onclick="showSection('careers')">Careers</a>
-      <a href="#" class="snipcart-checkout cart-btn">Cart (<span class="snipcart-items-count">0</span>)</a>
     </div>
   </nav>
+
+  <div id="successBanner" class="success-banner">
+    <strong>Payment Successful!</strong> Your order is processing—check your email for details. Instance deploying now...
+  </div>
 
   <section id="home" class="section-content active" style="padding:0;">
     <div class="hero-slider">
@@ -242,12 +239,7 @@
             <li>• 50 GB Balanced Disk</li>
             <li>• Debian / Ubuntu</li>
           </ul>
-          <button class="snipcart-add-item btn-buy"
-            data-item-id="cloud-e2-standard"
-            data-item-price="25.00"
-            data-item-name="Standard E2 Instance"
-            data-item-url="https://chandrahere.github.io/Chandra.com/index.html"
-            data-item-subscription-interval="Month">Deploy Instance</button>
+          <button class="btn-buy" onclick="buyItem('cloud-e2-standard', 25.00, 'subscription', 'Standard E2 Instance')">Deploy Instance</button>
         </div>
       </div>
 
@@ -262,12 +254,7 @@
             <li>• 100 GB SSD</li>
             <li>• Cloud CDN Included</li>
           </ul>
-          <button class="btn-buy primary snipcart-add-item"
-            data-item-id="gcp-n2"
-            data-item-price="65.00"
-            data-item-name="GCP N2 HighMem"
-            data-item-url="https://chandrahere.github.io/Chandra.com/index.html"
-            data-item-subscription-interval="Month">Deploy Cluster</button>
+          <button class="btn-buy primary" onclick="buyItem('gcp-n2', 65.00, 'subscription', 'GCP N2 HighMem')">Deploy Cluster</button>
         </div>
       </div>
 
@@ -282,12 +269,7 @@
             <li>• Pre-loaded PyTorch</li>
             <li>• JupyterLab Ready</li>
           </ul>
-          <button class="btn-buy snipcart-add-item"
-            data-item-id="gcp-gpu"
-            data-item-price="180.00"
-            data-item-name="GCP L4 GPU Node"
-            data-item-url="https://chandrahere.github.io/Chandra.com/index.html"
-            data-item-subscription-interval="Month">Provision GPU</button>
+          <button class="btn-buy" onclick="buyItem('gcp-gpu', 180.00, 'subscription', 'GCP L4 GPU Node')">Provision GPU</button>
         </div>
       </div>
     </div>
@@ -349,11 +331,7 @@
           <div class="badge blue">Gourmet</div>
           <h3>Swiss Dark Box</h3>
           <p class="price">$45.00</p>
-          <button class="btn-buy snipcart-add-item" 
-            data-item-id="choco-01" 
-            data-item-price="45.00" 
-            data-item-name="Swiss Dark Box"
-            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Add to Cart</button>
+          <button class="btn-buy" onclick="buyItem('choco-01', 45.00, 'payment', 'Swiss Dark Box')">Add to Cart</button>
         </div>
       </div>
 
@@ -363,11 +341,7 @@
           <div class="badge blue">Decor</div>
           <h3>Abstract Canvas #4</h3>
           <p class="price">$120.00</p>
-          <button class="btn-buy snipcart-add-item" 
-            data-item-id="art-04" 
-            data-item-price="120.00" 
-            data-item-name="Abstract Canvas"
-            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Add to Cart</button>
+          <button class="btn-buy" onclick="buyItem('art-04', 120.00, 'payment', 'Abstract Canvas')">Add to Cart</button>
         </div>
       </div>
 
@@ -377,11 +351,7 @@
           <div class="badge blue">Education</div>
           <h3>The Writer's Guide</h3>
           <p class="price">$29.00</p>
-          <button class="btn-buy snipcart-add-item" 
-            data-item-id="book-01" 
-            data-item-price="29.00" 
-            data-item-name="Writers Guide"
-            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Add to Cart</button>
+          <button class="btn-buy" onclick="buyItem('book-01', 29.00, 'payment', 'Writers Guide')">Add to Cart</button>
         </div>
       </div>
       
@@ -391,11 +361,7 @@
           <div class="badge green">Instant Download</div>
           <h3>SaaS Boilerplate Kit</h3>
           <p class="price">$59.00</p>
-          <button class="btn-buy snipcart-add-item" 
-            data-item-id="saas-kit" 
-            data-item-price="59.00" 
-            data-item-name="SaaS Kit"
-            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Download</button>
+          <button class="btn-buy" onclick="buyItem('saas-kit', 59.00, 'payment', 'SaaS Kit')">Download</button>
         </div>
       </div>
     </div>
@@ -410,11 +376,7 @@
           <h3>DevOps Zero to Hero</h3>
           <p class="price">$199.00</p>
           <p style="color:#666; margin-bottom:1rem;">Learn Kubernetes, Docker, and Terraform on GCP.</p>
-          <button class="btn-buy snipcart-add-item" 
-            data-item-id="course-devops" 
-            data-item-price="199.00" 
-            data-item-name="DevOps Course"
-            data-item-url="https://chandrahere.github.io/Chandra.com/index.html">Enroll Now</button>
+          <button class="btn-buy" onclick="buyItem('course-devops', 199.00, 'subscription', 'DevOps Course')">Enroll Now</button>
         </div>
       </div>
     </div>
@@ -498,7 +460,6 @@
       <div class="sponsors-grid">
         <div class="sponsor-logo">Google Cloud</div>
         <div class="sponsor-logo">NVIDIA</div>
-        <div class="sponsor-logo">Hetzner</div>
         <div class="sponsor-logo">Stripe</div>
         <div class="sponsor-logo">Docker</div>
       </div>
@@ -515,6 +476,27 @@
   </footer>
 
   <script>
+    // Stripe init - REPLACE WITH YOUR PUBLISHABLE KEY
+    const stripe = Stripe('pk_live_51R8qV9JvWSJrWYVFYAW8KbUKBr4kVRAf2hjbHBWU3QOKTId66WkhMkn9Pim35M22JRSWUZhwQdnnZLmSE8T7VtFo00Wl6NUqIc'); // e.g., pk_test_51YourKeyHere
+
+    // Backend URL from your Cloud Run
+    const BACKEND_URL = 'https://chandra-server-builder-908841943448.us-central1.run.app';
+
+    // Buy item func
+    async function buyItem(itemId, price, mode, name) {
+      try {
+        const response = await fetch(`${BACKEND_URL}/create-session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ itemId, price, mode, name })
+        });
+        const { sessionId } = await response.json();
+        await stripe.redirectToCheckout({ sessionId });
+      } catch (error) {
+        alert('Error starting checkout: ' + error.message);
+      }
+    }
+
     // Navigation Logic
     function toggleMenu(){ document.getElementById('navLinks').classList.toggle('active'); }
     function showSection(id){
@@ -531,6 +513,12 @@
       window.scrollTo({top:0, behavior:'smooth'});
     }
 
+    // Check for success redirect
+    if (window.location.search.includes('success=true')) {
+      document.getElementById('successBanner').classList.add('show');
+      setTimeout(() => document.getElementById('successBanner').classList.remove('show'), 5000);
+    }
+
     // Video Slider Logic
     const slides = document.querySelectorAll('.slide');
     let current = 0;
@@ -539,18 +527,6 @@
       current = (current + 1) % slides.length;
       slides[current].classList.add('active');
     }, 8000);
-
-    // Excel Receipt Logic
-    document.addEventListener('snipcart.ready', () => {
-      Snipcart.events.on('order.completed', order => {
-        const rows = [['Date', 'Name','Email','Total']];
-        rows.push([new Date().toLocaleDateString(), order.billingAddress.name, order.email, order.total]);
-        const ws = XLSX.utils.aoa_to_sheet(rows);
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Receipt");
-        XLSX.writeFile(wb, `Order_${order.invoiceNumber}.xlsx`);
-      });
-    });
 
     // Console Logic
     async function runConsole() {
