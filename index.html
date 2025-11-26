@@ -500,29 +500,58 @@
   </footer>
 
   <script>
-    // Stripe init - REPLACE WITH YOUR PUBLISHABLE KEY
-    const stripe = Stripe('pk_live_51R8qV9JvWSJrWYVFYAW8KbUKBr4kVRAf2hjbHBWU3QOKTId66WkhMkn9Pim35M22JRSWUZhwQdnnZLmSE8T7VtFo00Wl6NUqIc'); // e.g., pk_test_51YourKeyHere
-
-    // Backend URL from your Cloud Run
+    // === CONFIGURATION ===
+    // IMPORTANT: Use your "Publishable Key" here (pk_live_... or pk_test_...)
+    const stripe = Stripe('pk_live_51R8qV9JvWSJrWYVFYAW8KbUKBr4kVRAf2hjbHBWU3QOKTId66WkhMkn9Pim35M22JRSWUZhwQdnnZLmSE8T7VtFo00Wl6NUqIc'); 
+    
+    // IMPORTANT: If you redeploy Cloud Run, this URL might change! Check it.
     const BACKEND_URL = 'https://chandra-server-builder-908841943448.us-central1.run.app';
 
-    // Buy item func
+    // === CART & BUY LOGIC ===
     async function buyItem(itemId, price, mode, name) {
+      // visual feedback that something is happening
+      const btn = event.target;
+      const originalText = btn.innerText;
+      btn.innerText = "Processing...";
+      btn.disabled = true;
+
       try {
+        console.log(`Attempting to connect to ${BACKEND_URL}/create-session...`);
+        
         const response = await fetch(`${BACKEND_URL}/create-session`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ itemId, price, mode, name })
         });
-        const { sessionId } = await response.json();
-        await stripe.redirectToCheckout({ sessionId });
+
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.error) {
+          throw new Error(data.error);
+        }
+
+        // Redirect to Stripe
+        const result = await stripe.redirectToCheckout({ sessionId: data.sessionId });
+        
+        if (result.error) {
+          throw new Error(result.error.message);
+        }
+
       } catch (error) {
-        alert('Error starting checkout: ' + error.message);
+        console.error(error);
+        alert('Checkout Failed: ' + error.message + '\n\nMake sure your Backend URL is correct and running!');
+        btn.innerText = originalText;
+        btn.disabled = false;
       }
     }
 
-    // Navigation Logic
+    // === NAVIGATION LOGIC ===
     function toggleMenu(){ document.getElementById('navLinks').classList.toggle('active'); }
+    
     function showSection(id){
       document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -537,22 +566,27 @@
       window.scrollTo({top:0, behavior:'smooth'});
     }
 
-    // Check for success redirect
+    // === ON LOAD CHECKS ===
+    // Check for success redirect from Stripe
     if (window.location.search.includes('success=true')) {
       document.getElementById('successBanner').classList.add('show');
+      // Clean URL
+      window.history.replaceState({}, document.title, window.location.pathname);
       setTimeout(() => document.getElementById('successBanner').classList.remove('show'), 5000);
     }
 
     // Video Slider Logic
     const slides = document.querySelectorAll('.slide');
-    let current = 0;
-    setInterval(() => {
-      slides[current].classList.remove('active');
-      current = (current + 1) % slides.length;
-      slides[current].classList.add('active');
-    }, 8000);
+    if(slides.length > 0) {
+        let current = 0;
+        setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+        }, 8000);
+    }
 
-    // Console Logic
+    // === CONSOLE SIMULATOR ===
     async function runConsole() {
       const project = "chandra-empire-prod";
       const btn = document.getElementById('initBtn');
@@ -615,4 +649,5 @@
   </script>
 </body>
 </html>
+
 
