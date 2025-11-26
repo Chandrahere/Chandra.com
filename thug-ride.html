@@ -3,280 +3,241 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>THUG RIDE INVENTORY • CHANDRA THUG MODE EMPIRE</title>
-  <meta name="description" content="Explore premium thug rides. Luxury vehicles starting at $20K. Code your empire while cruising in style."/>
+  <title>THUG RIDE INVENTORY • CHANDRA EMPIRE</title>
   
-  <!-- Security Headers via Meta Tags -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.snipcart.com 'unsafe-inline'; style-src 'self' https://cdn.snipcart.com https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com data:; img-src 'self' https://images.unsplash.com data:; connect-src 'self' https://app.snipcart.com https://cdn.snipcart.com https://api.snipcart.com; form-action 'self' https:; frame-ancestors 'self'; base-uri 'self'; upgrade-insecure-requests;">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), interest-cohort=()">
-
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   
-  <!-- SNIPCART -->
-  <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.css" />
-  <script async src="https://cdn.snipcart.com/themes/v3.3.0/default/snipcart.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <style>
     :root {
       --primary: #ff0044;
-      --bg: #0a0a0a;
+      --primary-dim: #990029;
+      --neon-blue: #00f3ff;
+      --bg: #050505;
       --card: #111;
       --text: #fff;
-      --glow: rgba(255,0,68,0.4);
     }
+    
     * { margin:0; padding:0; box-sizing:border-box; }
+    
     body {
-      background: var(--bg);
+      background-color: var(--bg);
       color: var(--text);
       font-family: 'Rajdhani', sans-serif;
       overflow-x: hidden;
-      line-height: 1.6;
-      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      animation: empirePulse 30s infinite alternate;
-    }
-    @keyframes empirePulse {
-      0%   { background: linear-gradient(135deg, #0f0f0f, #1a1a1a); }
-      33%  { background: linear-gradient(135deg, #1a0033, #330011); }
-      66%  { background: linear-gradient(135deg, #001133, #003366); }
-      100% { background: linear-gradient(135deg, #000000, #220011); }
     }
 
-    /* Nav */
+    /* Navbar */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(12px);
-      padding: 1rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 999;
-      border-bottom: 1px solid #333;
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      background: rgba(5,5,5,0.95); border-bottom: 1px solid #222;
+      padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
     }
-    .logo {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.8rem;
-      color: var(--primary);
-      text-shadow: 0 0 20px var(--primary);
-      cursor: pointer;
-    }
-    .hamburger { display: none; cursor: pointer; z-index: 1000; }
-    .hamburger span { display: block; width: 28px; height: 3px; background: var(--primary); margin: 6px; transition: 0.3s; }
-    .nav-links a {
-      margin-left: 2rem;
-      font-weight: bold;
-      text-transform: uppercase;
-      font-size: 0.95rem;
-      transition: 0.3s;
-    }
+    .logo { font-family: 'Orbitron'; font-size: 2rem; color: var(--primary); text-transform: uppercase; cursor: pointer; }
+    .nav-links a { color: #fff; text-decoration: none; margin-left: 20px; font-weight: bold; text-transform: uppercase; transition: 0.3s; }
     .nav-links a:hover { color: var(--primary); }
 
+    /* Hero Section */
+    .hero {
+      height: 60vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      background: linear-gradient(0deg, #050505 0%, rgba(0,0,0,0.6) 100%), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80');
+      background-size: cover; background-position: center;
+      text-align: center; padding-top: 60px;
+    }
+    .hero h1 { font-family: 'Orbitron'; font-size: 4rem; text-transform: uppercase; text-shadow: 0 0 20px var(--primary); margin-bottom: 10px; }
+    .hero p { font-size: 1.5rem; letter-spacing: 2px; color: #ccc; }
+
+    /* Filters */
+    .filter-container {
+      display: flex; justify-content: center; gap: 20px; padding: 40px 0; background: #080808; position: sticky; top: 80px; z-index: 900;
+    }
+    .filter-btn {
+      background: transparent; border: 2px solid #333; color: #fff;
+      padding: 10px 30px; font-family: 'Orbitron'; cursor: pointer;
+      font-size: 1rem; transition: 0.3s; text-transform: uppercase;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--primary); background: var(--primary); box-shadow: 0 0 15px var(--primary);
+    }
+
     /* Inventory Grid */
-    .inventory-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 40px;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 100px 5% 80px;
-    }
+    .inventory-section { max-width: 1600px; margin: 0 auto; padding: 20px 5% 100px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px; }
+
+    /* Card Styling */
     .ride-card {
-      background: var(--card);
-      border: 2px solid #333;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: 0.4s;
-      text-align: center;
+      background: var(--card); border: 1px solid #333; position: relative;
+      transition: all 0.4s ease; overflow: hidden;
     }
-    .ride-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-15px);
-      box-shadow: 0 0 40px var(--glow);
+    .ride-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+    
+    .img-box { height: 250px; overflow: hidden; position: relative; }
+    .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .ride-card:hover .img-box img { transform: scale(1.1); }
+    
+    .status-badge {
+      position: absolute; top: 10px; right: 10px; padding: 5px 15px;
+      font-family: 'Orbitron'; font-size: 0.8rem; font-weight: bold; z-index: 2;
     }
-    .ride-card img { width: 100%; height: 250px; object-fit: cover; }
-    .ride-info { padding: 20px; }
-    .ride-info h3 { color: var(--primary); font-size: 1.8rem; margin-bottom: 10px; }
-    .ride-info p { margin-bottom: 15px; }
-    .price { color: var(--primary); font-size: 1.5rem; font-weight: bold; margin: 10px 0; }
-    .buy-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 14px;
-      width: 100%;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 1rem;
-      border-radius: 6px;
-    }
+    .status-sale { background: var(--primary); color: white; }
+    .status-upcoming { background: var(--neon-blue); color: black; box-shadow: 0 0 10px var(--neon-blue); }
 
-    footer {
-      text-align: center;
-      padding: 50px;
-      background: #000;
-      border-top: 1px solid #333;
-      font-size: 1rem;
+    .details { padding: 25px; }
+    .title { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
+    .specs { color: #888; font-size: 0.9rem; margin-bottom: 20px; display: flex; gap: 15px; }
+    .price { font-size: 1.8rem; color: var(--primary); font-weight: 700; display: block; margin-bottom: 20px; }
+    
+    /* Stripe Buttons */
+    .stripe-btn {
+      display: block; width: 100%; padding: 15px; text-align: center;
+      background: transparent; border: 2px solid var(--primary); color: var(--primary);
+      text-decoration: none; font-family: 'Orbitron'; font-weight: 900; letter-spacing: 1px;
+      transition: 0.3s;
     }
+    .stripe-btn:hover { background: var(--primary); color: white; box-shadow: 0 0 20px var(--primary-dim); }
+    
+    .upcoming-btn {
+      border-color: var(--neon-blue); color: var(--neon-blue);
+    }
+    .upcoming-btn:hover { background: var(--neon-blue); color: black; box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); }
 
-    @media (max-width: 768px) {
-      .logo { font-size: 2.2rem; }
-      .nav-links {
-        position: fixed; top: 0; right: -100%; height: 100vh; width: 70%;
-        background: #000; flex-direction: column; justify-content: center;
-        align-items: center; transition: 0.4s; padding-top: 80px; z-index: 998;
-      }
-      .nav-links a { margin: 20px 0; font-size: 1.4rem; }
-      .nav-links.active { right: 0; }
-      .hamburger { display: block; }
-    }
-
-    section h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
-      color: var(--primary);
-      text-shadow: 0 0 20px var(--glow);
-      margin-bottom: 50px;
-      animation: neonPulse 2s infinite alternate;
-      text-align: center;
-      padding-top: 80px;
-    }
-
-    @keyframes neonPulse {
-      from { text-shadow: 0 0 15px var(--primary), 0 0 30px var(--glow); }
-      to { text-shadow: 0 0 25px var(--primary), 0 0 50px var(--glow); }
-    }
+    /* Footer */
+    footer { text-align: center; padding: 50px; border-top: 1px solid #333; margin-top: 50px; background: #000; }
   </style>
 </head>
 <body>
 
-  <!-- SNIPCART -->
-  <div hidden id="snipcart" data-api-key="MzJkOTliNWEtMmVlNi00MTU5LTllZDEtNDgwNzBlZjFmNGZmNjM4OTgwMjcwNzk3MDQ2MTA5"></div>
-
-  <!-- NAV -->
   <nav>
     <div class="logo" onclick="window.location.href='index.html'">CHANDRA</div>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </div>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html#shop">BACK TO SHOP</a>
-      <a href="index.html#digital">DIGITAL DROPS</a>
-      <a href="index.html#courses">COURSES</a>
-      <a href="index.html#gallery">GALLERY</a>
-      <a href="index.html#services">SERVICES</a>
-      <a href="index.html#careers">CAREERS</a>
-      <a href="index.html#open-land">OPEN LAND</a>
-      <a href="index.html#membership">MEMBERSHIP</a>
-      <a href="index.html#community">COMMUNITY</a>
-      <a href="mailto:drop@chandra.com">CONTACT</a>
-      <a href="#" class="snipcart-checkout" style="color:var(--primary);">CART (<span class="snipcart-items-count">0</span>)</a>
+    <div class="nav-links">
+      <a href="index.html">Back to Empire</a>
+      <a href="#inventory">Inventory</a>
+      <a href="mailto:sales@chandra.com">Contact Sales</a>
     </div>
   </nav>
 
-  <!-- INVENTORY SECTION -->
-  <section id="inventory">
-    <h2>THUG RIDE INVENTORY</h2>
-    <div class="inventory-grid">
+  <header class="hero">
+    <h1>Thug Mode Garage</h1>
+    <p>Own the Streets. Build the Empire.</p>
+  </header>
 
-      <div class="ride-card">
-        <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&q=80" alt="2016 Lexus GS">
-        <div class="ride-info">
-          <h3>2016 LEXUS GS</h3>
-          <p>Luxury midsize sedan with powerful engine, sleek design, and advanced tech. Perfect for the thug mode hustle.</p>
-          <p class="price">$22,500</p>
-          <button class="buy-btn snipcart-add-item"
-            data-item-id="lexus-gs-2016"
-            data-item-price="22500"
-            data-item-name="2016 Lexus GS"
-            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
-            data-item-description="Luxury midsize sedan ready for empire building.">
-            BUY NOW
-          </button>
+  <div class="filter-container">
+    <button class="filter-btn active" onclick="filterSelection('all')">All Rides</button>
+    <button class="filter-btn" onclick="filterSelection('cars')">Cars</button>
+    <button class="filter-btn" onclick="filterSelection('bikes')">Motorcycles</button>
+    <button class="filter-btn" onclick="filterSelection('upcoming')" style="border-color: var(--neon-blue);">Upcoming</button>
+  </div>
+
+  <section class="inventory-section" id="inventory">
+    <div class="grid">
+
+      <div class="ride-card filter-item cars">
+        <span class="status-badge status-sale">FOR SALE</span>
+        <div class="img-box"><img src="https://images.unsplash.com/photo-1603584173870-7b299f589c76?auto=format&fit=crop&q=80" alt="Mustang"></div>
+        <div class="details">
+          <div class="title">Ford Mustang GT "Dark Horse"</div>
+          <div class="specs"><span><i class="fas fa-tachometer-alt"></i> 480 HP</span><span><i class="fas fa-gas-pump"></i> V8</span></div>
+          <span class="price">$55,000</span>
+          <a href="https://buy.stripe.com/test_REPLACE_WITH_YOUR_LINK_1" class="stripe-btn">BUY NOW</a>
         </div>
       </div>
 
-      <div class="ride-card">
-        <img src="https://images.unsplash.com/photo-1507136566006-c5f32ff5d65d?auto=format&fit=crop&q=80" alt="2019 Genesis G80">
-        <div class="ride-info">
-          <h3>2019 GENESIS G80</h3>
-          <p>Elegant and refined luxury sedan with premium features, comfort, and performance for conquering the streets.</p>
-          <p class="price">$24,000</p>
-          <button class="buy-btn snipcart-add-item"
-            data-item-id="genesis-g80-2019"
-            data-item-price="24000"
-            data-item-name="2019 Genesis G80"
-            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
-            data-item-description="Premium luxury sedan for the ultimate thug mode experience.">
-            BUY NOW
-          </button>
+      <div class="ride-card filter-item bikes">
+        <span class="status-badge status-sale">FOR SALE</span>
+        <div class="img-box"><img src="https://images.unsplash.com/photo-1558981806-ec527fa84f3d?auto=format&fit=crop&q=80" alt="Harley"></div>
+        <div class="details">
+          <div class="title">Harley Davidson Iron 883</div>
+          <div class="specs"><span><i class="fas fa-road"></i> Cruiser</span><span><i class="fas fa-cog"></i> 883cc</span></div>
+          <span class="price">$12,500</span>
+          <a href="https://buy.stripe.com/test_REPLACE_WITH_YOUR_LINK_2" class="stripe-btn">BUY NOW</a>
         </div>
       </div>
 
-      <div class="ride-card">
-        <img src="https://images.unsplash.com/photo-1541348263662-e068662d82af?auto=format&fit=crop&q=80" alt="2019 BMW 5-Series">
-        <div class="ride-info">
-          <h3>2019 BMW 5-SERIES</h3>
-          <p>Dynamic luxury sedan blending sporty handling with sophisticated tech. Build your empire on wheels.</p>
-          <p class="price">$23,800</p>
-          <button class="buy-btn snipcart-add-item"
-            data-item-id="bmw-5series-2019"
-            data-item-price="23800"
-            data-item-name="2019 BMW 5-Series"
-            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
-            data-item-description="Sporty luxury sedan for devpreneurs on the move.">
-            BUY NOW
-          </button>
+      <div class="ride-card filter-item cars">
+        <span class="status-badge status-sale">FOR SALE</span>
+        <div class="img-box"><img src="https://images.unsplash.com/photo-1503376763036-066120622c74?auto=format&fit=crop&q=80" alt="Audi"></div>
+        <div class="details">
+          <div class="title">Audi RS7 Sportback</div>
+          <div class="specs"><span><i class="fas fa-bolt"></i> Twin-Turbo</span><span><i class="fas fa-star"></i> Luxury</span></div>
+          <span class="price">$118,000</span>
+          <a href="https://buy.stripe.com/test_REPLACE_WITH_YOUR_LINK_3" class="stripe-btn">BUY NOW</a>
         </div>
       </div>
 
-      <div class="ride-card">
-        <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80" alt="2018 Lexus GX">
-        <div class="ride-info">
-          <h3>2018 LEXUS GX</h3>
-          <p>Rugged luxury SUV with off-road capability and premium interior. Conquer any terrain in thug style.</p>
-          <p class="price">$24,500</p>
-          <button class="buy-btn snipcart-add-item"
-            data-item-id="lexus-gx-2018"
-            data-item-price="24500"
-            data-item-name="2018 Lexus GX"
-            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
-            data-item-description="Luxury SUV for empire expansion beyond the code.">
-            BUY NOW
-          </button>
+      <div class="ride-card filter-item upcoming">
+        <span class="status-badge status-upcoming">FALL 2025</span>
+        <div class="img-box"><img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80" alt="Concept"></div>
+        <div class="details">
+          <div class="title" style="color:var(--neon-blue);">Chandra X-1 Hypercar</div>
+          <div class="specs"><span><i class="fas fa-charging-station"></i> Electric</span><span><i class="fas fa-shield-alt"></i> Armored</span></div>
+          <span class="price" style="color:#fff;">RESERVE: $5,000</span>
+          <a href="https://buy.stripe.com/test_REPLACE_WITH_YOUR_LINK_4" class="stripe-btn upcoming-btn">PRE-ORDER</a>
         </div>
       </div>
 
-      <div class="ride-card">
-        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80" alt="2017 Audi A4">
-        <div class="ride-info">
-          <h3>2017 AUDI A4</h3>
-          <p>Compact luxury sedan with sharp design, tech-savvy interior, and agile performance for the modern hustler.</p>
-          <p class="price">$21,000</p>
-          <button class="buy-btn snipcart-add-item"
-            data-item-id="audi-a4-2017"
-            data-item-price="21000"
-            data-item-name="2017 Audi A4"
-            data-item-url="https://chandrahere.github.io/Chandra.com/thug-ride.html"
-            data-item-description="Agile luxury sedan to fuel your dev empire.">
-            BUY NOW
-          </button>
+      <div class="ride-card filter-item bikes">
+        <span class="status-badge status-sale">FOR SALE</span>
+        <div class="img-box"><img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80" alt="Ducati"></div>
+        <div class="details">
+          <div class="title">Ducati Streetfighter V4</div>
+          <div class="specs"><span><i class="fas fa-fire"></i> Sport</span><span><i class="fas fa-motorcycle"></i> 1100cc</span></div>
+          <span class="price">$22,000</span>
+          <a href="https://buy.stripe.com/test_REPLACE_WITH_YOUR_LINK_5" class="stripe-btn">BUY NOW</a>
         </div>
       </div>
-
-    </div>
+      
+      </div>
   </section>
 
   <footer>
-    ©️ 2025 Chandra.com • Thug Mode Forever • <a href="https://x.com/ChanduNaveen5" style="color:var(--primary);" rel="noopener noreferrer">@ChanduNaveen5</a>
+    <p>© 2025 Chandra Empire. Powered by Stripe.</p>
   </footer>
 
   <script>
-    function toggleMenu() {
-      document.getElementById('navLinks').classList.toggle('active');
+    // FILTER SCRIPT
+    filterSelection("all")
+    function filterSelection(c) {
+      var x, i;
+      x = document.getElementsByClassName("filter-item");
+      if (c == "all") c = "";
+      for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "show");
+        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+      }
+      // Update Active Button
+      var btnContainer = document.querySelector(".filter-container");
+      var btns = btnContainer.getElementsByClassName("filter-btn");
+      for (var k = 0; k < btns.length; k++) {
+        btns[k].classList.remove("active");
+        if(btns[k].getAttribute("onclick").includes(c || 'all')) {
+            btns[k].classList.add("active");
+        }
+      }
+    }
+
+    function w3AddClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+      }
+      element.style.display = "block"; // Helper to ensure display
+    }
+
+    function w3RemoveClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        while (arr1.indexOf(arr2[i]) > -1) {
+          arr1.splice(arr1.indexOf(arr2[i]), 1);     
+        }
+      }
+      element.className = arr1.join(" ");
+      element.style.display = "none"; // Helper to hide
     }
   </script>
 </body>
