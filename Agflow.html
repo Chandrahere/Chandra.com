@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AgriFlow Pro v1.1 • Billing Edition</title>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    /* === CSS STYLES (Professional Dark Theme) === */
+    :root {
+      --bg-body: #0f172a; --bg-panel: #1e293b;
+      --text-main: #f8fafc; --text-muted: #94a3b8;
+      --primary: #3b82f6; --success: #10b981; --danger: #ef4444; --border: #334155;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; overflow: hidden; }
+
+    /* SIDEBAR */
+    aside { width: 260px; background-color: #020617; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; }
+    .logo { font-size: 1.25rem; font-weight: 700; margin-bottom: 40px; display: flex; align-items: center; gap: 10px; }
+    .nav-btn { padding: 12px 16px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; color: var(--text-muted); transition: 0.2s; display: flex; align-items: center; gap: 12px; font-weight: 500; }
+    .nav-btn:hover, .nav-btn.active { background-color: var(--primary); color: white; }
+
+    /* MAIN */
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    header { height: 64px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 32px; }
+    .view-container { flex: 1; padding: 32px; overflow-y: auto; display: none; }
+    .view-container.active { display: block; animation: fadein 0.3s; }
+    @keyframes fadein { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* COMPONENTS */
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
+    .stat-card { background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .stat-value { font-size: 2rem; font-weight: 700; }
+    
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .data-table th, .data-table td { text-align: left; padding: 12px; border-bottom: 1px solid #334155; }
+    .data-table th { color: var(--text-muted); font-size: 0.875rem; }
+    
+    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; }
+    .btn-primary { background-color: var(--primary); color: white; }
+    .btn-success { background-color: var(--success); color: white; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+
+    /* MODAL */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 100; display: none; justify-content: center; align-items: center; }
+    .modal-box { background: var(--bg-panel); border: 1px solid var(--border); padding: 32px; border-radius: 16px; width: 400px; }
+    input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border); color: white; border-radius: 6px; margin-bottom: 16px; outline: none; }
+    
+    /* CHART BARS */
+    .chart-box { height: 200px; display: flex; align-items: flex-end; gap: 8px; padding-top: 20px; }
+    .bar { flex: 1; background: var(--primary); opacity: 0.7; border-radius: 4px 4px 0 0; position: relative; }
+    .bar:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <div class="logo">
+      <span style="color:var(--primary)">📄 AgriFlow</span> &nbsp;Pro
+    </div>
+    <div class="nav-btn active" onclick="switchView('dashboard', this)">📊 Dashboard</div>
+    <div class="nav-btn" onclick="switchView('inventory', this)">📦 Inventory</div>
+    <div class="nav-btn" onclick="switchView('sales', this)">💰 Sales & Bills</div>
+    <div style="margin-top:auto;">
+      <button class="nav-btn" onclick="resetData()" style="color:var(--danger)">Reset System</button>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <h2>Business Overview</h2>
+      <span style="font-size:0.9rem; color:var(--text-muted)">User: <b>Admin</b></span>
+    </header>
+
+    <div id="view-dashboard" class="view-container active">
+      <div class="grid-3">
+        <div class="stat-card">
+          <div style="color:var(--text-muted); font-size:0.9rem;">Total Revenue</div>
+          <div class="stat-value" id="totalRev">$0</div>
+        </div>
+        <div class="stat-card">
+          <div style="color:var(--text-muted); font-size:0.9rem;">Stock Value</div>
+          <div class="stat-value" id="stockVal">$0</div>
+        </div>
+        <div class="stat-card">
+          <div style="color:var(--text-muted); font-size:0.9rem;">Active Products</div>
+          <div class="stat-value" id="prodCount">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <h3>Revenue Trend</h3>
+        <div class="chart-box" id="revenueChart"></div>
+      </div>
+    </div>
+
+    <div id="view-inventory" class="view-container">
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>Stock Management</h2>
+        <button class="btn btn-primary" onclick="openModal('add')">+ Add Product</button>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Product</th><th>Category</th><th>Qty (kg)</th><th>Price</th><th>Action</th></tr></thead>
+        <tbody id="inventoryTable"></tbody>
+      </table>
+    </div>
+
+    <div id="view-sales" class="view-container">
+      <h2>Transaction History</h2>
+      <table class="data-table">
+        <thead><tr><th>Date</th><th>Description</th><th>Buyer</th><th>Amount</th><th>Invoice</th></tr></thead>
+        <tbody id="salesTable"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <div class="modal-overlay" id="addModal">
+    <div class="modal-box">
+      <h3>Add Inventory</h3><br>
+      <input type="text" id="inpName" placeholder="Product Name">
+      <select id="inpCat"><option>Raw Material</option><option>Finished Goods</option></select>
+      <input type="number" id="inpQty" placeholder="Quantity">
+      <input type="number" id="inpPrice" placeholder="Price per Unit">
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProduct()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="sellModal">
+    <div class="modal-box">
+      <h3>Generate Bill</h3><br>
+      <p id="sellProdName" style="color:var(--primary); margin-bottom:10px;">...</p>
+      
+      <label style="font-size:0.8rem; color:#aaa;">Buyer Name (For Bill)</label>
+      <input type="text" id="buyerName" placeholder="e.g. Reliance Fresh">
+      
+      <label style="font-size:0.8rem; color:#aaa;">Quantity to Sell</label>
+      <input type="number" id="sellQty" placeholder="0">
+      
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-success" onclick="confirmSell()">Confirm & Print PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. STATE & DATA
+    const defaultData = {
+      inventory: [ { id: 1, name: "Premium Cotton", cat: "Raw Material", qty: 500, price: 4.5 } ],
+      transactions: [],
+      revenue: 0
+    };
+    let appState = JSON.parse(localStorage.getItem('agriBillState')) || defaultData;
+    let selectedProdId = null;
+
+    // 2. RENDER LOGIC
+    function renderAll() {
+      // Stats
+      let stockVal = appState.inventory.reduce((acc, i) => acc + (i.qty * i.price), 0);
+      document.getElementById('totalRev').innerText = `$${appState.revenue.toLocaleString()}`;
+      document.getElementById('stockVal').innerText = `$${stockVal.toLocaleString()}`;
+      document.getElementById('prodCount').innerText = appState.inventory.length;
+
+      // Chart
+      const chartBox = document.getElementById('revenueChart');
+      chartBox.innerHTML = '';
+      for(let i=0; i<7; i++) {
+        let h = Math.min(100, (appState.revenue / 5000) * (i+1) * 10) || 10;
+        chartBox.innerHTML += `<div class="bar" style="height:${h}%;"></div>`;
+      }
+
+      // Inventory Table
+      const invBody = document.getElementById('inventoryTable');
+      invBody.innerHTML = '';
+      appState.inventory.forEach(i => {
+        invBody.innerHTML += `
+          <tr>
+            <td><b>${i.name}</b></td>
+            <td>${i.cat}</td>
+            <td>${i.qty}</td>
+            <td>$${i.price}</td>
+            <td><button class="btn btn-sm btn-success" onclick="openSellModal(${i.id})">Sell</button></td>
+          </tr>`;
+      });
+
+      // Sales Table
+      const salesBody = document.getElementById('salesTable');
+      salesBody.innerHTML = '';
+      appState.transactions.slice().reverse().forEach(tx => {
+        salesBody.innerHTML += `
+          <tr>
+            <td style="color:#aaa">${tx.date}</td>
+            <td>${tx.desc}</td>
+            <td>${tx.buyer || 'Unknown'}</td>
+            <td style="color:var(--success); font-weight:bold;">+$${tx.amount}</td>
+            <td><button class="btn btn-sm btn-outline" onclick="reprintInvoice('${tx.id}')">📄 PDF</button></td>
+          </tr>`;
+      });
+
+      localStorage.setItem('agriBillState', JSON.stringify(appState));
+    }
+
+    // 3. ACTIONS
+    function saveProduct() {
+      const name = document.getElementById('inpName').value;
+      const qty = parseFloat(document.getElementById('inpQty').value);
+      const price = parseFloat(document.getElementById('inpPrice').value);
+      if(name && qty) {
+        appState.inventory.push({ id: Date.now(), name, cat: "Raw", qty, price });
+        closeModal(); renderAll();
+      }
+    }
+
+    function openSellModal(id) {
+      selectedProdId = id;
+      const prod = appState.inventory.find(i => i.id === id);
+      document.getElementById('sellProdName').innerText = `Selling: ${prod.name} (Available: ${prod.qty})`;
+      document.getElementById('sellModal').style.display = 'flex';
+    }
+
+    // === 4. THE INVOICE ENGINE (PDF LOGIC) ===
+    async function confirmSell() {
+      const qty = parseFloat(document.getElementById('sellQty').value);
+      const buyer = document.getElementById('buyerName').value || "Cash Customer";
+      const prodIdx = appState.inventory.findIndex(i => i.id === selectedProdId);
+      const prod = appState.inventory[prodIdx];
+
+      if(qty > 0 && qty <= prod.qty) {
+        // Update Logic
+        prod.qty -= qty;
+        const total = qty * prod.price;
+        appState.revenue += total;
+        
+        const tx = {
+          id: Date.now(),
+          date: new Date().toLocaleDateString(),
+          desc: `Sold ${prod.name}`,
+          buyer: buyer,
+          amount: total,
+          item: prod.name,
+          qty: qty,
+          price: prod.price
+        };
+        appState.transactions.push(tx);
+        
+        closeModal();
+        renderAll();
+        
+        // TRIGGER PDF
+        generatePDF(tx);
+        alert("Transaction Saved! Downloading Invoice...");
+      } else {
+        alert("Invalid Quantity");
+      }
+    }
+
+    function reprintInvoice(txId) {
+      // Convert ID to number because localStorage stores JSON which keeps numbers, but sometimes HTML attributes assume strings.
+      // Comparing loosely or ensuring type safety.
+      const tx = appState.transactions.find(t => t.id == txId);
+      if(tx) generatePDF(tx);
+    }
+
+    function generatePDF(tx) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // HEADER
+      doc.setFontSize(22);
+      doc.setTextColor(59, 130, 246); // Primary Blue
+      doc.text("AgriFlow Pro", 10, 20);
+      
+      doc.setFontSize(10);
+      doc.setTextColor(100);
+      doc.text("Digital Supply Chain Solutions", 10, 26);
+      doc.text("Hyderabad, India - 500081", 10, 31);
+
+      // BILL DETAILS
+      doc.setDrawColor(200);
+      doc.line(10, 35, 200, 35);
+      
+      doc.setFontSize(14);
+      doc.setTextColor(0);
+      doc.text("INVOICE", 150, 20);
+      
+      doc.setFontSize(10);
+      doc.text(`Invoice ID: #${tx.id}`, 150, 26);
+      doc.text(`Date: ${tx.date}`, 150, 31);
+
+      // BILL TO
+      doc.setFontSize(12);
+      doc.text("Bill To:", 10, 50);
+      doc.setFontSize(14);
+      doc.setFont("helvetica", "bold");
+      doc.text(tx.buyer, 10, 58);
+
+      // TABLE HEADER
+      doc.setFillColor(240, 240, 240);
+      doc.rect(10, 70, 190, 10, 'F');
+      doc.setFontSize(10);
+      doc.text("Item Description", 15, 76);
+      doc.text("Qty", 110, 76);
+      doc.text("Price", 140, 76);
+      doc.text("Total", 170, 76);
+
+      // TABLE CONTENT
+      doc.setFont("helvetica", "normal");
+      doc.text(tx.item, 15, 90);
+      doc.text(String(tx.qty), 110, 90);
+      doc.text("$" + String(tx.price), 140, 90);
+      doc.setFont("helvetica", "bold");
+      doc.text("$" + String(tx.amount), 170, 90);
+      
+      doc.line(10, 95, 200, 95);
+
+      // TOTAL
+      doc.text("GRAND TOTAL:", 140, 110);
+      doc.setFontSize(16);
+      doc.setTextColor(16, 185, 129); // Green
+      doc.text("$" + String(tx.amount), 170, 110);
+
+      // FOOTER
+      doc.setFontSize(10);
+      doc.setTextColor(150);
+      doc.text("Thank you for your business!", 10, 140);
+      doc.text("Authorized Signature (System Generated)", 10, 145);
+
+      doc.save(`Invoice_${tx.buyer}_${tx.id}.pdf`);
+    }
+
+    // UI Helpers
+    function switchView(v, btn) {
+      document.querySelectorAll('.view-container').forEach(e=>e.classList.remove('active'));
+      document.getElementById('view-'+v).classList.add('active');
+      if(btn) {
+        document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
+        btn.classList.add('active');
+      }
+    }
+    function openModal(t) { document.getElementById(t+'Modal').style.display = 'flex'; }
+    function closeModal() { document.querySelectorAll('.modal-overlay').forEach(e=>e.style.display='none'); }
+    function resetData() { localStorage.removeItem('agriBillState'); location.reload(); }
+
+    renderAll();
+  </script>
+</body>
+</html>
