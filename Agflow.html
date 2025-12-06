@@ -3,115 +3,161 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AgriFlow Pro v1.1 • Billing Edition</title>
+  <title>AgriFlow Pro • Multi-User Business Suite</title>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <style>
-    /* === CSS STYLES (Professional Dark Theme) === */
     :root {
       --bg-body: #0f172a; --bg-panel: #1e293b;
       --text-main: #f8fafc; --text-muted: #94a3b8;
-      --primary: #3b82f6; --success: #10b981; --danger: #ef4444; --border: #334155;
+      --primary: #3b82f6; --success: #10b981; --danger: #ef4444; 
+      --border: #334155; --brand: #f59e0b;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
     body { background-color: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; overflow: hidden; }
 
     /* SIDEBAR */
-    aside { width: 260px; background-color: #020617; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; }
-    .logo { font-size: 1.25rem; font-weight: 700; margin-bottom: 40px; display: flex; align-items: center; gap: 10px; }
+    aside { width: 260px; background-color: #020617; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; z-index: 10; }
+    .logo { font-size: 1.4rem; font-weight: 700; margin-bottom: 40px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
     .nav-btn { padding: 12px 16px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; color: var(--text-muted); transition: 0.2s; display: flex; align-items: center; gap: 12px; font-weight: 500; }
     .nav-btn:hover, .nav-btn.active { background-color: var(--primary); color: white; }
-
+    
     /* MAIN */
-    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-    header { height: 64px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 32px; }
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    header { height: 70px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 32px; background: var(--bg-panel); }
+    .user-profile { display: flex; align-items: center; gap: 10px; }
+    .avatar { width: 35px; height: 35px; background: var(--brand); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black; }
+
     .view-container { flex: 1; padding: 32px; overflow-y: auto; display: none; }
     .view-container.active { display: block; animation: fadein 0.3s; }
-    @keyframes fadein { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* COMPONENTS */
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
-    .stat-card { background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
-    .stat-value { font-size: 2rem; font-weight: 700; }
+    /* CARDS & TABLES */
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 32px; }
+    .stat-card { background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    .stat-value { font-size: 2rem; font-weight: 700; margin-top: 10px; color: var(--primary); }
     
-    .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-    .data-table th, .data-table td { text-align: left; padding: 12px; border-bottom: 1px solid #334155; }
-    .data-table th { color: var(--text-muted); font-size: 0.875rem; }
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; background: var(--bg-panel); border-radius: 8px; overflow: hidden; }
+    .data-table th, .data-table td { text-align: left; padding: 16px; border-bottom: 1px solid #334155; }
+    .data-table th { background: #0f172a; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
     
-    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; }
+    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn:hover { transform: translateY(-1px); }
     .btn-primary { background-color: var(--primary); color: white; }
     .btn-success { background-color: var(--success); color: white; }
-    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+    .btn-excel { background-color: #107c41; color: white; }
     .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
 
     /* MODAL */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 100; display: none; justify-content: center; align-items: center; }
-    .modal-box { background: var(--bg-panel); border: 1px solid var(--border); padding: 32px; border-radius: 16px; width: 400px; }
-    input, select { width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border); color: white; border-radius: 6px; margin-bottom: 16px; outline: none; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 100; display: none; justify-content: center; align-items: center; }
+    .modal-box { background: var(--bg-panel); border: 1px solid var(--border); padding: 32px; border-radius: 16px; width: 450px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
     
-    /* CHART BARS */
-    .chart-box { height: 200px; display: flex; align-items: flex-end; gap: 8px; padding-top: 20px; }
-    .bar { flex: 1; background: var(--primary); opacity: 0.7; border-radius: 4px 4px 0 0; position: relative; }
-    .bar:hover { opacity: 1; }
+    .input-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.9rem; }
+    input, select { width: 100%; padding: 12px; background: #0f172a; border: 1px solid var(--border); color: white; border-radius: 6px; outline: none; transition: 0.2s; }
+    input:focus { border-color: var(--primary); }
+
   </style>
 </head>
 <body>
 
-  <aside>
-    <div class="logo">
-      <span style="color:var(--primary)">📄 AgriFlow</span> &nbsp;Pro
+  <div class="modal-overlay" id="loginModal" style="display:flex;">
+    <div class="modal-box" style="text-align:center;">
+      <h2 style="color:var(--primary); margin-bottom:10px;">AgriFlow Business Login</h2>
+      <p style="color:var(--text-muted); margin-bottom:20px;">Enter your business details to manage inventory.</p>
+      
+      <div class="input-group" style="text-align:left;">
+        <label>Business Name</label>
+        <input type="text" id="loginName" placeholder="e.g. Siva Traders">
+      </div>
+      <div class="input-group" style="text-align:left;">
+        <label>Location / City</label>
+        <input type="text" id="loginLoc" placeholder="e.g. Guntur">
+      </div>
+      <div class="input-group" style="text-align:left;">
+        <label>Email ID (Simulated)</label>
+        <input type="email" id="loginEmail" placeholder="user@gmail.com">
+      </div>
+      
+      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="loginUser()">Access Dashboard</button>
     </div>
-    <div class="nav-btn active" onclick="switchView('dashboard', this)">📊 Dashboard</div>
-    <div class="nav-btn" onclick="switchView('inventory', this)">📦 Inventory</div>
-    <div class="nav-btn" onclick="switchView('sales', this)">💰 Sales & Bills</div>
-    <div style="margin-top:auto;">
-      <button class="nav-btn" onclick="resetData()" style="color:var(--danger)">Reset System</button>
+  </div>
+
+  <aside>
+    <div class="logo"><i class="fas fa-leaf" style="color:var(--success)"></i> AgriFlow Pro</div>
+    <div class="nav-btn active" onclick="switchView('dashboard', this)"><i class="fas fa-chart-pie"></i> Dashboard</div>
+    <div class="nav-btn" onclick="switchView('inventory', this)"><i class="fas fa-boxes"></i> Inventory</div>
+    <div class="nav-btn" onclick="switchView('sales', this)"><i class="fas fa-file-invoice-dollar"></i> Sales History</div>
+    
+    <div style="margin-top:auto; padding-top:20px; border-top:1px solid var(--border);">
+      <button class="nav-btn" onclick="exportMasterReport()" style="color:var(--brand)"><i class="fas fa-file-excel"></i> Admin Report</button>
+      <button class="nav-btn" onclick="logout()" style="color:var(--danger)"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
   </aside>
 
   <main>
     <header>
-      <h2>Business Overview</h2>
-      <span style="font-size:0.9rem; color:var(--text-muted)">User: <b>Admin</b></span>
+      <h2 id="headerTitle">Dashboard</h2>
+      <div class="user-profile">
+        <div style="text-align:right;">
+          <div id="dispName" style="font-weight:bold;">Guest</div>
+          <div id="dispLoc" style="font-size:0.8rem; color:var(--text-muted)">...</div>
+        </div>
+        <div class="avatar" id="avatarLetter">G</div>
+      </div>
     </header>
 
     <div id="view-dashboard" class="view-container active">
       <div class="grid-3">
         <div class="stat-card">
-          <div style="color:var(--text-muted); font-size:0.9rem;">Total Revenue</div>
-          <div class="stat-value" id="totalRev">$0</div>
+          <div style="color:var(--text-muted);">Total Sales Revenue</div>
+          <div class="stat-value" id="dashRev">$0</div>
         </div>
         <div class="stat-card">
-          <div style="color:var(--text-muted); font-size:0.9rem;">Stock Value</div>
-          <div class="stat-value" id="stockVal">$0</div>
+          <div style="color:var(--text-muted);">Stock Valuation</div>
+          <div class="stat-value" id="dashStock">$0</div>
         </div>
         <div class="stat-card">
-          <div style="color:var(--text-muted); font-size:0.9rem;">Active Products</div>
-          <div class="stat-value" id="prodCount">0</div>
+          <div style="color:var(--text-muted);">Platform Commission (5%)</div>
+          <div class="stat-value" style="color:var(--brand)" id="dashComm">$0</div>
         </div>
       </div>
-      <div class="stat-card">
-        <h3>Revenue Trend</h3>
-        <div class="chart-box" id="revenueChart"></div>
+      
+      <div style="text-align:center; padding:50px; border:2px dashed var(--border); border-radius:12px;">
+        <h3 style="color:var(--text-muted)">Welcome to the Empire Ecosystem</h3>
+        <p style="margin-top:10px;">Manage your products, generate tax invoices, and track profits.</p>
       </div>
     </div>
 
     <div id="view-inventory" class="view-container">
       <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2>Stock Management</h2>
-        <button class="btn btn-primary" onclick="openModal('add')">+ Add Product</button>
+        <h2>My Inventory</h2>
+        <button class="btn btn-primary" onclick="openModal('add')"><i class="fas fa-plus"></i> Add Product</button>
       </div>
       <table class="data-table">
-        <thead><tr><th>Product</th><th>Category</th><th>Qty (kg)</th><th>Price</th><th>Action</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Tax (%)</th>
+            <th>Stock</th>
+            <th>Price/Unit</th>
+            <th>Action</th>
+          </tr>
+        </thead>
         <tbody id="inventoryTable"></tbody>
       </table>
     </div>
 
     <div id="view-sales" class="view-container">
-      <h2>Transaction History</h2>
+      <h2>My Transaction History</h2>
       <table class="data-table">
-        <thead><tr><th>Date</th><th>Description</th><th>Buyer</th><th>Amount</th><th>Invoice</th></tr></thead>
+        <thead><tr><th>Date</th><th>Buyer</th><th>Product</th><th>Total Bill</th><th>Commission</th><th>Invoice</th></tr></thead>
         <tbody id="salesTable"></tbody>
       </table>
     </div>
@@ -119,235 +165,345 @@
 
   <div class="modal-overlay" id="addModal">
     <div class="modal-box">
-      <h3>Add Inventory</h3><br>
-      <input type="text" id="inpName" placeholder="Product Name">
-      <select id="inpCat"><option>Raw Material</option><option>Finished Goods</option></select>
-      <input type="number" id="inpQty" placeholder="Quantity">
-      <input type="number" id="inpPrice" placeholder="Price per Unit">
+      <h3>Add New Product</h3><br>
+      <div class="input-group">
+        <label>Product Name</label>
+        <input type="text" id="inpName">
+      </div>
+      <div class="input-group">
+        <label>Tax Rate (%) - e.g. 18 for GST</label>
+        <input type="number" id="inpTax" value="5">
+      </div>
+      <div class="input-group">
+        <label>Quantity Available</label>
+        <input type="number" id="inpQty">
+      </div>
+      <div class="input-group">
+        <label>Selling Price per Unit ($)</label>
+        <input type="number" id="inpPrice">
+      </div>
       <div style="display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveProduct()">Save</button>
+        <button class="btn" style="background:transparent; color:white; border:1px solid #555;" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProduct()">Save to Inventory</button>
       </div>
     </div>
   </div>
 
   <div class="modal-overlay" id="sellModal">
     <div class="modal-box">
-      <h3>Generate Bill</h3><br>
-      <p id="sellProdName" style="color:var(--primary); margin-bottom:10px;">...</p>
+      <h3 style="border-bottom:1px solid #333; padding-bottom:10px;">Generate Invoice</h3>
+      <p id="sellDetails" style="color:var(--primary); margin:15px 0; font-weight:bold;">...</p>
       
-      <label style="font-size:0.8rem; color:#aaa;">Buyer Name (For Bill)</label>
-      <input type="text" id="buyerName" placeholder="e.g. Reliance Fresh">
+      <div class="input-group">
+        <label>Buyer Name (Client)</label>
+        <input type="text" id="buyerName" placeholder="e.g. Reliance Retail">
+      </div>
+      <div class="input-group">
+        <label>Buyer Location</label>
+        <input type="text" id="buyerLoc" placeholder="e.g. Hyderabad">
+      </div>
+      <div class="input-group">
+        <label>Quantity to Sell</label>
+        <input type="number" id="sellQty" placeholder="0">
+      </div>
       
-      <label style="font-size:0.8rem; color:#aaa;">Quantity to Sell</label>
-      <input type="number" id="sellQty" placeholder="0">
-      
-      <div style="display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-success" onclick="confirmSell()">Confirm & Print PDF</button>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button class="btn" style="background:transparent; color:white; border:1px solid #555;" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-success" onclick="processSale()"><i class="fas fa-print"></i> Sell & Print PDF</button>
       </div>
     </div>
   </div>
 
   <script>
-    // 1. STATE & DATA
-    const defaultData = {
-      inventory: [ { id: 1, name: "Premium Cotton", cat: "Raw Material", qty: 500, price: 4.5 } ],
-      transactions: [],
-      revenue: 0
-    };
-    let appState = JSON.parse(localStorage.getItem('agriBillState')) || defaultData;
+    // === 1. GLOBAL STATE (Simulating Database) ===
+    let currentUser = null; // { name, loc, email }
+    let db = JSON.parse(localStorage.getItem('agflow_master_db_v2')) || {}; 
+    // DB Structure: { "email": { inventory: [], sales: [], details: {} } }
+    
     let selectedProdId = null;
 
-    // 2. RENDER LOGIC
-    function renderAll() {
-      // Stats
-      let stockVal = appState.inventory.reduce((acc, i) => acc + (i.qty * i.price), 0);
-      document.getElementById('totalRev').innerText = `$${appState.revenue.toLocaleString()}`;
-      document.getElementById('stockVal').innerText = `$${stockVal.toLocaleString()}`;
-      document.getElementById('prodCount').innerText = appState.inventory.length;
+    // === 2. AUTHENTICATION ===
+    function loginUser() {
+      const name = document.getElementById('loginName').value;
+      const loc = document.getElementById('loginLoc').value;
+      const email = document.getElementById('loginEmail').value;
 
-      // Chart
-      const chartBox = document.getElementById('revenueChart');
-      chartBox.innerHTML = '';
-      for(let i=0; i<7; i++) {
-        let h = Math.min(100, (appState.revenue / 5000) * (i+1) * 10) || 10;
-        chartBox.innerHTML += `<div class="bar" style="height:${h}%;"></div>`;
+      if(!name || !email) return alert("Please enter details");
+
+      currentUser = { name, loc, email };
+      
+      // Initialize User in DB if new
+      if(!db[email]) {
+        db[email] = {
+          details: { name, loc, email },
+          inventory: [],
+          sales: []
+        };
       }
 
-      // Inventory Table
-      const invBody = document.getElementById('inventoryTable');
-      invBody.innerHTML = '';
-      appState.inventory.forEach(i => {
-        invBody.innerHTML += `
-          <tr>
-            <td><b>${i.name}</b></td>
-            <td>${i.cat}</td>
-            <td>${i.qty}</td>
-            <td>$${i.price}</td>
-            <td><button class="btn btn-sm btn-success" onclick="openSellModal(${i.id})">Sell</button></td>
-          </tr>`;
-      });
-
-      // Sales Table
-      const salesBody = document.getElementById('salesTable');
-      salesBody.innerHTML = '';
-      appState.transactions.slice().reverse().forEach(tx => {
-        salesBody.innerHTML += `
-          <tr>
-            <td style="color:#aaa">${tx.date}</td>
-            <td>${tx.desc}</td>
-            <td>${tx.buyer || 'Unknown'}</td>
-            <td style="color:var(--success); font-weight:bold;">+$${tx.amount}</td>
-            <td><button class="btn btn-sm btn-outline" onclick="reprintInvoice('${tx.id}')">📄 PDF</button></td>
-          </tr>`;
-      });
-
-      localStorage.setItem('agriBillState', JSON.stringify(appState));
+      // UI Update
+      document.getElementById('loginModal').style.display = 'none';
+      document.getElementById('dispName').innerText = name;
+      document.getElementById('dispLoc').innerText = loc;
+      document.getElementById('avatarLetter').innerText = name.charAt(0).toUpperCase();
+      
+      renderDashboard();
     }
 
-    // 3. ACTIONS
+    function logout() { location.reload(); }
+
+    // === 3. DATA MANAGEMENT ===
+    function saveData() {
+      localStorage.setItem('agflow_master_db_v2', JSON.stringify(db));
+    }
+
+    function renderDashboard() {
+      if(!currentUser) return;
+      const userData = db[currentUser.email];
+      
+      // Stats
+      let totalRev = 0, comm = 0;
+      userData.sales.forEach(s => { totalRev += s.total; comm += s.commission; });
+      let stockVal = userData.inventory.reduce((acc, i) => acc + (i.qty * i.price), 0);
+
+      document.getElementById('dashRev').innerText = `$${totalRev.toFixed(2)}`;
+      document.getElementById('dashStock').innerText = `$${stockVal.toFixed(2)}`;
+      document.getElementById('dashComm').innerText = `$${comm.toFixed(2)}`;
+
+      // Render Tables
+      renderInventory();
+      renderSales();
+    }
+
+    function renderInventory() {
+      const tbody = document.getElementById('inventoryTable');
+      tbody.innerHTML = '';
+      db[currentUser.email].inventory.forEach(p => {
+        tbody.innerHTML += `
+          <tr>
+            <td><b>${p.name}</b></td>
+            <td>${p.tax}%</td>
+            <td>${p.qty}</td>
+            <td>$${p.price}</td>
+            <td><button class="btn btn-sm btn-success" onclick="openSellModal(${p.id})">Sell</button></td>
+          </tr>`;
+      });
+    }
+
+    function renderSales() {
+      const tbody = document.getElementById('salesTable');
+      tbody.innerHTML = '';
+      // Show latest first
+      [...db[currentUser.email].sales].reverse().forEach(s => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="color:#aaa; font-size:0.8rem;">${new Date(s.date).toLocaleString()}</td>
+            <td>${s.buyer} (${s.buyerLoc})</td>
+            <td>${s.prodName} (x${s.qty})</td>
+            <td style="color:var(--success); font-weight:bold;">$${s.total.toFixed(2)}</td>
+            <td style="color:var(--brand);">$${s.commission.toFixed(2)}</td>
+            <td><button class="btn btn-sm btn-primary" onclick="reprintPDF('${s.id}')"><i class="fas fa-download"></i></button></td>
+          </tr>`;
+      });
+    }
+
+    // === 4. INVENTORY ACTIONS ===
+    function openModal(type) { 
+      document.getElementById(type+'Modal').style.display = 'flex'; 
+    }
+    function closeModal() { 
+      document.querySelectorAll('.modal-overlay').forEach(e => e.style.display='none'); 
+    }
+
     function saveProduct() {
       const name = document.getElementById('inpName').value;
+      const tax = parseFloat(document.getElementById('inpTax').value) || 0;
       const qty = parseFloat(document.getElementById('inpQty').value);
       const price = parseFloat(document.getElementById('inpPrice').value);
-      if(name && qty) {
-        appState.inventory.push({ id: Date.now(), name, cat: "Raw", qty, price });
-        closeModal(); renderAll();
+
+      if(name && qty > 0) {
+        db[currentUser.email].inventory.push({
+          id: Date.now(),
+          name, tax, qty, price
+        });
+        saveData(); closeModal(); renderDashboard();
       }
     }
 
     function openSellModal(id) {
       selectedProdId = id;
-      const prod = appState.inventory.find(i => i.id === id);
-      document.getElementById('sellProdName').innerText = `Selling: ${prod.name} (Available: ${prod.qty})`;
-      document.getElementById('sellModal').style.display = 'flex';
+      const prod = db[currentUser.email].inventory.find(p => p.id === id);
+      document.getElementById('sellDetails').innerText = `Selling: ${prod.name} | Stock: ${prod.qty}`;
+      openModal('sell');
     }
 
-    // === 4. THE INVOICE ENGINE (PDF LOGIC) ===
-    async function confirmSell() {
-      const qty = parseFloat(document.getElementById('sellQty').value);
+    // === 5. SALES & PDF ENGINE (The "Adhiripoyela" Part) ===
+    function processSale() {
       const buyer = document.getElementById('buyerName').value || "Cash Customer";
-      const prodIdx = appState.inventory.findIndex(i => i.id === selectedProdId);
-      const prod = appState.inventory[prodIdx];
+      const buyerLoc = document.getElementById('buyerLoc').value || "Local";
+      const qty = parseFloat(document.getElementById('sellQty').value);
+      
+      const userInv = db[currentUser.email].inventory;
+      const prodIdx = userInv.findIndex(p => p.id === selectedProdId);
+      const prod = userInv[prodIdx];
 
       if(qty > 0 && qty <= prod.qty) {
-        // Update Logic
+        // Calculations
+        const basePrice = prod.price * qty;
+        const taxAmount = (basePrice * prod.tax) / 100;
+        const finalTotal = basePrice + taxAmount;
+        const commission = finalTotal * 0.05; // 5% Platform Fee
+
+        // Update DB
         prod.qty -= qty;
-        const total = qty * prod.price;
-        appState.revenue += total;
-        
+        if(prod.qty === 0) userInv.splice(prodIdx, 1);
+
         const tx = {
           id: Date.now(),
-          date: new Date().toLocaleDateString(),
-          desc: `Sold ${prod.name}`,
-          buyer: buyer,
-          amount: total,
-          item: prod.name,
-          qty: qty,
-          price: prod.price
+          date: new Date().toISOString(),
+          seller: currentUser.name,
+          sellerLoc: currentUser.loc,
+          buyer, buyerLoc,
+          prodName: prod.name,
+          qty,
+          unitPrice: prod.price,
+          taxRate: prod.tax,
+          taxAmount,
+          total: finalTotal,
+          commission
         };
-        appState.transactions.push(tx);
-        
+
+        db[currentUser.email].sales.push(tx);
+        saveData();
         closeModal();
-        renderAll();
+        renderDashboard();
         
-        // TRIGGER PDF
-        generatePDF(tx);
-        alert("Transaction Saved! Downloading Invoice...");
+        // Generate PDF
+        generateInvoicePDF(tx);
       } else {
-        alert("Invalid Quantity");
+        alert("Invalid Quantity!");
       }
     }
 
-    function reprintInvoice(txId) {
-      // Convert ID to number because localStorage stores JSON which keeps numbers, but sometimes HTML attributes assume strings.
-      // Comparing loosely or ensuring type safety.
-      const tx = appState.transactions.find(t => t.id == txId);
-      if(tx) generatePDF(tx);
+    function reprintPDF(txId) {
+      const tx = db[currentUser.email].sales.find(s => s.id == txId);
+      if(tx) generateInvoicePDF(tx);
     }
 
-    function generatePDF(tx) {
+    function generateInvoicePDF(tx) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
-      // HEADER
+      // BRANDING HEADER
+      doc.setFillColor(15, 23, 42); // Dark Blue Header
+      doc.rect(0, 0, 210, 40, 'F');
+      
+      doc.setTextColor(255, 255, 255);
       doc.setFontSize(22);
-      doc.setTextColor(59, 130, 246); // Primary Blue
-      doc.text("AgriFlow Pro", 10, 20);
-      
-      doc.setFontSize(10);
-      doc.setTextColor(100);
-      doc.text("Digital Supply Chain Solutions", 10, 26);
-      doc.text("Hyderabad, India - 500081", 10, 31);
-
-      // BILL DETAILS
-      doc.setDrawColor(200);
-      doc.line(10, 35, 200, 35);
-      
-      doc.setFontSize(14);
-      doc.setTextColor(0);
-      doc.text("INVOICE", 150, 20);
-      
-      doc.setFontSize(10);
-      doc.text(`Invoice ID: #${tx.id}`, 150, 26);
-      doc.text(`Date: ${tx.date}`, 150, 31);
-
-      // BILL TO
-      doc.setFontSize(12);
-      doc.text("Bill To:", 10, 50);
-      doc.setFontSize(14);
       doc.setFont("helvetica", "bold");
-      doc.text(tx.buyer, 10, 58);
-
-      // TABLE HEADER
-      doc.setFillColor(240, 240, 240);
-      doc.rect(10, 70, 190, 10, 'F');
+      doc.text("INVOICE", 160, 25);
+      
+      doc.setFontSize(16);
+      doc.text(tx.seller, 15, 20); // Seller Name
       doc.setFontSize(10);
-      doc.text("Item Description", 15, 76);
-      doc.text("Qty", 110, 76);
-      doc.text("Price", 140, 76);
-      doc.text("Total", 170, 76);
-
-      // TABLE CONTENT
       doc.setFont("helvetica", "normal");
-      doc.text(tx.item, 15, 90);
-      doc.text(String(tx.qty), 110, 90);
-      doc.text("$" + String(tx.price), 140, 90);
-      doc.setFont("helvetica", "bold");
-      doc.text("$" + String(tx.amount), 170, 90);
+      doc.text(tx.sellerLoc, 15, 28);
       
-      doc.line(10, 95, 200, 95);
+      // DETAILS SECTION
+      doc.setTextColor(0, 0, 0);
+      doc.setFontSize(10);
+      doc.text(`Invoice #: INV-${tx.id}`, 150, 50);
+      doc.text(`Date: ${new Date(tx.date).toLocaleDateString()}`, 150, 55);
 
-      // TOTAL
-      doc.text("GRAND TOTAL:", 140, 110);
+      doc.setFont("helvetica", "bold");
+      doc.text("Bill To:", 15, 50);
+      doc.setFont("helvetica", "normal");
+      doc.text(tx.buyer, 15, 56);
+      doc.text(tx.buyerLoc, 15, 61);
+
+      // TABLE
+      doc.autoTable({
+        startY: 70,
+        head: [['Product Description', 'Qty', 'Unit Price', 'Tax (%)', 'Tax Amt', 'Total']],
+        body: [
+          [
+            tx.prodName, 
+            tx.qty, 
+            `$${tx.unitPrice}`, 
+            `${tx.taxRate}%`, 
+            `$${tx.taxAmount.toFixed(2)}`, 
+            `$${tx.total.toFixed(2)}`
+          ]
+        ],
+        theme: 'grid',
+        headStyles: { fillColor: [59, 130, 246] }
+      });
+
+      // FOOTER TOTALS
+      let finalY = doc.lastAutoTable.finalY + 10;
+      doc.setFontSize(12);
+      doc.text(`Sub Total: $${(tx.unitPrice * tx.qty).toFixed(2)}`, 140, finalY);
+      doc.text(`Tax Total: $${tx.taxAmount.toFixed(2)}`, 140, finalY + 7);
+      
       doc.setFontSize(16);
       doc.setTextColor(16, 185, 129); // Green
-      doc.text("$" + String(tx.amount), 170, 110);
+      doc.setFont("helvetica", "bold");
+      doc.text(`GRAND TOTAL: $${tx.total.toFixed(2)}`, 120, finalY + 18);
 
-      // FOOTER
-      doc.setFontSize(10);
+      // BRANDING FOOTER
       doc.setTextColor(150);
-      doc.text("Thank you for your business!", 10, 140);
-      doc.text("Authorized Signature (System Generated)", 10, 145);
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "italic");
+      doc.text("Powered by CHANDRA EMPIRE • Business Solutions", 105, 280, null, null, "center");
 
       doc.save(`Invoice_${tx.buyer}_${tx.id}.pdf`);
     }
 
-    // UI Helpers
-    function switchView(v, btn) {
-      document.querySelectorAll('.view-container').forEach(e=>e.classList.remove('active'));
-      document.getElementById('view-'+v).classList.add('active');
-      if(btn) {
-        document.querySelectorAll('.nav-btn').forEach(e=>e.classList.remove('active'));
-        btn.classList.add('active');
-      }
-    }
-    function openModal(t) { document.getElementById(t+'Modal').style.display = 'flex'; }
-    function closeModal() { document.querySelectorAll('.modal-overlay').forEach(e=>e.style.display='none'); }
-    function resetData() { localStorage.removeItem('agriBillState'); location.reload(); }
+    // === 6. ADMIN EXPORT (EXCEL) ===
+    function exportMasterReport() {
+      // Flatten all data
+      let masterData = [];
+      
+      Object.keys(db).forEach(email => {
+        const user = db[email];
+        user.sales.forEach(sale => {
+          masterData.push({
+            "Seller Name": user.details.name,
+            "Seller Email": user.details.email,
+            "Seller Location": user.details.loc,
+            "Buyer Name": sale.buyer,
+            "Product": sale.prodName,
+            "Quantity": sale.qty,
+            "Sale Date": new Date(sale.date).toLocaleDateString(),
+            "Total Bill Amount ($)": sale.total,
+            "Our Commission (5%)": sale.commission,
+            "Status": "COMPLETED"
+          });
+        });
+      });
 
-    renderAll();
+      if(masterData.length === 0) return alert("No sales data to export yet!");
+
+      // Generate Worksheet
+      const ws = XLSX.utils.json_to_sheet(masterData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Master Sales Report");
+
+      // Save File
+      XLSX.writeFile(wb, "Chandra_Empire_Master_Report.xlsx");
+    }
+
+    // UI Helpers
+    function switchView(id, btn) {
+      document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-'+id).classList.add('active');
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const titles = {'dashboard':'Dashboard', 'inventory':'Stock Management', 'sales':'Transactions'};
+      document.getElementById('headerTitle').innerText = titles[id];
+    }
+
   </script>
 </body>
 </html>
