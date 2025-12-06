@@ -3,271 +3,254 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>THUG RIDE • CHANDRA GARAGE</title>
+  <title>THUG RIDE • ELITE GARAGE</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <style>
     :root {
-      --primary: #ff0055; /* Neon Red */
-      --primary-glow: rgba(255, 0, 85, 0.6);
+      --neon-red: #ff003c;
       --neon-blue: #00f3ff;
-      --dark-bg: #0a0a0a;
-      --card-bg: #141414;
-      --text: #ffffff;
-      --border: #333;
+      --gold: #ffd700;
+      --bg-dark: #050505;
+      --card-bg: #111;
+      --text-main: #fff;
+      --text-muted: #888;
     }
     
     * { margin:0; padding:0; box-sizing:border-box; }
     
     body {
-      background-color: var(--dark-bg);
-      color: var(--text);
-      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Exo 2', sans-serif;
       overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 50% 50%, #1a1a1a 0%, #000 100%);
     }
 
-    /* === NAVBAR === */
+    /* === PREMIUM NAVBAR === */
     nav {
       position: fixed; top: 0; width: 100%; z-index: 1000;
-      background: rgba(10, 10, 10, 0.9); 
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
       padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
     }
     .logo { 
-      font-family: 'Orbitron'; font-size: 1.8rem; font-weight: 900; 
-      color: #fff; text-transform: uppercase; letter-spacing: 2px;
-      text-shadow: 0 0 10px var(--primary);
+      font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: 2px;
       cursor: pointer;
     }
-    .logo span { color: var(--primary); }
+    .logo span { color: var(--neon-red); }
+    .back-link { color: #fff; text-decoration: none; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+    .back-link:hover { color: var(--neon-blue); }
 
-    .nav-btn {
-      color: #fff; text-decoration: none; font-weight: 700; 
-      border: 1px solid var(--border); padding: 8px 20px; border-radius: 4px;
-      transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
-    }
-    .nav-btn:hover { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
-
-    /* === HERO SECTION === */
+    /* === CINEMATIC HERO === */
     .hero {
-      height: 70vh;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, #0a0a0a 100%), 
-                  url('https://images.unsplash.com/photo-1544613729-f18705f3c93e?auto=format&fit=crop&q=80');
-      background-size: cover; background-position: center; background-attachment: fixed;
-      text-align: center; padding-top: 60px;
+      height: 65vh; position: relative;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+      background: linear-gradient(0deg, #050505 0%, rgba(0,0,0,0.4) 100%), 
+                  url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover; background-position: center;
     }
     .hero h1 { 
-      font-family: 'Orbitron'; font-size: clamp(3rem, 6vw, 6rem); 
-      text-transform: uppercase; font-weight: 900;
-      text-shadow: 2px 2px 0px #000, 0 0 30px var(--primary);
-      margin-bottom: 0; line-height: 1;
+      font-family: 'Orbitron'; font-size: clamp(3rem, 6vw, 5rem); 
+      font-weight: 900; text-transform: uppercase; margin-bottom: 10px;
+      background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-    .hero h1 span { -webkit-text-stroke: 2px white; color: transparent; }
-    .hero p { font-size: 1.5rem; letter-spacing: 4px; color: var(--neon-blue); margin-top: 10px; text-transform: uppercase; font-weight: bold; }
+    .hero p { font-size: 1.2rem; color: var(--neon-blue); letter-spacing: 3px; text-transform: uppercase; }
 
-    /* === FILTERS === */
-    .filter-bar {
-      display: flex; justify-content: center; gap: 15px; padding: 30px 0; 
-      position: sticky; top: 70px; z-index: 900;
-      background: rgba(10,10,10,0.95); border-bottom: 1px solid var(--border);
-    }
+    /* === FILTER BAR === */
+    .filter-sticky { position: sticky; top: 70px; z-index: 900; background: rgba(5,5,5,0.95); padding: 20px 0; border-bottom: 1px solid #222; }
+    .filter-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
     .filter-btn {
-      background: transparent; border: 1px solid #444; color: #aaa;
-      padding: 10px 25px; font-family: 'Orbitron'; cursor: pointer;
-      font-size: 0.9rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
+      background: transparent; border: 1px solid #333; color: #888;
+      padding: 8px 24px; font-family: 'Orbitron'; cursor: pointer;
+      font-size: 0.85rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
     }
     .filter-btn:hover, .filter-btn.active {
-      border-color: var(--primary); color: #fff; background: var(--primary-glow);
-      box-shadow: 0 0 20px var(--primary-glow);
+      border-color: var(--neon-red); color: #fff; background: rgba(255, 0, 60, 0.1);
     }
-    .filter-btn.special { border-color: var(--neon-blue); }
-    .filter-btn.special:hover, .filter-btn.special.active { 
-      background: rgba(0, 243, 255, 0.2); box-shadow: 0 0 20px var(--neon-blue); color: var(--neon-blue); border-color: var(--neon-blue);
-    }
-
+    
     /* === INVENTORY GRID === */
     .inventory-section { max-width: 1400px; margin: 0 auto; padding: 40px 5% 100px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
 
-    /* === CARD DESIGN === */
-    .ride-card {
-      background: var(--card-bg); border: 1px solid var(--border);
-      position: relative; overflow: hidden; transition: all 0.4s ease;
-      animation: fadeIn 0.5s ease;
+    /* === PRO CAR CARD === */
+    .car-card {
+      background: var(--card-bg); border: 1px solid #222; border-radius: 4px;
+      overflow: hidden; transition: 0.4s ease; position: relative;
     }
-    @keyframes fadeIn { from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)} }
+    .car-card:hover { transform: translateY(-5px); border-color: var(--neon-blue); box-shadow: 0 10px 40px rgba(0, 243, 255, 0.1); }
     
-    .ride-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    
-    .img-box { height: 220px; overflow: hidden; position: relative; }
-    .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-    .ride-card:hover .img-box img { transform: scale(1.1); }
-    
-    .overlay-specs {
-      position: absolute; bottom: -50px; left: 0; width: 100%;
-      background: rgba(0,0,0,0.8); display: flex; justify-content: space-around;
-      padding: 10px 0; transition: 0.4s;
+    .badge {
+      position: absolute; top: 15px; left: 15px; padding: 4px 10px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; z-index: 2;
+      background: #000; border: 1px solid var(--neon-blue); color: var(--neon-blue);
     }
-    .ride-card:hover .overlay-specs { bottom: 0; }
-    .spec-item { font-size: 0.8rem; color: #ccc; display: flex; flex-direction: column; align-items: center; }
-    .spec-item i { color: var(--primary); margin-bottom: 3px; }
+    .badge.owner { border-color: var(--gold); color: var(--gold); }
+    .badge.sale { border-color: var(--neon-red); color: var(--neon-red); }
 
-    .status-badge {
-      position: absolute; top: 10px; right: 10px; padding: 4px 12px;
-      font-family: 'Orbitron'; font-size: 0.7rem; font-weight: 800; z-index: 2;
-      border-radius: 2px; text-transform: uppercase;
-    }
-    .status-sale { background: var(--primary); color: white; }
-    .status-new { background: var(--neon-blue); color: black; }
-
-    .details { padding: 20px; }
-    .title { font-size: 1.4rem; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
-    .category { font-size: 0.8rem; color: #666; text-transform: uppercase; margin-bottom: 15px; display: block; }
+    .img-wrapper { height: 220px; overflow: hidden; position: relative; }
+    .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .car-card:hover .img-wrapper img { transform: scale(1.05); }
     
-    .action-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-    .price { font-size: 1.6rem; color: var(--neon-blue); font-weight: 700; font-family: 'Orbitron'; }
-    
-    .buy-btn {
-      background: transparent; border: 1px solid #fff; color: #fff;
-      padding: 8px 20px; font-family: 'Rajdhani'; font-weight: 700; text-decoration: none;
-      transition: 0.3s; text-transform: uppercase;
-    }
-    .buy-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
+    .car-info { padding: 20px; }
+    .car-title { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 5px; font-family: 'Orbitron'; }
+    .car-meta { display: flex; gap: 15px; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .car-meta i { color: var(--neon-blue); margin-right: 5px; }
 
-    /* === FOOTER === */
-    footer { text-align: center; padding: 40px; border-top: 1px solid var(--border); color: #555; margin-top: 50px; background: #000; }
+    .pricing-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px; padding-top: 15px; border-top: 1px solid #222; }
+    
+    .rent-price { font-size: 0.9rem; color: #aaa; }
+    .rent-price span { color: #fff; font-size: 1.2rem; font-weight: bold; }
+    
+    .buy-price { font-size: 0.9rem; color: #aaa; text-align: right; }
+    .buy-price span { color: var(--neon-red); font-size: 1.2rem; font-weight: bold; }
+
+    .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+    .btn {
+      padding: 10px; border: none; font-weight: 600; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; transition: 0.2s;
+    }
+    .btn-rent { background: #222; color: #fff; border: 1px solid #444; }
+    .btn-rent:hover { background: #fff; color: #000; }
+    .btn-buy { background: var(--neon-red); color: #fff; }
+    .btn-buy:hover { background: #cc0030; }
+
+    /* === RENTAL MODAL === */
+    .modal-overlay {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+      z-index: 2000; display: none; justify-content: center; align-items: center;
+    }
+    .modal-content {
+      background: #111; border: 1px solid var(--neon-blue); padding: 30px;
+      width: 90%; max-width: 450px; position: relative;
+    }
+    .close-modal { position: absolute; top: 15px; right: 20px; color: #555; cursor: pointer; font-size: 1.5rem; }
+    .modal-title { font-family: 'Orbitron'; font-size: 1.5rem; color: var(--neon-blue); margin-bottom: 20px; }
+    
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; color: #888; font-size: 0.85rem; margin-bottom: 5px; }
+    .form-group input { width: 100%; padding: 10px; background: #222; border: 1px solid #333; color: white; outline: none; }
+    .total-display { margin-top: 20px; padding-top: 15px; border-top: 1px solid #333; display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; }
 
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="logo" onclick="window.location.href='index.html'">
-      CHANDRA <span>GARAGE</span>
-    </div>
-    <div class="nav-links">
-      <a href="index.html" class="nav-btn"><i class="fas fa-arrow-left"></i> Back to Empire</a>
-    </div>
+    <div class="logo" onclick="window.location.href='index.html'">CHANDRA<span>GARAGE</span></div>
+    <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Empire Hub</a>
   </nav>
 
   <header class="hero">
-    <h1>Thug <span>Ride</span></h1>
-    <p>Premium Inventory. No Questions Asked.</p>
+    <h1>The Elite Fleet</h1>
+    <p>Own The Streets or Rent The Experience</p>
+    <div style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+      <i class="fas fa-check-circle" style="color:var(--neon-blue)"></i> Verified Inventory &nbsp;|&nbsp; 
+      <i class="fas fa-shield-alt" style="color:var(--neon-blue)"></i> Insured Rides
+    </div>
   </header>
 
-  <div class="filter-bar">
-    <button class="filter-btn active" onclick="filterSelection('all')">All Inventory</button>
-    <button class="filter-btn" onclick="filterSelection('cars')">Supercars</button>
-    <button class="filter-btn" onclick="filterSelection('bikes')">Superbikes</button>
-    <button class="filter-btn special" onclick="filterSelection('future')">Future Concepts</button>
+  <div class="filter-sticky">
+    <div class="filter-container">
+      <button class="filter-btn active" onclick="filterSelection('all')">Show All</button>
+      <button class="filter-btn" onclick="filterSelection('suv')">Luxury SUVs</button>
+      <button class="filter-btn" onclick="filterSelection('supercar')">Supercars</button>
+      <button class="filter-btn" onclick="filterSelection('bike')">Motorcycles</button>
+    </div>
   </div>
 
   <section class="inventory-section">
     <div class="grid">
 
-      <div class="ride-card filter-item cars">
-        <span class="status-badge status-sale">Instant Delivery</span>
-        <div class="img-box">
-          <img src="https://images.unsplash.com/photo-1603584173870-7b299f589c76?auto=format&fit=crop&q=80" alt="Mustang">
-          <div class="overlay-specs">
-            <div class="spec-item"><i class="fas fa-tachometer-alt"></i> 3.8s</div>
-            <div class="spec-item"><i class="fas fa-horse"></i> 480HP</div>
-            <div class="spec-item"><i class="fas fa-gas-pump"></i> V8</div>
-          </div>
+      <div class="car-card filter-item suv">
+        <div class="badge owner">Owner's Collection</div>
+        <div class="img-wrapper">
+          <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=2070&auto=format&fit=crop" alt="Infiniti QX60">
         </div>
-        <div class="details">
-          <div class="title">Mustang GT "Dark Horse"</div>
-          <span class="category">Muscle / Matte Black</span>
+        <div class="car-info">
+          <div class="car-title">Infiniti QX60 (2014)</div>
+          <div class="car-meta">
+            <span><i class="fas fa-road"></i> 90k mi</span>
+            <span><i class="fas fa-cogs"></i> 3.5L V6</span>
+            <span><i class="fas fa-chair"></i> 7 Seats</span>
+          </div>
+          <div class="pricing-row">
+            <div class="rent-price">Rent<br><span>$150</span>/day</div>
+            <div class="buy-price">Buy<br><span>$14,500</span></div>
+          </div>
           <div class="action-row">
-            <span class="price">$55K</span>
-            <a href="#" class="buy-btn">Purchase</a>
+            <button class="btn btn-rent" onclick="openRental('Infiniti QX60', 150)">Rent Now</button>
+            <button class="btn btn-buy">Buy Details</button>
           </div>
         </div>
       </div>
 
-      <div class="ride-card filter-item bikes">
-        <span class="status-badge status-sale">Stock: 2</span>
-        <div class="img-box">
-          <img src="https://images.unsplash.com/photo-1558981806-ec527fa84f3d?auto=format&fit=crop&q=80" alt="Harley">
-          <div class="overlay-specs">
-            <div class="spec-item"><i class="fas fa-road"></i> Cruiser</div>
-            <div class="spec-item"><i class="fas fa-cog"></i> 883cc</div>
-            <div class="spec-item"><i class="fas fa-weight-hanging"></i> 256kg</div>
-          </div>
+      <div class="car-card filter-item supercar">
+        <div class="badge sale">Hot Deal</div>
+        <div class="img-wrapper">
+          <img src="https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?q=80&w=2070&auto=format&fit=crop" alt="Mustang">
         </div>
-        <div class="details">
-          <div class="title">Harley Iron 883</div>
-          <span class="category">Cruiser / Custom Pipes</span>
+        <div class="car-info">
+          <div class="car-title">Ford Mustang GT</div>
+          <div class="car-meta">
+            <span><i class="fas fa-road"></i> 12k mi</span>
+            <span><i class="fas fa-bolt"></i> V8 5.0L</span>
+            <span><i class="fas fa-stopwatch"></i> 3.9s</span>
+          </div>
+          <div class="pricing-row">
+            <div class="rent-price">Rent<br><span>$250</span>/day</div>
+            <div class="buy-price">Buy<br><span>$42,000</span></div>
+          </div>
           <div class="action-row">
-            <span class="price">$12.5K</span>
-            <a href="#" class="buy-btn">Purchase</a>
+            <button class="btn btn-rent" onclick="openRental('Mustang GT', 250)">Rent Now</button>
+            <button class="btn btn-buy">Buy Details</button>
           </div>
         </div>
       </div>
 
-      <div class="ride-card filter-item cars">
-        <span class="status-badge status-new">Hot Drop</span>
-        <div class="img-box">
-          <img src="https://images.unsplash.com/photo-1503376763036-066120622c74?auto=format&fit=crop&q=80" alt="Audi">
-          <div class="overlay-specs">
-            <div class="spec-item"><i class="fas fa-bolt"></i> 3.2s</div>
-            <div class="spec-item"><i class="fas fa-infinity"></i> Quattro</div>
-            <div class="spec-item"><i class="fas fa-couch"></i> Leather</div>
-          </div>
+      <div class="car-card filter-item supercar">
+        <div class="badge sale">Electric Beast</div>
+        <div class="img-wrapper">
+          <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop" alt="Tesla">
         </div>
-        <div class="details">
-          <div class="title">Audi RS7 Sportback</div>
-          <span class="category">Luxury Sport / Nardo Grey</span>
+        <div class="car-info">
+          <div class="car-title">Tesla Model S Plaid</div>
+          <div class="car-meta">
+            <span><i class="fas fa-battery-full"></i> 396 mi</span>
+            <span><i class="fas fa-bolt"></i> 1020 HP</span>
+            <span><i class="fas fa-fighter-jet"></i> 1.99s</span>
+          </div>
+          <div class="pricing-row">
+            <div class="rent-price">Rent<br><span>$300</span>/day</div>
+            <div class="buy-price">Buy<br><span>$89,000</span></div>
+          </div>
           <div class="action-row">
-            <span class="price">$118K</span>
-            <a href="#" class="buy-btn">Purchase</a>
+            <button class="btn btn-rent" onclick="openRental('Tesla Plaid', 300)">Rent Now</button>
+            <button class="btn btn-buy">Buy Details</button>
           </div>
         </div>
       </div>
 
-      <div class="ride-card filter-item future">
-        <span class="status-badge status-new" style="background:var(--neon-blue);">Concept</span>
-        <div class="img-box">
-          <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80" alt="Concept">
-          <div class="overlay-specs">
-            <div class="spec-item"><i class="fas fa-bolt"></i> Electric</div>
-            <div class="spec-item"><i class="fas fa-fighter-jet"></i> 1.9s</div>
-            <div class="spec-item"><i class="fas fa-shield-alt"></i> Armored</div>
-          </div>
+      <div class="car-card filter-item bike">
+        <div class="badge owner">Classic</div>
+        <div class="img-wrapper">
+          <img src="https://images.unsplash.com/photo-1558981806-ec527fa84f3d?q=80&w=2070&auto=format&fit=crop" alt="Harley">
         </div>
-        <div class="details">
-          <div class="title" style="color:var(--neon-blue);">Chandra X-1 Hypercar</div>
-          <span class="category">Prototype / Electric</span>
+        <div class="car-info">
+          <div class="car-title">Harley Iron 883</div>
+          <div class="car-meta">
+            <span><i class="fas fa-road"></i> 5k mi</span>
+            <span><i class="fas fa-motorcycle"></i> 883cc</span>
+            <span><i class="fas fa-wind"></i> Cruiser</span>
+          </div>
+          <div class="pricing-row">
+            <div class="rent-price">Rent<br><span>$90</span>/day</div>
+            <div class="buy-price">Buy<br><span>$11,500</span></div>
+          </div>
           <div class="action-row">
-            <span class="price">Rsrv Only</span>
-            <a href="#" class="buy-btn" style="border-color:var(--neon-blue); color:var(--neon-blue);">Pre-Order</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="ride-card filter-item bikes">
-        <span class="status-badge status-sale">Track Ready</span>
-        <div class="img-box">
-          <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80" alt="Ducati">
-          <div class="overlay-specs">
-            <div class="spec-item"><i class="fas fa-wind"></i> 200mph</div>
-            <div class="spec-item"><i class="fas fa-fire"></i> V4 Engine</div>
-            <div class="spec-item"><i class="fas fa-trophy"></i> Racing</div>
-          </div>
-        </div>
-        <div class="details">
-          <div class="title">Ducati Streetfighter</div>
-          <span class="category">Sport / Red</span>
-          <div class="action-row">
-            <span class="price">$22K</span>
-            <a href="#" class="buy-btn">Purchase</a>
+            <button class="btn btn-rent" onclick="openRental('Harley 883', 90)">Rent Now</button>
+            <button class="btn btn-buy">Buy Details</button>
           </div>
         </div>
       </div>
@@ -275,39 +258,85 @@
     </div>
   </section>
 
-  <footer>
-    <p>©️ 2025 Chandra Empire • Thug Ride Division</p>
-  </footer>
+  <div class="modal-overlay" id="rentalModal">
+    <div class="modal-content">
+      <div class="close-modal" onclick="closeRental()">&times;</div>
+      <div class="modal-title">Book Experience</div>
+      <p id="modalCarName" style="color:#fff; margin-bottom:20px;">...</p>
+      
+      <div class="form-group">
+        <label>Pick-up Date</label>
+        <input type="date" id="pickupDate" onchange="calcTotal()">
+      </div>
+      <div class="form-group">
+        <label>Drop-off Date</label>
+        <input type="date" id="dropDate" onchange="calcTotal()">
+      </div>
+      
+      <div class="total-display">
+        <span>Est. Total:</span>
+        <span id="totalPrice" style="color:var(--neon-blue)">$0</span>
+      </div>
+      
+      <button class="btn btn-buy" style="width:100%; margin-top:20px; padding:15px; font-size:1rem;" onclick="confirmBooking()">
+        CONFIRM BOOKING
+      </button>
+    </div>
+  </div>
 
   <script>
-    // FILTER LOGIC - Clean & Modern
-    function filterSelection(category) {
+    // FILTER LOGIC
+    function filterSelection(c) {
       const items = document.querySelectorAll('.filter-item');
-      const buttons = document.querySelectorAll('.filter-btn');
-
-      // Update Active Button
-      buttons.forEach(btn => {
-        btn.classList.remove('active');
-        if(btn.innerText.toLowerCase().includes(category) || 
-           (category === 'all' && btn.innerText.includes('All')) ||
-           (category === 'future' && btn.innerText.includes('Future'))) {
-           btn.classList.add('active');
-        }
+      const btns = document.querySelectorAll('.filter-btn');
+      
+      btns.forEach(b => {
+        b.classList.remove('active');
+        if(b.innerText.toLowerCase().includes(c) || (c==='all' && b.innerText==='Show All')) b.classList.add('active');
       });
 
-      // Filter Items
       items.forEach(item => {
-        if (category === 'all') {
+        if (c === 'all') {
           item.style.display = 'block';
         } else {
-          if (item.classList.contains(category)) {
-            item.style.display = 'block';
-          } else {
-            item.style.display = 'none';
-          }
+          item.style.display = item.classList.contains(c) ? 'block' : 'none';
         }
       });
     }
+
+    // RENTAL LOGIC
+    let currentRate = 0;
+    
+    function openRental(name, rate) {
+      document.getElementById('rentalModal').style.display = 'flex';
+      document.getElementById('modalCarName').innerText = "Vehicle: " + name;
+      currentRate = rate;
+      document.getElementById('totalPrice').innerText = "$0";
+    }
+
+    function closeRental() {
+      document.getElementById('rentalModal').style.display = 'none';
+    }
+
+    function calcTotal() {
+      const d1 = new Date(document.getElementById('pickupDate').value);
+      const d2 = new Date(document.getElementById('dropDate').value);
+      
+      if(d1 && d2 && d2 > d1) {
+        const diffTime = Math.abs(d2 - d1);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        const total = diffDays * currentRate;
+        document.getElementById('totalPrice').innerText = "$" + total;
+      } else {
+        document.getElementById('totalPrice').innerText = "$0";
+      }
+    }
+
+    function confirmBooking() {
+      alert("Booking Request Sent! Our team will contact you for payment.");
+      closeRental();
+    }
   </script>
+
 </body>
 </html>
