@@ -3,111 +3,156 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AgriFlow Pro • Multi-User Business Suite</title>
+  <title>AgriFlow Empire • Universal Asset Exchange</title>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-  
   <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --bg-body: #0f172a; --bg-panel: #1e293b;
       --text-main: #f8fafc; --text-muted: #94a3b8;
-      --primary: #3b82f6; --success: #10b981; --danger: #ef4444; 
+      --primary: #8b5cf6; /* Violet for Creative/Digital feel */
+      --secondary: #3b82f6; /* Blue */
+      --success: #10b981; --danger: #ef4444; 
       --border: #334155; --brand: #f59e0b;
+      --neon-glow: 0 0 15px rgba(139, 92, 246, 0.3);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; overflow: hidden; }
 
+    /* ANIMATED TICKER (LIVE SALES) */
+    .ticker-wrap {
+      position: fixed; top: 0; left: 260px; right: 0; height: 30px;
+      background: linear-gradient(90deg, #312e81, #0f172a);
+      border-bottom: 1px solid var(--border); z-index: 50;
+      overflow: hidden; display: flex; align-items: center;
+    }
+    .ticker { display: inline-block; white-space: nowrap; padding-left: 100%; animation: ticker 30s linear infinite; }
+    .ticker-item { display: inline-block; padding: 0 2rem; color: #a5b4fc; font-size: 0.8rem; }
+    .ticker-item b { color: var(--success); }
+    @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
+
     /* SIDEBAR */
-    aside { width: 260px; background-color: #020617; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; z-index: 10; }
-    .logo { font-size: 1.4rem; font-weight: 700; margin-bottom: 40px; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
-    .nav-btn { padding: 12px 16px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; color: var(--text-muted); transition: 0.2s; display: flex; align-items: center; gap: 12px; font-weight: 500; }
-    .nav-btn:hover, .nav-btn.active { background-color: var(--primary); color: white; }
+    aside { width: 260px; background-color: #020617; border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; z-index: 60; }
+    .logo { font-size: 1.4rem; font-weight: 800; margin-bottom: 40px; color: white; display: flex; align-items: center; gap: 10px; letter-spacing: -0.5px; }
+    .nav-btn { padding: 12px 16px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; color: var(--text-muted); transition: all 0.2s; display: flex; align-items: center; gap: 12px; font-weight: 500; border: 1px solid transparent; }
+    .nav-btn:hover { background-color: rgba(255,255,255,0.05); color: white; }
+    .nav-btn.active { background-color: rgba(139, 92, 246, 0.15); color: var(--primary); border-color: var(--primary); box-shadow: var(--neon-glow); }
     
     /* MAIN */
-    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; }
-    header { height: 70px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 32px; background: var(--bg-panel); }
-    .user-profile { display: flex; align-items: center; gap: 10px; }
-    .avatar { width: 35px; height: 35px; background: var(--brand); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: black; }
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; margin-top: 30px; /* Space for ticker */ }
+    header { height: 70px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; padding: 0 32px; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); }
+    .user-profile { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.05); padding: 5px 15px; border-radius: 30px; border: 1px solid var(--border); }
+    .avatar { width: 32px; height: 32px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; font-size: 0.9rem; }
 
-    .view-container { flex: 1; padding: 32px; overflow-y: auto; display: none; }
-    .view-container.active { display: block; animation: fadein 0.3s; }
+    .view-container { flex: 1; padding: 32px; overflow-y: auto; display: none; animation: fadein 0.4s ease-out; }
+    .view-container.active { display: block; }
     @keyframes fadein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* CARDS & TABLES */
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-bottom: 32px; }
-    .stat-card { background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-    .stat-value { font-size: 2rem; font-weight: 700; margin-top: 10px; color: var(--primary); }
+    /* COMPONENTS */
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 32px; }
+    .stat-card { background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: transform 0.2s; }
+    .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: var(--primary); }
+    .stat-value { font-size: 2.2rem; font-weight: 800; margin-top: 10px; color: white; letter-spacing: -1px; }
     
-    .data-table { width: 100%; border-collapse: collapse; margin-top: 16px; background: var(--bg-panel); border-radius: 8px; overflow: hidden; }
-    .data-table th, .data-table td { text-align: left; padding: 16px; border-bottom: 1px solid #334155; }
-    .data-table th { background: #0f172a; color: var(--text-muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .data-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; margin-top: 10px; }
+    .data-table th { text-align: left; padding: 15px; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+    .data-table td { background: var(--bg-panel); padding: 16px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); color: #e2e8f0; }
+    .data-table tr td:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-left: 1px solid var(--border); }
+    .data-table tr td:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-right: 1px solid var(--border); }
     
-    .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary { background-color: var(--primary); color: white; }
-    .btn-success { background-color: var(--success); color: white; }
-    .btn-excel { background-color: #107c41; color: white; }
-    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+    .btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+    .btn-primary { background: linear-gradient(90deg, #8b5cf6, #d946ef); color: white; }
+    .btn-success { background: linear-gradient(90deg, #10b981, #059669); color: white; }
+    .btn-dark { background: #334155; color: white; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+    .btn-sm { padding: 6px 12px; font-size: 0.75rem; }
+
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; letter-spacing: 0.5px; }
+    .badge-public { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid #059669; }
+    .badge-private { background: rgba(139, 92, 246, 0.1); color: #a78bfa; border: 1px solid #7c3aed; }
+
+    /* ASSET ICONS */
+    .icon-box { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-right: 15px; }
+    .type-code { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+    .type-media { background: rgba(236, 72, 153, 0.2); color: #f472b6; }
+    .type-product { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .type-doc { background: rgba(16, 185, 129, 0.2); color: #34d399; }
 
     /* MODAL */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 100; display: none; justify-content: center; align-items: center; }
-    .modal-box { background: var(--bg-panel); border: 1px solid var(--border); padding: 32px; border-radius: 16px; width: 450px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 100; display: none; justify-content: center; align-items: center; }
+    .modal-box { background: #1e293b; border: 1px solid var(--border); padding: 40px; border-radius: 20px; width: 500px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); animation: zoomIn 0.3s; }
+    @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     
-    .input-group { margin-bottom: 15px; }
-    label { display: block; margin-bottom: 5px; color: var(--text-muted); font-size: 0.9rem; }
-    input, select { width: 100%; padding: 12px; background: #0f172a; border: 1px solid var(--border); color: white; border-radius: 6px; outline: none; transition: 0.2s; }
-    input:focus { border-color: var(--primary); }
+    .input-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; }
+    input, select, textarea { width: 100%; padding: 14px; background: #0f172a; border: 1px solid var(--border); color: white; border-radius: 8px; outline: none; transition: 0.2s; }
+    input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2); }
 
   </style>
 </head>
 <body>
 
+  <div class="ticker-wrap">
+    <div class="ticker" id="salesTicker">
+      </div>
+  </div>
+
   <div class="modal-overlay" id="loginModal" style="display:flex;">
     <div class="modal-box" style="text-align:center;">
-      <h2 style="color:var(--primary); margin-bottom:10px;">AgriFlow Business Login</h2>
-      <p style="color:var(--text-muted); margin-bottom:20px;">Enter your business details to manage inventory.</p>
+      <div style="font-size: 3rem; margin-bottom: 10px;">🦄</div>
+      <h2 style="color: white; margin-bottom:10px;">Welcome to the Exchange</h2>
+      <p style="color:var(--text-muted); margin-bottom:30px; font-size: 0.9rem;">Sell Code, Art, Products, or Ideas. One ID, Infinite Possibilities.</p>
       
       <div class="input-group" style="text-align:left;">
-        <label>Business Name</label>
-        <input type="text" id="loginName" placeholder="e.g. Siva Traders">
+        <label>Your Name / Brand</label>
+        <input type="text" id="loginName" placeholder="e.g. Chandra Devs">
       </div>
       <div class="input-group" style="text-align:left;">
-        <label>Location / City</label>
-        <input type="text" id="loginLoc" placeholder="e.g. Guntur">
+        <label>Location</label>
+        <input type="text" id="loginLoc" placeholder="e.g. India">
       </div>
       <div class="input-group" style="text-align:left;">
-        <label>Email ID (Simulated)</label>
+        <label>Gmail ID</label>
         <input type="email" id="loginEmail" placeholder="user@gmail.com">
       </div>
       
-      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="loginUser()">Access Dashboard</button>
+      <button class="btn btn-primary" style="width:100%; justify-content:center; font-size:1rem;" onclick="loginUser()">Enter Dashboard</button>
     </div>
   </div>
 
   <aside>
-    <div class="logo"><i class="fas fa-leaf" style="color:var(--success)"></i> AgriFlow Pro</div>
-    <div class="nav-btn active" onclick="switchView('dashboard', this)"><i class="fas fa-chart-pie"></i> Dashboard</div>
-    <div class="nav-btn" onclick="switchView('inventory', this)"><i class="fas fa-boxes"></i> Inventory</div>
-    <div class="nav-btn" onclick="switchView('sales', this)"><i class="fas fa-file-invoice-dollar"></i> Sales History</div>
+    <div class="logo"><i class="fas fa-cube" style="color:var(--primary)"></i> Asset<span style="color:var(--text-muted)">Flow</span></div>
+    
+    <div style="margin-bottom: 20px;">
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">My Workspace</div>
+        <div class="nav-btn active" onclick="switchView('dashboard', this)"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+        <div class="nav-btn" onclick="switchView('inventory', this)"><i class="fas fa-boxes"></i> My Assets</div>
+        <div class="nav-btn" onclick="switchView('sales', this)"><i class="fas fa-wallet"></i> Transactions</div>
+    </div>
+
+    <div>
+        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">Global Network</div>
+        <div class="nav-btn" onclick="switchView('market', this)"><i class="fas fa-globe"></i> Global Market <span style="margin-left:auto; font-size:0.6rem; background:var(--success); color:black; padding:2px 6px; border-radius:10px; font-weight:bold;">LIVE</span></div>
+        <div class="nav-btn" onclick="switchView('services', this)"><i class="fas fa-bolt"></i> Get Services</div>
+    </div>
     
     <div style="margin-top:auto; padding-top:20px; border-top:1px solid var(--border);">
-      <button class="nav-btn" onclick="exportMasterReport()" style="color:var(--brand)"><i class="fas fa-file-excel"></i> Admin Report</button>
       <button class="nav-btn" onclick="logout()" style="color:var(--danger)"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
   </aside>
 
   <main>
     <header>
-      <h2 id="headerTitle">Dashboard</h2>
+      <h2 id="headerTitle" style="font-weight: 800; letter-spacing: -0.5px;">Dashboard</h2>
       <div class="user-profile">
-        <div style="text-align:right;">
-          <div id="dispName" style="font-weight:bold;">Guest</div>
-          <div id="dispLoc" style="font-size:0.8rem; color:var(--text-muted)">...</div>
+        <div style="text-align:right; margin-right: 5px;">
+          <div id="dispName" style="font-weight:bold; font-size: 0.9rem;">Guest</div>
+          <div id="dispLoc" style="font-size:0.75rem; color:var(--text-muted)">Unverified</div>
         </div>
         <div class="avatar" id="avatarLetter">G</div>
       </div>
@@ -116,38 +161,50 @@
     <div id="view-dashboard" class="view-container active">
       <div class="grid-3">
         <div class="stat-card">
-          <div style="color:var(--text-muted);">Total Sales Revenue</div>
+          <div style="color:var(--text-muted); font-size: 0.9rem;">Total Earnings</div>
           <div class="stat-value" id="dashRev">$0</div>
         </div>
-        <div class="stat-card">
-          <div style="color:var(--text-muted);">Stock Valuation</div>
+        <div class="stat-card" style="border-left: 4px solid var(--primary);">
+          <div style="color:var(--text-muted); font-size: 0.9rem;">Assets Value</div>
           <div class="stat-value" id="dashStock">$0</div>
         </div>
-        <div class="stat-card">
-          <div style="color:var(--text-muted);">Platform Commission (5%)</div>
-          <div class="stat-value" style="color:var(--brand)" id="dashComm">$0</div>
+        <div class="stat-card" style="border-left: 4px solid var(--brand);">
+          <div style="color:var(--text-muted); font-size: 0.9rem;">Active Items</div>
+          <div class="stat-value" id="dashCount" style="color: var(--brand)">0</div>
         </div>
       </div>
       
-      <div style="text-align:center; padding:50px; border:2px dashed var(--border); border-radius:12px;">
-        <h3 style="color:var(--text-muted)">Welcome to the Empire Ecosystem</h3>
-        <p style="margin-top:10px;">Manage your products, generate tax invoices, and track profits.</p>
+      <div style="background: linear-gradient(120deg, #4c1d95, #2563eb); padding: 40px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; margin-top: 20px;">
+        <div style="position: relative; z-index: 2;">
+            <h3 style="color: white; font-size: 1.8rem; margin-bottom: 10px;">Monetize Your Brain.</h3>
+            <p style="color: #e0e7ff; margin-bottom: 20px; max-width: 600px;">
+                Don't just sell products. Sell <b>Code, Scripts, YAML files, Music, or Ideas</b>. 
+                Generate secret links and share them instantly.
+            </p>
+            <button class="btn btn-success" style="color:black; font-weight:800;" onclick="openModal('add')">
+                <i class="fas fa-plus"></i> Add New Asset
+            </button>
+        </div>
+        <i class="fas fa-brain" style="position: absolute; right: -30px; bottom: -40px; font-size: 12rem; color: rgba(255,255,255,0.05); transform: rotate(-10deg);"></i>
       </div>
     </div>
 
     <div id="view-inventory" class="view-container">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2>My Inventory</h2>
-        <button class="btn btn-primary" onclick="openModal('add')"><i class="fas fa-plus"></i> Add Product</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+        <div>
+            <h2 style="font-size: 1.5rem;">My Assets</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Manage everything you want to sell or hide.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('add')"><i class="fas fa-plus-circle"></i> Create Asset</button>
       </div>
       <table class="data-table">
         <thead>
           <tr>
-            <th>Product Name</th>
-            <th>Tax (%)</th>
-            <th>Stock</th>
-            <th>Price/Unit</th>
-            <th>Action</th>
+            <th>Asset Details</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Price</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody id="inventoryTable"></tbody>
@@ -155,84 +212,175 @@
     </div>
 
     <div id="view-sales" class="view-container">
-      <h2>My Transaction History</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="font-size: 1.5rem;">Transaction History</h2>
+            <button class="btn btn-dark" onclick="exportUserReport()"><i class="fas fa-file-download"></i> Download Monthly Report</button>
+        </div>
+        
       <table class="data-table">
-        <thead><tr><th>Date</th><th>Buyer</th><th>Product</th><th>Total Bill</th><th>Commission</th><th>Invoice</th></tr></thead>
+        <thead><tr><th>Date</th><th>Buyer</th><th>Item</th><th>Amount</th><th>Invoice</th></tr></thead>
         <tbody id="salesTable"></tbody>
       </table>
     </div>
+
+    <div id="view-market" class="view-container">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="font-size: 2rem; color: var(--success);">🌍 Global Asset Exchange</h2>
+            <p style="color: var(--text-muted);">Real-time listings from the community. Bid, Buy, Collaborate.</p>
+        </div>
+        <div id="marketGrid" class="grid-3">
+            </div>
+    </div>
+
+    <div id="view-services" class="view-container">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #38bdf8;">Empire Support Hub</h2>
+                <p style="color: var(--text-muted);">Scale your ideas with our help.</p>
+            </div>
+            
+            <div style="background: var(--bg-panel); padding: 40px; border-radius: 16px; border: 1px solid var(--border);">
+                <div class="input-group">
+                    <label>What do you need?</label>
+                    <select id="serviceType">
+                        <option value="Funding">💰 Business Funding / Loan</option>
+                        <option value="Tech">💻 Technical Support / Code Review</option>
+                        <option value="Cloud">☁️ Cloud Hosting Setup</option>
+                        <option value="Marketing">📢 Global Marketing</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Describe your requirement</label>
+                    <textarea id="serviceDesc" rows="4" placeholder="E.g. I have a YAML script that automates AWS, I need help packaging it..."></textarea>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" onclick="requestService()">Submit Request</button>
+                <div id="serviceStatus" style="margin-top: 20px; text-align: center; font-weight: bold;"></div>
+            </div>
+        </div>
+    </div>
+
   </main>
 
   <div class="modal-overlay" id="addModal">
     <div class="modal-box">
-      <h3>Add New Product</h3><br>
+      <h3>Add New Asset</h3>
+      <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 20px;">What are you bringing to the world?</p>
+      
       <div class="input-group">
-        <label>Product Name</label>
-        <input type="text" id="inpName">
+        <label>Asset Type</label>
+        <select id="inpType">
+            <option value="Product">📦 Physical Product (Crop/Item)</option>
+            <option value="Code">💻 Code / Script / YAML</option>
+            <option value="Media">🎵 Music / Video / Art</option>
+            <option value="Doc">📄 E-Book / Template / Prompt</option>
+        </select>
       </div>
+
       <div class="input-group">
-        <label>Tax Rate (%) - e.g. 18 for GST</label>
-        <input type="number" id="inpTax" value="5">
+        <label>Title</label>
+        <input type="text" id="inpName" placeholder="e.g. Automated Trading Bot (Python)">
       </div>
-      <div class="input-group">
-        <label>Quantity Available</label>
-        <input type="number" id="inpQty">
+
+      <div class="input-group" style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div>
+            <label>Qty / Downloads</label>
+            <input type="number" id="inpQty" placeholder="1">
+        </div>
+        <div>
+            <label>Price ($)</label>
+            <input type="number" id="inpPrice" placeholder="0.00">
+        </div>
       </div>
-      <div class="input-group">
-        <label>Selling Price per Unit ($)</label>
-        <input type="number" id="inpPrice">
+      
+      <div class="switch-container" style="display:flex; justify-content:space-between; align-items:center; background:#0f172a; padding:15px; border-radius:8px; border:1px solid var(--border);">
+        <div>
+            <span class="switch-label" style="color:var(--success); font-weight:bold;">List in Global Market?</span>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">If unchecked, it stays in your Secret Vault.</div>
+        </div>
+        <input type="checkbox" id="inpPublic" style="width: 20px; height: 20px;">
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn" style="background:transparent; color:white; border:1px solid #555;" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="saveProduct()">Save to Inventory</button>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top: 20px;">
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProduct()">Create Asset</button>
       </div>
     </div>
   </div>
 
   <div class="modal-overlay" id="sellModal">
     <div class="modal-box">
-      <h3 style="border-bottom:1px solid #333; padding-bottom:10px;">Generate Invoice</h3>
-      <p id="sellDetails" style="color:var(--primary); margin:15px 0; font-weight:bold;">...</p>
+      <h3 style="border-bottom:1px solid var(--border); padding-bottom:15px; margin-bottom: 15px;">Record Sale</h3>
+      <p id="sellDetails" style="color:var(--primary); margin-bottom: 20px; font-weight:bold;">...</p>
       
       <div class="input-group">
-        <label>Buyer Name (Client)</label>
-        <input type="text" id="buyerName" placeholder="e.g. Reliance Retail">
+        <label>Buyer Name</label>
+        <input type="text" id="buyerName" placeholder="Client Name">
       </div>
       <div class="input-group">
-        <label>Buyer Location</label>
-        <input type="text" id="buyerLoc" placeholder="e.g. Hyderabad">
+        <label>Buyer Email/Location</label>
+        <input type="text" id="buyerLoc" placeholder="Email or City">
       </div>
       <div class="input-group">
-        <label>Quantity to Sell</label>
-        <input type="number" id="sellQty" placeholder="0">
+        <label>Quantity Sold</label>
+        <input type="number" id="sellQty" placeholder="1">
       </div>
       
       <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
-        <button class="btn" style="background:transparent; color:white; border:1px solid #555;" onclick="closeModal()">Cancel</button>
-        <button class="btn btn-success" onclick="processSale()"><i class="fas fa-print"></i> Sell & Print PDF</button>
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-success" onclick="processSale()"><i class="fas fa-check"></i> Confirm Sale</button>
       </div>
     </div>
   </div>
 
   <script>
-    // === 1. GLOBAL STATE (Simulating Database) ===
-    let currentUser = null; // { name, loc, email }
-    let db = JSON.parse(localStorage.getItem('agflow_master_db_v2')) || {}; 
-    // DB Structure: { "email": { inventory: [], sales: [], details: {} } }
-    
+    // === 1. STATE & MOCK DATA FOR TICKER ===
+    let currentUser = null; 
+    let db = JSON.parse(localStorage.getItem('agflow_empire_v3')) || {}; 
     let selectedProdId = null;
 
-    // === 2. AUTHENTICATION ===
+    // Fake Ticker Data to start with (The FOMO Effect)
+    const tickerData = [
+        "🔥 Suresh (India) sold 'React Dashboard Template' for $45",
+        "🚀 Mike (USA) bought 'Organic Coffee Batch' for $120",
+        "💻 Priya (Hyderabad) listed 'Python Automation Script'",
+        "🎵 DJ Snake bought 'Lo-Fi Beat Pack' for $15",
+        "📦 Reliance Retail ordered '500kg Rice' from Ravi",
+        "📄 Alex sold 'Startup Pitch Deck' for $99"
+    ];
+
+    // === 2. INIT ===
+    window.onload = function() {
+        startTicker();
+        if(localStorage.getItem('agflow_last_user')) {
+             // Auto-fill login for convenience (Optional)
+             const last = JSON.parse(localStorage.getItem('agflow_last_user'));
+             document.getElementById('loginName').value = last.name;
+             document.getElementById('loginEmail').value = last.email;
+             document.getElementById('loginLoc').value = last.loc;
+        }
+    };
+
+    function startTicker() {
+        const ticker = document.getElementById('salesTicker');
+        let content = "";
+        tickerData.forEach(item => {
+            content += `<div class="ticker-item">${item}</div>`;
+        });
+        // Repeat content to ensure smooth loop
+        ticker.innerHTML = content + content + content;
+    }
+
+    // === 3. AUTHENTICATION ===
     function loginUser() {
       const name = document.getElementById('loginName').value;
       const loc = document.getElementById('loginLoc').value;
       const email = document.getElementById('loginEmail').value;
 
-      if(!name || !email) return alert("Please enter details");
+      if(!name || !email) return alert("Please identify yourself!");
 
       currentUser = { name, loc, email };
+      localStorage.setItem('agflow_last_user', JSON.stringify(currentUser));
       
-      // Initialize User in DB if new
       if(!db[email]) {
         db[email] = {
           details: { name, loc, email },
@@ -241,7 +389,6 @@
         };
       }
 
-      // UI Update
       document.getElementById('loginModal').style.display = 'none';
       document.getElementById('dispName').innerText = name;
       document.getElementById('dispLoc').innerText = loc;
@@ -252,95 +399,156 @@
 
     function logout() { location.reload(); }
 
-    // === 3. DATA MANAGEMENT ===
+    // === 4. DATA LOGIC ===
     function saveData() {
-      localStorage.setItem('agflow_master_db_v2', JSON.stringify(db));
+      localStorage.setItem('agflow_empire_v3', JSON.stringify(db));
     }
 
     function renderDashboard() {
       if(!currentUser) return;
       const userData = db[currentUser.email];
       
-      // Stats
-      let totalRev = 0, comm = 0;
-      userData.sales.forEach(s => { totalRev += s.total; comm += s.commission; });
+      let totalRev = 0;
+      userData.sales.forEach(s => { totalRev += s.total; });
       let stockVal = userData.inventory.reduce((acc, i) => acc + (i.qty * i.price), 0);
 
-      document.getElementById('dashRev').innerText = `$${totalRev.toFixed(2)}`;
-      document.getElementById('dashStock').innerText = `$${stockVal.toFixed(2)}`;
-      document.getElementById('dashComm').innerText = `$${comm.toFixed(2)}`;
+      document.getElementById('dashRev').innerText = `$${totalRev.toLocaleString()}`;
+      document.getElementById('dashStock').innerText = `$${stockVal.toLocaleString()}`;
+      document.getElementById('dashCount').innerText = userData.inventory.length;
 
-      // Render Tables
       renderInventory();
       renderSales();
+      renderGlobalMarket();
     }
 
+    // === 5. ASSET MANAGEMENT (Updated for Types) ===
     function renderInventory() {
       const tbody = document.getElementById('inventoryTable');
       tbody.innerHTML = '';
       db[currentUser.email].inventory.forEach(p => {
+        
+        // Icons based on type
+        let icon = 'fa-box'; let colorClass = 'type-product';
+        if(p.type === 'Code') { icon = 'fa-code'; colorClass = 'type-code'; }
+        if(p.type === 'Media') { icon = 'fa-music'; colorClass = 'type-media'; }
+        if(p.type === 'Doc') { icon = 'fa-file-alt'; colorClass = 'type-doc'; }
+
+        const badge = p.isPublic 
+            ? `<span class="badge badge-public">GLOBAL</span>` 
+            : `<span class="badge badge-private">VAULT</span>`;
+        
+        // Magic Link Button Logic
+        const magicLinkBtn = !p.isPublic 
+            ? `<button class="btn btn-sm btn-outline" style="color:#a78bfa; border-color:#a78bfa" onclick="generateMagicLink('${p.name}')"><i class="fas fa-link"></i> Secret Link</button>` 
+            : '';
+
         tbody.innerHTML += `
           <tr>
-            <td><b>${p.name}</b></td>
-            <td>${p.tax}%</td>
-            <td>${p.qty}</td>
+            <td>
+                <div style="display:flex; align-items:center;">
+                    <div class="icon-box ${colorClass}"><i class="fas ${icon}"></i></div>
+                    <div>
+                        <b style="color:white; display:block;">${p.name}</b>
+                        <span style="font-size:0.75rem; color:var(--text-muted)">${p.type}</span>
+                    </div>
+                </div>
+            </td>
+            <td>${badge}</td>
+            <td>${p.qty} avail</td>
             <td>$${p.price}</td>
-            <td><button class="btn btn-sm btn-success" onclick="openSellModal(${p.id})">Sell</button></td>
+            <td style="display:flex; gap:10px; align-items:center;">
+                <button class="btn btn-sm btn-success" onclick="openSellModal(${p.id})">Sell</button>
+                ${magicLinkBtn}
+            </td>
           </tr>`;
       });
-    }
-
-    function renderSales() {
-      const tbody = document.getElementById('salesTable');
-      tbody.innerHTML = '';
-      // Show latest first
-      [...db[currentUser.email].sales].reverse().forEach(s => {
-        tbody.innerHTML += `
-          <tr>
-            <td style="color:#aaa; font-size:0.8rem;">${new Date(s.date).toLocaleString()}</td>
-            <td>${s.buyer} (${s.buyerLoc})</td>
-            <td>${s.prodName} (x${s.qty})</td>
-            <td style="color:var(--success); font-weight:bold;">$${s.total.toFixed(2)}</td>
-            <td style="color:var(--brand);">$${s.commission.toFixed(2)}</td>
-            <td><button class="btn btn-sm btn-primary" onclick="reprintPDF('${s.id}')"><i class="fas fa-download"></i></button></td>
-          </tr>`;
-      });
-    }
-
-    // === 4. INVENTORY ACTIONS ===
-    function openModal(type) { 
-      document.getElementById(type+'Modal').style.display = 'flex'; 
-    }
-    function closeModal() { 
-      document.querySelectorAll('.modal-overlay').forEach(e => e.style.display='none'); 
     }
 
     function saveProduct() {
       const name = document.getElementById('inpName').value;
-      const tax = parseFloat(document.getElementById('inpTax').value) || 0;
+      const type = document.getElementById('inpType').value;
       const qty = parseFloat(document.getElementById('inpQty').value);
       const price = parseFloat(document.getElementById('inpPrice').value);
+      const isPublic = document.getElementById('inpPublic').checked;
 
       if(name && qty > 0) {
         db[currentUser.email].inventory.push({
           id: Date.now(),
-          name, tax, qty, price
+          name, type, qty, price, isPublic,
+          sellerName: currentUser.name, 
+          sellerLoc: currentUser.loc
         });
         saveData(); closeModal(); renderDashboard();
+        
+        // Add to ticker locally for fun
+        const newTickerMsg = `🔔 ${currentUser.name} just listed '${name}'!`;
+        const tick = document.getElementById('salesTicker');
+        tick.innerHTML = `<div class="ticker-item"><b>${newTickerMsg}</b></div>` + tick.innerHTML;
       }
     }
 
-    function openSellModal(id) {
-      selectedProdId = id;
-      const prod = db[currentUser.email].inventory.find(p => p.id === id);
-      document.getElementById('sellDetails').innerText = `Selling: ${prod.name} | Stock: ${prod.qty}`;
-      openModal('sell');
+    // === 6. GLOBAL MARKET (With Offer System) ===
+    function renderGlobalMarket() {
+        const grid = document.getElementById('marketGrid');
+        grid.innerHTML = '';
+        let hasItems = false;
+
+        Object.keys(db).forEach(emailKey => {
+            const user = db[emailKey];
+            user.inventory.forEach(item => {
+                if(item.isPublic && item.qty > 0) {
+                    hasItems = true;
+                    
+                    let icon = 'fa-box';
+                    if(item.type === 'Code') icon = 'fa-code';
+                    if(item.type === 'Media') icon = 'fa-play-circle';
+                    if(item.type === 'Doc') icon = 'fa-file-pdf';
+
+                    const isMine = emailKey === currentUser.email;
+                    const actionBtn = isMine 
+                        ? `<span style="font-size:0.8rem; color:var(--text-muted);">Yours</span>` 
+                        : `<button class="btn btn-sm btn-primary" onclick="makeOffer('${item.name}')">Make Offer</button>`;
+
+                    grid.innerHTML += `
+                    <div class="stat-card" style="border-top: 4px solid var(--secondary);">
+                        <div style="display:flex; justify-content:space-between; align-items:start;">
+                            <div style="display:flex; gap:10px;">
+                                <i class="fas ${icon}" style="font-size:1.5rem; color:var(--text-muted)"></i>
+                                <h3 style="color:white; font-size:1.1rem;">${item.name}</h3>
+                            </div>
+                            <span style="color:var(--success); font-weight:bold;">$${item.price}</span>
+                        </div>
+                        <p style="color:var(--text-muted); font-size:0.8rem; margin:15px 0;">
+                            Seller: <b>${item.sellerName}</b><br>
+                            Loc: ${item.sellerLoc}
+                        </p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                            <span class="badge badge-public">${item.type}</span>
+                            ${actionBtn}
+                        </div>
+                    </div>`;
+                }
+            });
+        });
+
+        if(!hasItems) grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:50px; color:var(--text-muted);">Market is quiet. Be the first to list!</div>`;
     }
 
-    // === 5. SALES & PDF ENGINE (The "Adhiripoyela" Part) ===
+    function makeOffer(itemName) {
+        alert(`Offer Sent for '${itemName}'! \nThe seller will receive a notification in their Vault.`);
+    }
+
+    function generateMagicLink(itemName) {
+        // Simulate a hash link
+        const hash = btoa(itemName + Date.now()).substring(0, 12);
+        const link = `https://chandra.com/vault/view?id=${hash}`;
+        prompt("Copy this Secret Link and share it with investors/buyers:", link);
+    }
+
+    // === 7. TRANSACTIONS & EXPORT ===
     function processSale() {
-      const buyer = document.getElementById('buyerName').value || "Cash Customer";
-      const buyerLoc = document.getElementById('buyerLoc').value || "Local";
+      const buyer = document.getElementById('buyerName').value || "Unknown";
+      const buyerLoc = document.getElementById('buyerLoc').value || "N/A";
       const qty = parseFloat(document.getElementById('sellQty').value);
       
       const userInv = db[currentUser.email].inventory;
@@ -348,29 +556,18 @@
       const prod = userInv[prodIdx];
 
       if(qty > 0 && qty <= prod.qty) {
-        // Calculations
-        const basePrice = prod.price * qty;
-        const taxAmount = (basePrice * prod.tax) / 100;
-        const finalTotal = basePrice + taxAmount;
-        const commission = finalTotal * 0.05; // 5% Platform Fee
-
-        // Update DB
+        const total = qty * prod.price;
         prod.qty -= qty;
         if(prod.qty === 0) userInv.splice(prodIdx, 1);
 
         const tx = {
           id: Date.now(),
           date: new Date().toISOString(),
-          seller: currentUser.name,
-          sellerLoc: currentUser.loc,
           buyer, buyerLoc,
           prodName: prod.name,
-          qty,
-          unitPrice: prod.price,
-          taxRate: prod.tax,
-          taxAmount,
-          total: finalTotal,
-          commission
+          type: prod.type,
+          qty, total,
+          seller: currentUser.name
         };
 
         db[currentUser.email].sales.push(tx);
@@ -378,132 +575,89 @@
         closeModal();
         renderDashboard();
         
-        // Generate PDF
+        // Update Ticker Global
+        const tick = document.getElementById('salesTicker');
+        tick.innerHTML = `<div class="ticker-item">💸 ${currentUser.name} just sold <b>${prod.name}</b> for $${total}!</div>` + tick.innerHTML;
+        
+        // Print
         generateInvoicePDF(tx);
       } else {
         alert("Invalid Quantity!");
       }
     }
 
-    function reprintPDF(txId) {
-      const tx = db[currentUser.email].sales.find(s => s.id == txId);
-      if(tx) generateInvoicePDF(tx);
+    function renderSales() {
+        const tbody = document.getElementById('salesTable');
+        tbody.innerHTML = '';
+        [...db[currentUser.email].sales].reverse().forEach(s => {
+            tbody.innerHTML += `
+            <tr>
+                <td style="color:var(--text-muted); font-size:0.85rem;">${new Date(s.date).toLocaleDateString()}</td>
+                <td>${s.buyer}</td>
+                <td>${s.prodName}</td>
+                <td style="color:var(--success); font-weight:bold;">$${s.total.toLocaleString()}</td>
+                <td><button class="btn btn-sm btn-outline" onclick="generateInvoicePDF(${JSON.stringify(s).replace(/"/g, '&quot;')})"><i class="fas fa-download"></i></button></td>
+            </tr>`;
+        });
     }
 
+    // === 8. REPORT EXPORT (User Specific) ===
+    function exportUserReport() {
+        const mySales = db[currentUser.email].sales;
+        if(mySales.length === 0) return alert("No transactions to export yet.");
+
+        let data = mySales.map(s => ({
+            "Date": new Date(s.date).toLocaleDateString(),
+            "Item": s.prodName,
+            "Type": s.type,
+            "Buyer": s.buyer,
+            "Amount ($)": s.total
+        }));
+
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "My_Monthly_Statement");
+        XLSX.writeFile(wb, `${currentUser.name}_Report.xlsx`);
+    }
+
+    // PDF GEN
     function generateInvoicePDF(tx) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-
-      // BRANDING HEADER
-      doc.setFillColor(15, 23, 42); // Dark Blue Header
-      doc.rect(0, 0, 210, 40, 'F');
-      
-      doc.setTextColor(255, 255, 255);
-      doc.setFontSize(22);
-      doc.setFont("helvetica", "bold");
-      doc.text("INVOICE", 160, 25);
-      
-      doc.setFontSize(16);
-      doc.text(tx.seller, 15, 20); // Seller Name
-      doc.setFontSize(10);
-      doc.setFont("helvetica", "normal");
-      doc.text(tx.sellerLoc, 15, 28);
-      
-      // DETAILS SECTION
-      doc.setTextColor(0, 0, 0);
-      doc.setFontSize(10);
-      doc.text(`Invoice #: INV-${tx.id}`, 150, 50);
-      doc.text(`Date: ${new Date(tx.date).toLocaleDateString()}`, 150, 55);
-
-      doc.setFont("helvetica", "bold");
-      doc.text("Bill To:", 15, 50);
-      doc.setFont("helvetica", "normal");
-      doc.text(tx.buyer, 15, 56);
-      doc.text(tx.buyerLoc, 15, 61);
-
-      // TABLE
-      doc.autoTable({
-        startY: 70,
-        head: [['Product Description', 'Qty', 'Unit Price', 'Tax (%)', 'Tax Amt', 'Total']],
-        body: [
-          [
-            tx.prodName, 
-            tx.qty, 
-            `$${tx.unitPrice}`, 
-            `${tx.taxRate}%`, 
-            `$${tx.taxAmount.toFixed(2)}`, 
-            `$${tx.total.toFixed(2)}`
-          ]
-        ],
-        theme: 'grid',
-        headStyles: { fillColor: [59, 130, 246] }
-      });
-
-      // FOOTER TOTALS
-      let finalY = doc.lastAutoTable.finalY + 10;
-      doc.setFontSize(12);
-      doc.text(`Sub Total: $${(tx.unitPrice * tx.qty).toFixed(2)}`, 140, finalY);
-      doc.text(`Tax Total: $${tx.taxAmount.toFixed(2)}`, 140, finalY + 7);
-      
-      doc.setFontSize(16);
-      doc.setTextColor(16, 185, 129); // Green
-      doc.setFont("helvetica", "bold");
-      doc.text(`GRAND TOTAL: $${tx.total.toFixed(2)}`, 120, finalY + 18);
-
-      // BRANDING FOOTER
-      doc.setTextColor(150);
-      doc.setFontSize(9);
-      doc.setFont("helvetica", "italic");
-      doc.text("Powered by CHANDRA EMPIRE • Business Solutions", 105, 280, null, null, "center");
-
-      doc.save(`Invoice_${tx.buyer}_${tx.id}.pdf`);
+      doc.setFillColor(15, 23, 42); doc.rect(0, 0, 210, 40, 'F');
+      doc.setTextColor(255); doc.setFontSize(22); doc.text("INVOICE", 160, 25);
+      doc.setFontSize(14); doc.text(tx.seller, 15, 25);
+      doc.setTextColor(0); doc.setFontSize(10); doc.text(`Bill To: ${tx.buyer}`, 15, 60);
+      doc.autoTable({ startY: 70, head: [['Item', 'Type', 'Qty', 'Total']], body: [[tx.prodName, tx.type, tx.qty, `$${tx.total}`]], theme: 'grid' });
+      doc.save(`Invoice_${tx.id}.pdf`);
     }
 
-    // === 6. ADMIN EXPORT (EXCEL) ===
-    function exportMasterReport() {
-      // Flatten all data
-      let masterData = [];
-      
-      Object.keys(db).forEach(email => {
-        const user = db[email];
-        user.sales.forEach(sale => {
-          masterData.push({
-            "Seller Name": user.details.name,
-            "Seller Email": user.details.email,
-            "Seller Location": user.details.loc,
-            "Buyer Name": sale.buyer,
-            "Product": sale.prodName,
-            "Quantity": sale.qty,
-            "Sale Date": new Date(sale.date).toLocaleDateString(),
-            "Total Bill Amount ($)": sale.total,
-            "Our Commission (5%)": sale.commission,
-            "Status": "COMPLETED"
-          });
-        });
-      });
-
-      if(masterData.length === 0) return alert("No sales data to export yet!");
-
-      // Generate Worksheet
-      const ws = XLSX.utils.json_to_sheet(masterData);
-      const wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, "Master Sales Report");
-
-      // Save File
-      XLSX.writeFile(wb, "Chandra_Empire_Master_Report.xlsx");
-    }
-
-    // UI Helpers
+    // HELPERS
     function switchView(id, btn) {
       document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active'));
       document.getElementById('view-'+id).classList.add('active');
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
-      const titles = {'dashboard':'Dashboard', 'inventory':'Stock Management', 'sales':'Transactions'};
+      const titles = {'dashboard':'My Workspace', 'inventory':'Asset Vault', 'sales':'Transactions', 'market':'Global Exchange', 'services':'Empire Services'};
       document.getElementById('headerTitle').innerText = titles[id];
     }
-
+    
+    function openModal(type) { document.getElementById(type+'Modal').style.display = 'flex'; }
+    function closeModal() { document.querySelectorAll('.modal-overlay').forEach(e => e.style.display='none'); }
+    function openSellModal(id) {
+        selectedProdId = id;
+        const prod = db[currentUser.email].inventory.find(p => p.id === id);
+        document.getElementById('sellDetails').innerText = `Selling: ${prod.name}`;
+        openModal('sell');
+    }
+    function requestService() {
+        const btn = document.querySelector('#view-services button');
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        setTimeout(() => {
+            document.getElementById('serviceStatus').innerHTML = '<span style="color:#10b981">Request Sent! Ticket #9982 created.</span>';
+            btn.innerHTML = 'Submit Request';
+        }, 1500);
+    }
   </script>
 </body>
 </html>
