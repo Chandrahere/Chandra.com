@@ -289,7 +289,147 @@
       </div>
     </div>
   </section>
+<section id="global-connect" style="padding: 40px 20px; background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="color: #38bdf8; font-size: 2.5rem; margin-bottom: 10px;">Global Talent Connect</h2>
+            <p style="color: #94a3b8; font-size: 1.1rem;">
+                Voori nundi World varaku - Show your Talent to the Universe. <br>
+                <span style="font-size: 0.9rem; color: #64748b;">(Powered by Chandra.com Intelligence)</span>
+            </p>
+        </div>
 
+        <div style="background: #1e293b; padding: 25px; border-radius: 15px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+            <h3 style="margin-top: 0; color: #e2e8f0;">📢 Broadcast Your Power</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <input type="text" id="userName" placeholder="Your Name (Mee Peru)" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; color: white; border-radius: 8px;">
+                <select id="userCategory" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; color: white; border-radius: 8px;">
+                    <option value="Talent">🔥 I have Talent (Skill)</option>
+                    <option value="Need">🤝 I Need Help (Requirement)</option>
+                    <option value="Idea">💡 I have an Idea (Innovation)</option>
+                </select>
+            </div>
+            
+            <textarea id="userMessage" placeholder="Type your skill or need here... (Example: I am a farmer selling organic tomatoes OR I am a Python Developer looking for work)" style="width: 100%; padding: 12px; background: #0f172a; border: 1px solid #475569; color: white; border-radius: 8px; min-height: 80px; margin-bottom: 15px;"></textarea>
+            
+            <button onclick="postToGlobalBoard()" style="width: 100%; padding: 15px; background: linear-gradient(90deg, #2563eb, #7c3aed); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: transform 0.2s;">
+                🚀 Launch to World
+            </button>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <h3 style="color: #38bdf8; border-bottom: 2px solid #334155; padding-bottom: 10px;">🔴 Live Global Feed</h3>
+            <div id="feedContainer" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+                </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    // 1. Setup on Load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPosts();
+    });
+
+    // 2. The Magic Function
+    function postToGlobalBoard() {
+        const name = document.getElementById('userName').value;
+        const category = document.getElementById('userCategory').value;
+        const message = document.getElementById('userMessage').value;
+
+        // Basic Validation
+        if(!name || !message) {
+            alert("Bro! Please enter details. (Dayachesi వివరాలు fill cheyandi)");
+            return;
+        }
+
+        // Create the Data Object
+        const newPost = {
+            id: Date.now(),
+            name: name,
+            category: category,
+            message: message,
+            time: new Date().toLocaleTimeString()
+        };
+
+        // Save to LocalStorage (Persistent Memory)
+        // This is crucial for the "Demo" to work even after refresh!
+        let posts = JSON.parse(localStorage.getItem('chandraGlobalPosts')) || [];
+        posts.unshift(newPost); // Add to top
+        localStorage.setItem('chandraGlobalPosts', JSON.stringify(posts));
+
+        // Play a small sound (Audio Feedback - Professional feel)
+        playSuccessSound();
+
+        // Clear Form & Reload Feed
+        document.getElementById('userName').value = '';
+        document.getElementById('userMessage').value = '';
+        loadPosts();
+    }
+
+    // 3. Display Function
+    function loadPosts() {
+        const container = document.getElementById('feedContainer');
+        const posts = JSON.parse(localStorage.getItem('chandraGlobalPosts')) || [];
+        
+        container.innerHTML = ''; // Clear current list
+
+        posts.forEach(post => {
+            // Dynamic Color based on Category
+            let badgeColor = '#10b981'; // Green for Talent
+            if(post.category === 'Need') badgeColor = '#f59e0b'; // Orange for Need
+            if(post.category === 'Idea') badgeColor = '#8b5cf6'; // Purple for Idea
+
+            const card = `
+                <div style="background: #1e293b; padding: 20px; border-left: 5px solid ${badgeColor}; border-radius: 8px; animation: fadeIn 0.5s ease;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-weight: bold; color: white; font-size: 1.1rem;">${post.name}</span>
+                        <span style="background: ${badgeColor}20; color: ${badgeColor}; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; border: 1px solid ${badgeColor};">${post.category}</span>
+                    </div>
+                    <p style="color: #cbd5e1; margin: 0; line-height: 1.5;">${post.message}</p>
+                    <div style="text-align: right; margin-top: 10px; font-size: 0.75rem; color: #64748b;">
+                        Posted at ${post.time} • <a href="#" style="color: #38bdf8; text-decoration: none;">Connect</a>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
+    }
+
+    // 4. Sound Effect (Subtle "Tech" sound)
+    function playSuccessSound() {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(500, audioCtx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+        
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1);
+    }
+    
+    // Simple Animation Style
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+  
   <section id="console" class="section-content">
     <h2>> Chandra CLI</h2>
     <p style="margin-bottom:1rem;">Direct access to your deployments.</p>
@@ -438,4 +578,5 @@
   </script>
 </body>
 </html>
+
 
