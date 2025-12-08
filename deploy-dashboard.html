@@ -59,27 +59,37 @@
             // 1. Show Loading State
             logBox.style.display = 'block';
             logBox.innerHTML = "<p>> Initializing Uplink to Chandra Cloud...</p>";
+            logBox.innerHTML += "<p>> Verifying GitHub Coordinates...</p>";
             deployBtn.disabled = true;
-            deployBtn.innerText = "DEPLOYING...";
+            deployBtn.innerText = "DEPLOYING... (PLEASE WAIT)";
 
             try {
-                // 2. Send Signal to Cloud Function (The Brain)
-                // REPLACE THE URL BELOW WITH YOUR COPIED URL
+                // 2. Send Signal to Cloud Function
+                // NOTE: Make sure this is your correct Cloud Function URL
                 const response = await fetch('https://deploy-ai-manager-845756299432.us-central1.run.app', { 
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ repo_url: repoUrl })
                 });
 
                 const data = await response.json();
 
-                // 3. Handle Response
+                // 3. Handle Response & Generate URL
                 if (response.ok) {
-                    logBox.innerHTML += `<p style="color: #00ff9d;">> SUCCESS: Build ID [${data.build_id}]</p>`;
-                    logBox.innerHTML += `<p>> Cloud Build Triggered Successfully!</p>`;
-                    logBox.innerHTML += `<p>> Your AI App is being forged in the GCP Empire...</p>`;
+                    // Nee Project ID Number hardcode chesam (from your screenshots)
+                    const projectNumber = "845756299432"; 
+                    const region = "us-central1";
+                    
+                    // URL Generation Formula
+                    const finalUrl = `https://${data.app_name}-${projectNumber}.${region}.run.app`;
+
+                    logBox.innerHTML += `<p style="color: #00ff9d;">> <strong>SUCCESS: SYSTEM LAUNCHED!</strong></p>`;
+                    logBox.innerHTML += `<p>> Build ID: [${data.build_id}]</p>`;
+                    logBox.innerHTML += `<p>> ------------------------------------------------</p>`;
+                    logBox.innerHTML += `<p style="font-size: 1.2em;">> <strong>YOUR APP URL:</strong> <br> <a href="${finalUrl}" target="_blank" style="color: #00ff9d; text-decoration: underline;">${finalUrl}</a></p>`;
+                    logBox.innerHTML += `<p>> ------------------------------------------------</p>`;
+                    logBox.innerHTML += `<p style="color: yellow;">> NOTE: Link will be active in approx 60-90 seconds (After Build Completes).</p>`;
+                    
                 } else {
                     logBox.innerHTML += `<p style="color: red;">> ERROR: ${data.message}</p>`;
                 }
@@ -96,3 +106,4 @@
 </body>
 
 </html>
+
