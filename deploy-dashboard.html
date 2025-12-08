@@ -49,33 +49,50 @@
     </div>
 
     <script>
-        document.getElementById('deployForm').addEventListener('submit', function(e) {
+        document.getElementById('deployForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            document.getElementById('logs').style.display = 'block';
             
+            const repoUrl = document.querySelector('input[type="text"]').value;
             const logBox = document.getElementById('logs');
-            const messages = [
-                "> Authenticating with GCP Service Account...",
-                "> Cloning Repository...",
-                "> Building Docker Image...",
-                "> Provisioning Cloud Run Instance...",
-                "> Attaching GPU Drivers...",
-                "> DEPLOYMENT SUCCESSFUL! 🚀",
-                "> Your App is live at: https://my-ai-app-x82s.a.run.app"
-            ];
+            const deployBtn = document.querySelector('.deploy-btn');
 
-            let i = 0;
-            function typeWriter() {
-                if (i < messages.length) {
-                    logBox.innerHTML += `<p>${messages[i]}</p>`;
-                    logBox.scrollTop = logBox.scrollHeight;
-                    i++;
-                    setTimeout(typeWriter, 1500); // Delays for effect
+            // 1. Show Loading State
+            logBox.style.display = 'block';
+            logBox.innerHTML = "<p>> Initializing Uplink to Chandra Cloud...</p>";
+            deployBtn.disabled = true;
+            deployBtn.innerText = "DEPLOYING...";
+
+            try {
+                // 2. Send Signal to Cloud Function (The Brain)
+                // REPLACE THE URL BELOW WITH YOUR COPIED URL
+                const response = await fetch('https://deploy-ai-manager-845756299432.us-central1.run.app', { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ repo_url: repoUrl })
+                });
+
+                const data = await response.json();
+
+                // 3. Handle Response
+                if (response.ok) {
+                    logBox.innerHTML += `<p style="color: #00ff9d;">> SUCCESS: Build ID [${data.build_id}]</p>`;
+                    logBox.innerHTML += `<p>> Cloud Build Triggered Successfully!</p>`;
+                    logBox.innerHTML += `<p>> Your AI App is being forged in the GCP Empire...</p>`;
+                } else {
+                    logBox.innerHTML += `<p style="color: red;">> ERROR: ${data.message}</p>`;
                 }
+
+            } catch (error) {
+                logBox.innerHTML += `<p style="color: red;">> CONNECTION FAILED: ${error.message}</p>`;
             }
-            typeWriter();
+
+            deployBtn.disabled = false;
+            deployBtn.innerText = "INITIATE LAUNCH SEQUENCE";
         });
     </script>
 
 </body>
+
 </html>
