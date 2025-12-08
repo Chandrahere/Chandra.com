@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chandra Cloud - AI Deployer</title>
+    <style>
+        body { background-color: #0f0f0f; color: #00ff9d; font-family: 'Courier New', monospace; }
+        .container { max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #333; }
+        .input-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 10px; font-weight: bold; }
+        input, select { width: 100%; padding: 15px; background: #222; border: 1px solid #444; color: white; }
+        .deploy-btn { background: #00ff9d; color: black; border: none; padding: 15px 30px; font-size: 18px; cursor: pointer; font-weight: bold; }
+        .deploy-btn:hover { background: #00cc7a; }
+        .status-log { background: black; padding: 20px; border: 1px dashed #555; margin-top: 20px; height: 150px; overflow-y: scroll; display: none;}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>⚡ Deploy Your AI App</h1>
+        <p>Connect your GitHub, select your GPU, and launch.</p>
+        
+        <form id="deployForm">
+            <div class="input-group">
+                <label>📂 GitHub Repo URL</label>
+                <input type="text" placeholder="https://github.com/username/my-ai-app" required>
+            </div>
+
+            <div class="input-group">
+                <label>🖥️ Select Compute Power</label>
+                <select>
+                    <option>Standard (CPU Only) - $29/mo</option>
+                    <option>AI Starter (NVIDIA T4) - $99/mo</option>
+                    <option>AI Beast (NVIDIA A100) - $500/mo</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>🔑 OpenAI / HuggingFace API Key</label>
+                <input type="password" placeholder="sk-........................">
+            </div>
+
+            <button type="submit" class="deploy-btn">INITIATE LAUNCH SEQUENCE</button>
+        </form>
+
+        <div class="status-log" id="logs">
+            <p>> Connecting to Google Cloud Platform...</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('deployForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('logs').style.display = 'block';
+            
+            const logBox = document.getElementById('logs');
+            const messages = [
+                "> Authenticating with GCP Service Account...",
+                "> Cloning Repository...",
+                "> Building Docker Image...",
+                "> Provisioning Cloud Run Instance...",
+                "> Attaching GPU Drivers...",
+                "> DEPLOYMENT SUCCESSFUL! 🚀",
+                "> Your App is live at: https://my-ai-app-x82s.a.run.app"
+            ];
+
+            let i = 0;
+            function typeWriter() {
+                if (i < messages.length) {
+                    logBox.innerHTML += `<p>${messages[i]}</p>`;
+                    logBox.scrollTop = logBox.scrollHeight;
+                    i++;
+                    setTimeout(typeWriter, 1500); // Delays for effect
+                }
+            }
+            typeWriter();
+        });
+    </script>
+
+</body>
+</html>
