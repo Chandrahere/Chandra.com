@@ -748,5 +748,87 @@
         });
     }
   </script>
+  <div id="connectModal" class="modal-overlay" onclick="closeQr()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="close-btn" onclick="closeQr()">&times;</span>
+    
+    <div style="text-align:center;">
+      <h2 style="color:var(--primary); margin-bottom:10px;">Chandra Network ID</h2>
+      <p style="color:#666; font-size:0.9rem; margin-bottom:20px;">Scan to Connect & Access Empire</p>
+      
+      <div style="background: white; padding: 15px; border-radius: 12px; display:inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <img id="qrImage" src="" alt="Chandra QR" width="200" height="200">
+      </div>
+
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:10px;">
+        <button onclick="window.location.href='mailto:chsekhui@gmail.com'" class="hero-btn btn-main" style="justify-content:center;">
+          <i class="fas fa-envelope"></i> Email Me
+        </button>
+        <button onclick="window.location.href='https://discord.gg/DkpXCRhT'" class="hero-btn btn-outline" style="justify-content:center;">
+          <i class="fab fa-discord"></i> Join Discord
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fab-connect" onclick="openQr()">
+  <i class="fas fa-qrcode"></i>
+</div>
+
+<style>
+  /* Floating Button Style */
+  .fab-connect {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--dark); color: white;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease; z-index: 2000;
+  }
+  .fab-connect:hover { transform: scale(1.1) rotate(90deg); background: var(--primary); }
+
+  /* Modal Styles */
+  .modal-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px);
+    z-index: 3000; align-items: center; justify-content: center;
+    animation: fadeIn 0.3s;
+  }
+  .modal-content {
+    background: #fff; padding: 2rem; border-radius: 20px;
+    width: 90%; max-width: 350px; position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    animation: slideUp 0.3s;
+  }
+  .close-btn {
+    position: absolute; top: 15px; right: 20px;
+    font-size: 1.5rem; cursor: pointer; color: #999;
+  }
+  .close-btn:hover { color: var(--danger); }
+
+  @keyframes slideUp { from { transform: translateY(50px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+</style>
+
+<script>
+  // === QR LOGIC ===
+  function openQr() {
+    const modal = document.getElementById('connectModal');
+    const qrImg = document.getElementById('qrImage');
+    
+    // Auto-generate QR for the current website URL
+    // Using a reliable public API for QR generation
+    const currentUrl = window.location.href; 
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(currentUrl)}`;
+    
+    modal.style.display = 'flex';
+  }
+
+  function closeQr() {
+    document.getElementById('connectModal').style.display = 'none';
+  }
+</script>
 </body>
 </html>
+
