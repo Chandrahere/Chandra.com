@@ -1,342 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>THUG RIDE • ELITE GARAGE</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-  <style>
-    :root {
-      --neon-red: #ff003c;
-      --neon-blue: #00f3ff;
-      --gold: #ffd700;
-      --bg-dark: #050505;
-      --card-bg: #111;
-      --text-main: #fff;
-      --text-muted: #888;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHANDRA'S GARAGE • Elite Inventory</title>
     
-    * { margin:0; padding:0; box-sizing:border-box; }
-    
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      font-family: 'Exo 2', sans-serif;
-      overflow-x: hidden;
-    }
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    /* === PREMIUM NAVBAR === */
-    nav {
-      position: fixed; top: 0; width: 100%; z-index: 1000;
-      background: rgba(5, 5, 5, 0.9); backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center;
-    }
-    .logo { 
-      font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: 2px;
-      cursor: pointer;
-    }
-    .logo span { color: var(--neon-red); }
-    .back-link { color: #fff; text-decoration: none; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-    .back-link:hover { color: var(--neon-blue); }
+    <style>
+        :root {
+            --primary: #2563eb;
+            --accent: #f97316;
+            --bg-light: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-dark: #111827;
+            --text-gray: #6b7280;
+            --shadow-soft: 0 10px 40px -10px rgba(0,0,0,0.08);
+            --shadow-hover: 0 20px 50px -12px rgba(37, 99, 235, 0.25);
+        }
 
-    /* === CINEMATIC HERO === */
-    .hero {
-      height: 65vh; position: relative;
-      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-      background: linear-gradient(0deg, #050505 0%, rgba(0,0,0,0.4) 100%), 
-                  url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop');
-      background-size: cover; background-position: center;
-    }
-    .hero h1 { 
-      font-family: 'Orbitron'; font-size: clamp(3rem, 6vw, 5rem); 
-      font-weight: 900; text-transform: uppercase; margin-bottom: 10px;
-      background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .hero p { font-size: 1.2rem; color: var(--neon-blue); letter-spacing: 3px; text-transform: uppercase; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; }
 
-    /* === FILTER BAR === */
-    .filter-sticky { position: sticky; top: 70px; z-index: 900; background: rgba(5,5,5,0.95); padding: 20px 0; border-bottom: 1px solid #222; }
-    .filter-container { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-    .filter-btn {
-      background: transparent; border: 1px solid #333; color: #888;
-      padding: 8px 24px; font-family: 'Orbitron'; cursor: pointer;
-      font-size: 0.85rem; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      border-color: var(--neon-red); color: #fff; background: rgba(255, 0, 60, 0.1);
-    }
-    
-    /* === INVENTORY GRID === */
-    .inventory-section { max-width: 1400px; margin: 0 auto; padding: 40px 5% 100px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 30px; }
+        /* NAVBAR - Glassmorphism Light */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding: 1.2rem 5%; display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.4rem; font-weight: 800; color: var(--text-dark); letter-spacing: -1px; cursor: pointer; }
+        .logo span { color: var(--primary); }
+        .back-link { color: var(--text-gray); text-decoration: none; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
+        .back-link:hover { color: var(--primary); }
 
-    /* === PRO CAR CARD === */
-    .car-card {
-      background: var(--card-bg); border: 1px solid #222; border-radius: 4px;
-      overflow: hidden; transition: 0.4s ease; position: relative;
-    }
-    .car-card:hover { transform: translateY(-5px); border-color: var(--neon-blue); box-shadow: 0 10px 40px rgba(0, 243, 255, 0.1); }
-    
-    .badge {
-      position: absolute; top: 15px; left: 15px; padding: 4px 10px;
-      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; z-index: 2;
-      background: #000; border: 1px solid var(--neon-blue); color: var(--neon-blue);
-    }
-    .badge.owner { border-color: var(--gold); color: var(--gold); }
-    .badge.sale { border-color: var(--neon-red); color: var(--neon-red); }
+        /* HERO SECTION - Clean & Airy */
+        .hero {
+            height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 20px;
+            background: radial-gradient(circle at center, #ffffff 0%, #e5e7eb 100%);
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; letter-spacing: -2px;
+            background: linear-gradient(135deg, #111 0%, #444 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 15px; opacity: 0; animation: fadeUp 1s ease forwards;
+        }
+        .hero p {
+            font-size: 1.2rem; color: var(--text-gray); max-width: 600px;
+            opacity: 0; animation: fadeUp 1s ease 0.3s forwards;
+        }
+        .badge-hero {
+            background: #dbeafe; color: var(--primary); padding: 5px 15px; border-radius: 50px; 
+            font-size: 0.8rem; font-weight: 700; margin-bottom: 20px; text-transform: uppercase;
+            opacity: 0; animation: fadeUp 1s ease 0.1s forwards;
+        }
 
-    .img-wrapper { height: 220px; overflow: hidden; position: relative; }
-    .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-    .car-card:hover .img-wrapper img { transform: scale(1.05); }
-    
-    .car-info { padding: 20px; }
-    .car-title { font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 5px; font-family: 'Orbitron'; }
-    .car-meta { display: flex; gap: 15px; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; }
-    .car-meta i { color: var(--neon-blue); margin-right: 5px; }
+        /* GRID SYSTEM */
+        .container { max-width: 1200px; margin: -50px auto 100px; padding: 0 20px; position: relative; z-index: 10; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 40px; }
 
-    .pricing-row { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 10px; padding-top: 15px; border-top: 1px solid #222; }
-    
-    .rent-price { font-size: 0.9rem; color: #aaa; }
-    .rent-price span { color: #fff; font-size: 1.2rem; font-weight: bold; }
-    
-    .buy-price { font-size: 0.9rem; color: #aaa; text-align: right; }
-    .buy-price span { color: var(--neon-red); font-size: 1.2rem; font-weight: bold; }
+        /* PREMIUM CARD DESIGN */
+        .card {
+            background: var(--card-bg); border-radius: 20px; overflow: hidden;
+            box-shadow: var(--shadow-soft); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; opacity: 0; animation: fadeUp 0.8s ease forwards;
+        }
+        /* Stagger animations for cards */
+        .card:nth-child(1) { animation-delay: 0.5s; }
+        .card:nth-child(2) { animation-delay: 0.7s; }
+        .card:nth-child(3) { animation-delay: 0.9s; }
+        .card:nth-child(4) { animation-delay: 1.1s; }
 
-    .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-    .btn {
-      padding: 10px; border: none; font-weight: 600; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; transition: 0.2s;
-    }
-    .btn-rent { background: #222; color: #fff; border: 1px solid #444; }
-    .btn-rent:hover { background: #fff; color: #000; }
-    .btn-buy { background: var(--neon-red); color: #fff; }
-    .btn-buy:hover { background: #cc0030; }
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-hover);
+        }
 
-    /* === RENTAL MODAL === */
-    .modal-overlay {
-      position: fixed; top:0; left:0; width:100%; height:100%;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
-      z-index: 2000; display: none; justify-content: center; align-items: center;
-    }
-    .modal-content {
-      background: #111; border: 1px solid var(--neon-blue); padding: 30px;
-      width: 90%; max-width: 450px; position: relative;
-    }
-    .close-modal { position: absolute; top: 15px; right: 20px; color: #555; cursor: pointer; font-size: 1.5rem; }
-    .modal-title { font-family: 'Orbitron'; font-size: 1.5rem; color: var(--neon-blue); margin-bottom: 20px; }
-    
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; color: #888; font-size: 0.85rem; margin-bottom: 5px; }
-    .form-group input { width: 100%; padding: 10px; background: #222; border: 1px solid #333; color: white; outline: none; }
-    .total-display { margin-top: 20px; padding-top: 15px; border-top: 1px solid #333; display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; }
+        .img-box { height: 250px; overflow: hidden; position: relative; background: #f0f0f0; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
+        .card:hover .img-box img { transform: scale(1.08); }
 
-  </style>
+        .tag {
+            position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.9);
+            padding: 6px 14px; border-radius: 30px; font-size: 0.75rem; font-weight: 700; color: var(--text-dark);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .details { padding: 25px; }
+        .title { font-size: 1.4rem; font-weight: 800; color: var(--text-dark); margin-bottom: 5px; }
+        .specs { display: flex; gap: 15px; font-size: 0.85rem; color: var(--text-gray); margin: 15px 0; }
+        .specs span { display: flex; align-items: center; gap: 5px; }
+
+        .pricing { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; }
+        .price-tag { font-size: 1.5rem; font-weight: 800; color: var(--text-dark); }
+        .price-tag span { font-size: 0.9rem; font-weight: 500; color: var(--text-gray); }
+
+        .actions { margin-top: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn {
+            padding: 12px; border-radius: 10px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s;
+        }
+        .btn-play { background: #f3f4f6; color: var(--text-dark); }
+        .btn-play:hover { background: #e5e7eb; }
+        .btn-rent { background: var(--text-dark); color: white; }
+        .btn-rent:hover { background: var(--primary); }
+
+        /* VISIT GARAGE BANNER */
+        .visit-banner {
+            margin-top: 80px; padding: 60px; background: #fff; border-radius: 20px; text-align: center;
+            box-shadow: var(--shadow-soft);
+        }
+        .visit-banner h2 { font-size: 2rem; font-weight: 800; margin-bottom: 10px; }
+        .visit-banner p { color: var(--text-gray); margin-bottom: 30px; }
+        .visit-btn {
+            padding: 15px 40px; background: var(--accent); color: white; text-decoration: none;
+            border-radius: 50px; font-weight: bold; box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3); transition: 0.3s;
+        }
+        .visit-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(249, 115, 22, 0.4); }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
 </head>
 <body>
 
-  <nav>
-    <div class="logo" onclick="window.location.href='index.html'">CHANDRA<span>GARAGE</span></div>
-    <a href="index.html" class="back-link"><i class="fas fa-chevron-left"></i> Empire Hub</a>
-  </nav>
+    <nav>
+        <div class="logo" onclick="location.href='index.html'">CHANDRA<span>GARAGE</span></div>
+        <a href="index.html" class="back-link">← Back to Empire</a>
+    </nav>
 
-  <header class="hero">
-    <h1>The Elite Fleet</h1>
-    <p>Own The Streets or Rent The Experience</p>
-    <div style="margin-top: 20px; font-size: 0.9rem; color: #666;">
-      <i class="fas fa-check-circle" style="color:var(--neon-blue)"></i> Verified Inventory &nbsp;|&nbsp; 
-      <i class="fas fa-shield-alt" style="color:var(--neon-blue)"></i> Insured Rides
+    <section class="hero">
+        <div class="badge-hero">Welcome to the Collection</div>
+        <h1>Gear up Garage</h1>
+        <p>I have curated these machines for you. Play with them virtually, rent for the thrill, or buy to own. The choice is yours.</p>
+    </section>
+
+    <div class="container">
+        <div class="grid">
+
+            <div class="card">
+                <div class="tag">My Favorite</div>
+                <div class="img-box">
+                    <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=2070&auto=format&fit=crop" alt="Infiniti">
+                </div>
+                <div class="details">
+                    <div class="title">Infiniti QX60</div>
+                    <div class="specs">
+                        <span><i class="fas fa-tachometer-alt"></i> 190k mi</span>
+                        <span><i class="fas fa-gas-pump"></i> V6</span>
+                        <span><i class="fas fa-user"></i> 7 Seats</span>
+                    </div>
+                    <div class="pricing">
+                        <div class="price-tag">$150<span>/day</span></div>
+                        <div style="text-align: right; font-size: 0.9rem; color: #888;">Buy: $14.5k</div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-play">🎮 Test Drive (VR)</button>
+                        <button class="btn btn-rent" onclick="alert('Booking Flow Coming Soon with Stripe!')">Rent Key</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="tag" style="color: var(--accent);">Fast Mover</div>
+                <div class="img-box">
+                    <img src="https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?q=80&w=2070&auto=format&fit=crop" alt="Mustang">
+                </div>
+                <div class="details">
+                    <div class="title">Ford Mustang GT</div>
+                    <div class="specs">
+                        <span><i class="fas fa-bolt"></i> 5.0L V8</span>
+                        <span><i class="fas fa-clock"></i> 3.9s</span>
+                    </div>
+                    <div class="pricing">
+                        <div class="price-tag">$250<span>/day</span></div>
+                        <div style="text-align: right; font-size: 0.9rem; color: #888;">Buy: $42k</div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-play">🎮 Test Drive (VR)</button>
+                        <button class="btn btn-rent" onclick="alert('Booking Flow Coming Soon with Stripe!')">Rent Key</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="tag">Electric King</div>
+                <div class="img-box">
+                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop" alt="Tesla">
+                </div>
+                <div class="details">
+                    <div class="title">Tesla Model S Plaid</div>
+                    <div class="specs">
+                        <span><i class="fas fa-charging-station"></i> 396mi</span>
+                        <span><i class="fas fa-rocket"></i> 1.99s</span>
+                    </div>
+                    <div class="pricing">
+                        <div class="price-tag">$300<span>/day</span></div>
+                        <div style="text-align: right; font-size: 0.9rem; color: #888;">Buy: $89k</div>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-play">🎮 Test Drive (VR)</button>
+                        <button class="btn btn-rent" onclick="alert('Booking Flow Coming Soon with Stripe!')">Rent Key</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="visit-banner">
+            <h2>Experience The Garage in Person</h2>
+            <p>Pictures don't do justice. Come over, have a coffee, and hear the engines roar.</p>
+            <a href="mailto:chsekhui@gmail.com?subject=Visit Request for Garage" class="visit-btn">Schedule a Visit ➔</a>
+        </div>
     </div>
-  </header>
-
-  <div class="filter-sticky">
-    <div class="filter-container">
-      <button class="filter-btn active" onclick="filterSelection('all')">Show All</button>
-      <button class="filter-btn" onclick="filterSelection('suv')">Luxury SUVs</button>
-      <button class="filter-btn" onclick="filterSelection('supercar')">Supercars</button>
-      <button class="filter-btn" onclick="filterSelection('bike')">Motorcycles</button>
-    </div>
-  </div>
-
-  <section class="inventory-section">
-    <div class="grid">
-
-      <div class="car-card filter-item suv">
-        <div class="badge owner">Owner's Collection</div>
-        <div class="img-wrapper">
-          <img src="https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=2070&auto=format&fit=crop" alt="Infiniti QX60">
-        </div>
-        <div class="car-info">
-          <div class="car-title">Infiniti QX60 (2014)</div>
-          <div class="car-meta">
-            <span><i class="fas fa-road"></i> 90k mi</span>
-            <span><i class="fas fa-cogs"></i> 3.5L V6</span>
-            <span><i class="fas fa-chair"></i> 7 Seats</span>
-          </div>
-          <div class="pricing-row">
-            <div class="rent-price">Rent<br><span>$150</span>/day</div>
-            <div class="buy-price">Buy<br><span>$14,500</span></div>
-          </div>
-          <div class="action-row">
-            <button class="btn btn-rent" onclick="openRental('Infiniti QX60', 150)">Rent Now</button>
-            <button class="btn btn-buy">Buy Details</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="car-card filter-item supercar">
-        <div class="badge sale">Hot Deal</div>
-        <div class="img-wrapper">
-          <img src="https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?q=80&w=2070&auto=format&fit=crop" alt="Mustang">
-        </div>
-        <div class="car-info">
-          <div class="car-title">Ford Mustang GT</div>
-          <div class="car-meta">
-            <span><i class="fas fa-road"></i> 12k mi</span>
-            <span><i class="fas fa-bolt"></i> V8 5.0L</span>
-            <span><i class="fas fa-stopwatch"></i> 3.9s</span>
-          </div>
-          <div class="pricing-row">
-            <div class="rent-price">Rent<br><span>$250</span>/day</div>
-            <div class="buy-price">Buy<br><span>$42,000</span></div>
-          </div>
-          <div class="action-row">
-            <button class="btn btn-rent" onclick="openRental('Mustang GT', 250)">Rent Now</button>
-            <button class="btn btn-buy">Buy Details</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="car-card filter-item supercar">
-        <div class="badge sale">Electric Beast</div>
-        <div class="img-wrapper">
-          <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?q=80&w=2070&auto=format&fit=crop" alt="Tesla">
-        </div>
-        <div class="car-info">
-          <div class="car-title">Tesla Model S Plaid</div>
-          <div class="car-meta">
-            <span><i class="fas fa-battery-full"></i> 396 mi</span>
-            <span><i class="fas fa-bolt"></i> 1020 HP</span>
-            <span><i class="fas fa-fighter-jet"></i> 1.99s</span>
-          </div>
-          <div class="pricing-row">
-            <div class="rent-price">Rent<br><span>$300</span>/day</div>
-            <div class="buy-price">Buy<br><span>$89,000</span></div>
-          </div>
-          <div class="action-row">
-            <button class="btn btn-rent" onclick="openRental('Tesla Plaid', 300)">Rent Now</button>
-            <button class="btn btn-buy">Buy Details</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="car-card filter-item bike">
-        <div class="badge owner">Classic</div>
-        <div class="img-wrapper">
-          <img src="https://images.unsplash.com/photo-1558981806-ec527fa84f3d?q=80&w=2070&auto=format&fit=crop" alt="Harley">
-        </div>
-        <div class="car-info">
-          <div class="car-title">Harley Iron 883</div>
-          <div class="car-meta">
-            <span><i class="fas fa-road"></i> 5k mi</span>
-            <span><i class="fas fa-motorcycle"></i> 883cc</span>
-            <span><i class="fas fa-wind"></i> Cruiser</span>
-          </div>
-          <div class="pricing-row">
-            <div class="rent-price">Rent<br><span>$90</span>/day</div>
-            <div class="buy-price">Buy<br><span>$11,500</span></div>
-          </div>
-          <div class="action-row">
-            <button class="btn btn-rent" onclick="openRental('Harley 883', 90)">Rent Now</button>
-            <button class="btn btn-buy">Buy Details</button>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="modal-overlay" id="rentalModal">
-    <div class="modal-content">
-      <div class="close-modal" onclick="closeRental()">&times;</div>
-      <div class="modal-title">Book Experience</div>
-      <p id="modalCarName" style="color:#fff; margin-bottom:20px;">...</p>
-      
-      <div class="form-group">
-        <label>Pick-up Date</label>
-        <input type="date" id="pickupDate" onchange="calcTotal()">
-      </div>
-      <div class="form-group">
-        <label>Drop-off Date</label>
-        <input type="date" id="dropDate" onchange="calcTotal()">
-      </div>
-      
-      <div class="total-display">
-        <span>Est. Total:</span>
-        <span id="totalPrice" style="color:var(--neon-blue)">$0</span>
-      </div>
-      
-      <button class="btn btn-buy" style="width:100%; margin-top:20px; padding:15px; font-size:1rem;" onclick="confirmBooking()">
-        CONFIRM BOOKING
-      </button>
-    </div>
-  </div>
-
-  <script>
-    // FILTER LOGIC
-    function filterSelection(c) {
-      const items = document.querySelectorAll('.filter-item');
-      const btns = document.querySelectorAll('.filter-btn');
-      
-      btns.forEach(b => {
-        b.classList.remove('active');
-        if(b.innerText.toLowerCase().includes(c) || (c==='all' && b.innerText==='Show All')) b.classList.add('active');
-      });
-
-      items.forEach(item => {
-        if (c === 'all') {
-          item.style.display = 'block';
-        } else {
-          item.style.display = item.classList.contains(c) ? 'block' : 'none';
-        }
-      });
-    }
-
-    // RENTAL LOGIC
-    let currentRate = 0;
-    
-    function openRental(name, rate) {
-      document.getElementById('rentalModal').style.display = 'flex';
-      document.getElementById('modalCarName').innerText = "Vehicle: " + name;
-      currentRate = rate;
-      document.getElementById('totalPrice').innerText = "$0";
-    }
-
-    function closeRental() {
-      document.getElementById('rentalModal').style.display = 'none';
-    }
-
-    function calcTotal() {
-      const d1 = new Date(document.getElementById('pickupDate').value);
-      const d2 = new Date(document.getElementById('dropDate').value);
-      
-      if(d1 && d2 && d2 > d1) {
-        const diffTime = Math.abs(d2 - d1);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-        const total = diffDays * currentRate;
-        document.getElementById('totalPrice').innerText = "$" + total;
-      } else {
-        document.getElementById('totalPrice').innerText = "$0";
-      }
-    }
-
-    function confirmBooking() {
-      alert("Booking Request Sent! Our team will contact you for payment.");
-      closeRental();
-    }
-  </script>
 
 </body>
 </html>
