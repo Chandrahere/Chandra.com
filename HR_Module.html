@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chandra.com • Enterprise Operations Hub</title>
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Professional Corporate Palette */
+      --primary: #1f2937;    /* Slate 800 - Strong Dark */
+      --secondary: #3b82f6;  /* Blue 500 - Primary Action */
+      --success: #10b981;    /* Green 500 */
+      --warning: #f59e0b;    /* Amber 500 */
+      --danger: #ef4444;     /* Red 500 */
+      
+      --bg-body: #f3f4f6;    /* Light Grey Background */
+      --surface: #ffffff;    /* Pure White Surface */
+      --border: #e5e7eb;     /* Border Grey */
+      
+      --text-main: #111827;
+      --text-sub: #6b7280;
+    }
+    
+    * { margin:0; padding:0; box-sizing:border-box; outline:none; font-family: 'Inter', sans-serif; }
+    
+    body { background: var(--bg-body); color: var(--text-main); height: 100vh; display: flex; overflow: hidden; }
+
+    /* === SIDEBAR === */
+    .sidebar {
+      width: 260px; background: var(--primary); color: #fff;
+      display: flex; flex-direction: column; flex-shrink: 0;
+      transition: all 0.3s;
+    }
+    .brand {
+      height: 64px; display: flex; align-items: center; padding: 0 24px;
+      font-size: 1.2rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.1);
+      letter-spacing: 0.5px;
+    }
+    .brand span { color: var(--secondary); margin-right: 5px; }
+    
+    .nav-menu { flex: 1; padding: 20px 10px; overflow-y: auto; }
+    .nav-category { font-size: 0.75rem; text-transform: uppercase; color: #9ca3af; margin: 15px 15px 5px; font-weight: 600; letter-spacing: 0.5px; }
+    
+    .nav-item {
+      padding: 12px 15px; margin-bottom: 4px; border-radius: 6px; cursor: pointer;
+      display: flex; align-items: center; gap: 12px; color: #d1d5db; font-size: 0.9rem; font-weight: 500;
+      transition: all 0.2s;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .nav-item.active { background: var(--secondary); color: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .nav-item i { width: 20px; text-align: center; }
+
+    /* === MAIN CONTENT === */
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+    header {
+      height: 64px; background: var(--surface); border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center; padding: 0 30px;
+      box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); z-index: 10;
+    }
+    .page-title { font-size: 1.25rem; font-weight: 600; color: var(--text-main); }
+    
+    .content-area { flex: 1; padding: 30px; overflow-y: auto; background: var(--bg-body); }
+    
+    /* === COMMON COMPONENTS === */
+    .btn { 
+      background: var(--primary); color: #fff; border: none; padding: 8px 16px; 
+      border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 500;
+      display: inline-flex; align-items: center; gap: 8px; transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn-primary { background: var(--secondary); }
+    .btn-success { background: var(--success); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-main); }
+    .btn-outline:hover { background: #f9fafb; }
+
+    .card { background: var(--surface); padding: 20px; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    
+    /* KPI CARDS */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+    .kpi-card { background: var(--surface); padding: 20px; border-radius: 8px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: space-between; }
+    .kpi-label { color: var(--text-sub); font-size: 0.85rem; font-weight: 500; margin-bottom: 5px; }
+    .kpi-value { font-size: 1.8rem; font-weight: 700; color: var(--text-main); }
+    .kpi-trend { font-size: 0.8rem; margin-top: 5px; }
+    .trend-up { color: var(--success); }
+    
+    /* TABLES */
+    .table-container { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 16px 24px; background: #f9fafb; color: var(--text-sub); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+    td { padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--text-main); vertical-align: middle; }
+    tr:last-child td { border-bottom: none; }
+    .badge { padding: 4px 10px; border-radius: 99px; font-size: 0.75rem; font-weight: 600; }
+    .badge-green { background: #dcfce7; color: #166534; }
+    .badge-yellow { background: #fef3c7; color: #92400e; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+
+    /* KANBAN BOARD (Fixed CSS) */
+    .kanban-board { display: flex; gap: 24px; height: calc(100vh - 180px); overflow-x: auto; padding-bottom: 10px; }
+    .board-col { 
+      background: #f3f4f6; border: 1px solid var(--border); border-radius: 8px; 
+      width: 320px; flex-shrink: 0; display: flex; flex-direction: column; max-height: 100%;
+    }
+    .col-header { padding: 16px; font-weight: 600; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; background: #fff; border-radius: 8px 8px 0 0; }
+    .col-body { padding: 16px; flex: 1; overflow-y: auto; min-height: 100px; }
+    
+    /* The Task Card Style was missing - added here */
+    .task-card {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 6px;
+      padding: 12px; margin-bottom: 12px; cursor: grab;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .task-card:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .task-card:active { cursor: grabbing; }
+    .task-title { font-weight: 500; margin-bottom: 8px; font-size: 0.95rem; }
+    .task-meta { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--text-sub); }
+    .tag { background: #e5e7eb; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+
+    /* ROOM GRID */
+    .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+    .room-card { 
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px; 
+      padding: 20px; text-align: center; cursor: pointer; position: relative; overflow: hidden;
+    }
+    .room-card::before { content:''; position: absolute; top:0; left:0; width: 6px; height: 100%; background: var(--border); }
+    .room-occupied::before { background: var(--danger); }
+    .room-cleaning::before { background: var(--warning); }
+    .room-available::before { background: var(--success); }
+    
+    .room-num { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; }
+    .room-status { font-size: 0.8rem; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+
+    /* Utility */
+    .hidden { display: none !important; }
+    .section-header { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="brand">
+      <i class="fas fa-layer-group" style="margin-right:10px; color:var(--secondary);"></i> Chandra.com
+    </div>
+    
+    <div class="nav-menu">
+      <div class="nav-category">Main Dashboard</div>
+      <div class="nav-item active" onclick="nav('overview', this)"><i class="fas fa-chart-pie"></i> Overview</div>
+      <div class="nav-item" onclick="nav('work', this)"><i class="fas fa-tasks"></i> Operations Board</div>
+      
+      <div class="nav-category">Human Resources (HR)</div>
+      <div class="nav-item" onclick="nav('staff', this)"><i class="fas fa-users"></i> Staff Directory</div>
+      <div class="nav-item" onclick="nav('recruiting', this)"><i class="fas fa-user-plus"></i> Recruitment</div>
+      <div class="nav-item" onclick="nav('accounts', this)"><i class="fas fa-file-invoice-dollar"></i> Payroll & Finance</div>
+      
+      <div class="nav-category">Property Management</div>
+      <div class="nav-item" onclick="nav('property', this)"><i class="fas fa-hotel"></i> Room Status</div>
+      <div class="nav-item" onclick="nav('clients', this)"><i class="fas fa-comments"></i> Team Comms</div>
+    </div>
+    
+    <div style="padding: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <div style="font-size: 0.8rem; opacity: 0.7;">System Status</div>
+      <div style="display:flex; align-items:center; gap:5px; font-size:0.9rem; font-weight:600; color:var(--success);">
+        <div style="width:8px; height:8px; background:var(--success); border-radius:50%;"></div> Online
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-wrapper">
+    <header>
+      <div class="page-title" id="pageTitle">Operations Overview</div>
+      <div style="display:flex; gap:15px;">
+        <button class="btn btn-outline"><i class="far fa-bell"></i> Alerts (2)</button>
+        <button class="btn btn-primary"><i class="fas fa-plus"></i> Quick Action</button>
+      </div>
+    </header>
+
+    <div class="content-area">
+      
+      <div id="view-overview" class="module-view">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Staff</div>
+            <div class="kpi-value" id="count-staff">0</div>
+            <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> 2 New this month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Active Projects</div>
+            <div class="kpi-value" id="count-work">0</div>
+            <div class="kpi-trend" style="color:var(--text-sub);">On track</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Property Occupancy</div>
+            <div class="kpi-value">75%</div>
+            <div class="kpi-trend trend-up"><i class="fas fa-arrow-up"></i> 5% vs last week</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Monthly Revenue</div>
+            <div class="kpi-value">$42.5k</div>
+            <div class="kpi-trend trend-up"><i class="fas fa-check"></i> Target Reached</div>
+          </div>
+        </div>
+        
+        <div class="section-header">Attention Required</div>
+        <div style="background:#fff3cd; border-left:4px solid #ffc107; padding:20px; border-radius:4px; margin-bottom:20px; display:flex; align-items:center; gap:15px;">
+           <i class="fas fa-exclamation-circle" style="color:#b45309; font-size:1.5rem;"></i>
+           <div>
+             <h4 style="color:#b45309; margin-bottom:2px;">Staff Shortage Alert</h4>
+             <p style="font-size:0.9rem; color:#b45309;">Housekeeping shift B is short by 2 members. Please review Recruiting tab.</p>
+           </div>
+           <button class="btn btn-outline" style="margin-left:auto; border-color:#b45309; color:#b45309;" onclick="nav('recruiting', document.querySelectorAll('.nav-item')[4])">Review Now</button>
+        </div>
+      </div>
+
+      <div id="view-staff" class="hidden module-view">
+        <div class="section-header">
+          <span>Employee Database</span>
+          <button class="btn btn-primary" onclick="addStaff()"><i class="fas fa-user-plus"></i> Add Employee</button>
+        </div>
+        <div class="table-container">
+          <table id="staff-table">
+            <thead>
+              <tr><th>Name</th><th>Role</th><th>Shift</th><th>Onboarding</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="view-work" class="hidden module-view">
+         <div class="section-header">
+            <span>Operational Workflow</span>
+            <span style="font-size:0.85rem; color:var(--text-sub);">Drag cards to update status</span>
+         </div>
+         <div class="kanban-board">
+            <div class="board-col">
+              <div class="col-header">
+                <span><i class="far fa-circle"></i> To Do / Pending</span>
+                <span class="badge" style="background:#e5e7eb;">2</span>
+              </div>
+              <div class="col-body" id="col-pending" ondrop="drop(event, 'pending')" ondragover="allowDrop(event)">
+                </div>
+            </div>
+            <div class="board-col">
+              <div class="col-header">
+                <span><i class="fas fa-spinner fa-spin" style="color:var(--secondary);"></i> In Progress</span>
+                <span class="badge" style="background:var(--secondary); color:#fff;">1</span>
+              </div>
+              <div class="col-body" id="col-progress" ondrop="drop(event, 'progress')" ondragover="allowDrop(event)">
+              </div>
+            </div>
+            <div class="board-col">
+              <div class="col-header">
+                <span><i class="fas fa-check-circle" style="color:var(--success);"></i> Completed</span>
+                <span class="badge" style="background:var(--success); color:#fff;">1</span>
+              </div>
+              <div class="col-body" id="col-completed" ondrop="drop(event, 'completed')" ondragover="allowDrop(event)">
+              </div>
+            </div>
+         </div>
+      </div>
+      
+      <div id="view-recruiting" class="hidden module-view">
+        <div style="display:grid; grid-template-columns: 1fr 2fr; gap:30px;">
+          <div>
+            <div class="section-header">Active Job Openings</div>
+            <div id="job-list-container" style="display:flex; flex-direction:column; gap:15px;">
+              </div>
+          </div>
+          <div>
+            <div class="section-header">Candidate Pipeline</div>
+             <div class="table-container">
+              <table id="applicant-table">
+                <thead><tr><th>Candidate</th><th>Applying For</th><th>Stage</th><th>Action</th></tr></thead>
+                <tbody></tbody>
+              </table>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="view-property" class="hidden module-view">
+        <div class="section-header">
+           <span>Room Inventory Status</span>
+           <div>
+             <span class="badge badge-green">Available</span>
+             <span class="badge badge-yellow">Cleaning</span>
+             <span class="badge badge-red">Occupied</span>
+           </div>
+        </div>
+        <div class="room-grid" id="room-grid">
+           </div>
+      </div>
+      
+      <div id="view-accounts" class="hidden module-view">
+        <div class="section-header">Payroll Processing</div>
+        <div class="table-container">
+          <table id="payroll-table">
+            <thead><tr><th>Employee</th><th>Rate/hr</th><th>Hours Logged</th><th>Total Payout</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="view-clients" class="hidden module-view">
+         <div class="section-header">Internal Team Communication</div>
+         <div class="card" style="height: 500px; display:flex; flex-direction:column;">
+            <div style="flex:1; overflow-y:auto; padding:10px; border-bottom:1px solid var(--border);">
+               <div style="margin-bottom:15px;">
+                 <div style="font-weight:600; color:var(--secondary); font-size:0.9rem;">Ravi (Field Manager) <span style="font-size:0.7rem; color:#9ca3af;">10:30 AM</span></div>
+                 <div style="background:#f3f4f6; padding:10px; border-radius:0 10px 10px 10px; display:inline-block; font-size:0.9rem;">
+                   Updated the inventory list for AgFlow project.
+                 </div>
+               </div>
+               <div style="margin-bottom:15px; text-align:right;">
+                 <div style="font-weight:600; color:var(--text-main); font-size:0.9rem;">You (Admin) <span style="font-size:0.7rem; color:#9ca3af;">10:32 AM</span></div>
+                 <div style="background:var(--secondary); color:#fff; padding:10px; border-radius:10px 0 10px 10px; display:inline-block; text-align:left; font-size:0.9rem;">
+                   Great. I'll approve the budget for next phase.
+                 </div>
+               </div>
+            </div>
+            <div style="padding:15px; display:flex; gap:10px;">
+               <input type="text" placeholder="Type a message..." style="flex:1; border:1px solid var(--border); padding:10px; border-radius:6px;">
+               <button class="btn btn-primary"><i class="fas fa-paper-plane"></i></button>
+            </div>
+         </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // === CENTRALIZED DATA STORE ===
+    const data = {
+      staff: [
+        { id: 1, name: "Ravi Kumar", role: "Field Manager", shift: "Morning", rate: 25, onboarding: true },
+        { id: 2, name: "Priya Sharma", role: "Tech Lead", shift: "Remote", rate: 45, onboarding: true },
+        { id: 3, name: "Mike Tyson", role: "Security", shift: "Night", rate: 18, onboarding: false }
+      ],
+      tasks: [
+        { id: 't1', title: "Fix AgriFlow API Bugs", status: 'pending', tag: 'Dev', priority: 'High' },
+        { id: 't2', title: "Interview Housekeepers", status: 'progress', tag: 'HR', priority: 'Med' },
+        { id: 't3', title: "Monthly Tax Report", status: 'completed', tag: 'Finance', priority: 'High' },
+        { id: 't4', title: "Order Office Supplies", status: 'pending', tag: 'Admin', priority: 'Low' }
+      ],
+      jobs: [
+        { title: "Senior React Dev", dept: "Engineering", type: "Full-time" },
+        { title: "Motel Housekeeper", dept: "Operations", type: "Contract" }
+      ],
+      applicants: [
+        { name: "Sandeep R", position: "React Dev", stage: "Interview" },
+        { name: "John Doe", position: "Housekeeper", stage: "New" }
+      ],
+      rooms: [
+        { num: '101', status: 'occupied' }, { num: '102', status: 'cleaning' },
+        { num: '103', status: 'available' }, { num: '104', status: 'available' },
+        { num: '201', status: 'occupied' }, { num: '202', status: 'available' }
+      ]
+    };
+
+    let draggedTaskId = null;
+
+    // === RENDER ENGINE ===
+    function init() {
+      renderKPIs();
+      renderStaff();
+      renderKanban();
+      renderRecruiting();
+      renderProperty();
+      renderPayroll();
+    }
+
+    function renderKPIs() {
+      document.getElementById('count-staff').innerText = data.staff.length;
+      const activeTasks = data.tasks.filter(t => t.status !== 'completed').length;
+      document.getElementById('count-work').innerText = activeTasks;
+    }
+
+    function renderStaff() {
+      const tbody = document.querySelector('#staff-table tbody');
+      tbody.innerHTML = '';
+      data.staff.forEach(s => {
+        const badgeClass = s.onboarding ? 'badge-green' : 'badge-yellow';
+        const badgeText = s.onboarding ? 'Complete' : 'Pending';
+        
+        tbody.innerHTML += `
+          <tr>
+            <td style="font-weight:500;">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="width:30px;height:30px;background:#e5e7eb;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;">${s.name.charAt(0)}</div>
+                ${s.name}
+              </div>
+            </td>
+            <td>${s.role}</td>
+            <td>${s.shift}</td>
+            <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+            <td style="color:var(--success); font-size:0.85rem;"><i class="fas fa-circle" style="font-size:0.5rem;margin-right:5px;"></i> Active</td>
+            <td><button class="btn btn-outline" style="padding:4px 8px; font-size:0.7rem;">Profile</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function renderKanban() {
+      // Clear columns
+      ['pending', 'progress', 'completed'].forEach(id => {
+        document.getElementById('col-'+id).innerHTML = '';
+      });
+
+      data.tasks.forEach(task => {
+        const col = document.getElementById('col-' + task.status);
+        if(col) {
+          const el = document.createElement('div');
+          el.className = 'task-card';
+          el.draggable = true;
+          el.ondragstart = () => draggedTaskId = task.id;
+          
+          let tagColor = '#e5e7eb';
+          if(task.tag === 'Dev') tagColor = '#dbeafe';
+          if(task.tag === 'HR') tagColor = '#fce7f3';
+          if(task.tag === 'Finance') tagColor = '#dcfce7';
+
+          el.innerHTML = `
+            <div class="task-title">${task.title}</div>
+            <div class="task-meta">
+              <span class="tag" style="background:${tagColor}">${task.tag}</span>
+              <span><i class="far fa-flag"></i> ${task.priority}</span>
+            </div>
+          `;
+          col.appendChild(el);
+        }
+      });
+    }
+
+    function renderRecruiting() {
+      // Jobs
+      const jobContainer = document.getElementById('job-list-container');
+      jobContainer.innerHTML = '';
+      data.jobs.forEach(j => {
+        jobContainer.innerHTML += `
+          <div class="card" style="padding:15px; border-left:4px solid var(--secondary);">
+            <div style="font-weight:600; margin-bottom:5px;">${j.title}</div>
+            <div style="font-size:0.8rem; color:var(--text-sub);">${j.dept} • ${j.type}</div>
+            <div style="margin-top:10px;">
+              <button class="btn btn-outline" style="padding:4px 10px; font-size:0.75rem;">Manage</button>
+            </div>
+          </div>
+        `;
+      });
+
+      // Applicants
+      const appBody = document.querySelector('#applicant-table tbody');
+      appBody.innerHTML = '';
+      data.applicants.forEach(a => {
+        appBody.innerHTML += `
+          <tr>
+            <td style="font-weight:500;">${a.name}</td>
+            <td>${a.position}</td>
+            <td><span class="badge badge-blue">${a.stage}</span></td>
+            <td><i class="fas fa-ellipsis-h" style="cursor:pointer; color:#9ca3af;"></i></td>
+          </tr>
+        `;
+      });
+    }
+
+    function renderProperty() {
+      const grid = document.getElementById('room-grid');
+      grid.innerHTML = '';
+      data.rooms.forEach(r => {
+        let cls = 'room-available';
+        let icon = 'fa-check';
+        let color = 'var(--success)';
+        
+        if(r.status === 'occupied') { cls = 'room-occupied'; icon = 'fa-user'; color='var(--danger)'; }
+        if(r.status === 'cleaning') { cls = 'room-cleaning'; icon = 'fa-broom'; color='var(--warning)'; }
+        
+        grid.innerHTML += `
+          <div class="room-card ${cls}" onclick="toggleRoom('${r.num}')">
+            <div style="display:flex; justify-content:space-between; align-items:start;">
+              <div class="room-num">${r.num}</div>
+              <i class="fas ${icon}" style="color:${color}; font-size:1.2rem;"></i>
+            </div>
+            <div class="room-status" style="color:${color}; margin-top:10px;">${r.status}</div>
+            <div style="font-size:0.75rem; color:#9ca3af; margin-top:5px;">Standard Suite</div>
+          </div>
+        `;
+      });
+    }
+
+    function renderPayroll() {
+      const pBody = document.querySelector('#payroll-table tbody');
+      pBody.innerHTML = '';
+      data.staff.forEach(s => {
+        const hours = Math.floor(Math.random() * (160 - 140 + 1) + 140); // Random hours 140-160
+        const total = hours * s.rate;
+        pBody.innerHTML += `
+          <tr>
+            <td>${s.name}</td>
+            <td>$${s.rate}/hr</td>
+            <td>${hours} hrs</td>
+            <td style="font-weight:bold;">$${total.toLocaleString()}</td>
+            <td><span class="badge badge-green">Processed</span></td>
+          </tr>
+        `;
+      });
+    }
+
+    // === INTERACTION LOGIC ===
+    
+    // Navigation
+    function nav(viewName, el) {
+      // Update Sidebar
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      el.classList.add('active');
+      
+      // Switch View
+      document.querySelectorAll('.module-view').forEach(v => v.classList.add('hidden'));
+      document.getElementById('view-' + viewName).classList.remove('hidden');
+      
+      // Update Title
+      const titles = {
+        'overview': 'Operations Overview',
+        'work': 'Task Management Board',
+        'staff': 'Staff Directory',
+        'recruiting': 'Recruitment & Hiring Pipeline',
+        'accounts': 'Financial Reports',
+        'property': 'Property Management',
+        'clients': 'Team Collaboration'
+      };
+      document.getElementById('pageTitle').innerText = titles[viewName];
+    }
+
+    // Drag & Drop
+    function allowDrop(ev) { ev.preventDefault(); }
+    function drop(ev, newStatus) {
+      ev.preventDefault();
+      const task = data.tasks.find(t => t.id === draggedTaskId);
+      if (task && task.status !== newStatus) {
+        task.status = newStatus;
+        renderKanban();
+        renderKPIs(); // Update counts
+      }
+    }
+
+    // Add Staff Mock
+    function addStaff() {
+      const name = prompt("Enter Employee Name:");
+      if(name) {
+        data.staff.push({
+          id: data.staff.length + 1,
+          name: name,
+          role: "Trainee",
+          shift: "Day",
+          rate: 20,
+          onboarding: false
+        });
+        renderStaff();
+        renderKPIs();
+      }
+    }
+    
+    // Toggle Room Status Mock
+    function toggleRoom(num) {
+      const room = data.rooms.find(r => r.num === num);
+      if(room) {
+        if(room.status === 'available') room.status = 'occupied';
+        else if(room.status === 'occupied') room.status = 'cleaning';
+        else room.status = 'available';
+        renderProperty();
+      }
+    }
+
+    // Start App
+    init();
+  </script>
+</body>
+</html>
