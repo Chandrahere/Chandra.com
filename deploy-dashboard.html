@@ -2,108 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chandra Cloud - AI Deployer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chandra Cloud • Command Center</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { background-color: #0f0f0f; color: #00ff9d; font-family: 'Courier New', monospace; }
-        .container { max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #333; }
-        .input-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 10px; font-weight: bold; }
-        input, select { width: 100%; padding: 15px; background: #222; border: 1px solid #444; color: white; }
-        .deploy-btn { background: #00ff9d; color: black; border: none; padding: 15px 30px; font-size: 18px; cursor: pointer; font-weight: bold; }
-        .deploy-btn:hover { background: #00cc7a; }
-        .status-log { background: black; padding: 20px; border: 1px dashed #555; margin-top: 20px; height: 150px; overflow-y: scroll; display: none;}
+        :root { --neon: #00ff9d; --bg: #0f0f0f; --panel: #1a1a1a; }
+        body { background-color: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; padding: 20px; }
+        
+        .container { max-width: 800px; margin: 40px auto; padding: 30px; border: 1px solid #333; background: var(--panel); box-shadow: 0 0 20px rgba(0, 255, 157, 0.1); border-radius: 8px; }
+        
+        h1 { text-align: center; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid #333; padding-bottom: 20px; }
+        
+        .input-group { margin-bottom: 25px; position: relative; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #fff; }
+        input, select { 
+            width: 100%; padding: 15px; background: #000; 
+            border: 1px solid #444; color: #fff; font-family: inherit; font-size: 1rem;
+            box-sizing: border-box; transition: 0.3s;
+        }
+        input:focus { border-color: var(--neon); outline: none; }
+        
+        .deploy-btn { 
+            width: 100%; background: var(--neon); color: black; border: none; 
+            padding: 18px; font-size: 1.1rem; cursor: pointer; font-weight: 900; 
+            text-transform: uppercase; letter-spacing: 1px; margin-top: 10px;
+        }
+        .deploy-btn:hover { background: #00cc7a; box-shadow: 0 0 15px var(--neon); }
+        .deploy-btn:disabled { background: #555; cursor: not-allowed; box-shadow: none; }
+
+        .status-window { 
+            background: #000; padding: 20px; border: 1px dashed #555; 
+            margin-top: 30px; height: 200px; overflow-y: auto; 
+            display: none; font-size: 0.9rem; line-height: 1.5;
+        }
+        
+        .badge { display:inline-block; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-left: 10px; }
+        .badge-save { background: #fbbc04; color: black; display: none; }
+        .hint { font-size: 0.75rem; color: #666; margin-top: 5px; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>⚡ Deploy Your AI App</h1>
-        <p>Connect your GitHub, select your GPU, and launch.</p>
+        <h1><i class="fas fa-rocket"></i> Deployment Console</h1>
+        <p style="text-align:center; color:#888;">Standard License: 1 Active App Limit</p>
         
         <form id="deployForm">
             <div class="input-group">
-                <label>📂 GitHub Repo URL</label>
-                <input type="text" placeholder="https://github.com/username/my-ai-app" required>
+                <label>🏷️ App Name (Unique ID) <span id="saveBadge" class="badge badge-save">SESSION RESTORED</span></label>
+                <input type="text" id="appName" placeholder="ex: my-super-bot" required>
+                <div class="hint">Keep this same to UPDATE your existing app. Change it to CREATE new.</div>
             </div>
 
             <div class="input-group">
-                <label>🖥️ Select Compute Power</label>
-                <select>
-                    <option>Standard (CPU Only) - $29/mo</option>
-                    <option>AI Starter (NVIDIA T4) - $99/mo</option>
-                    <option>AI Beast (NVIDIA A100) - $500/mo</option>
+                <label>📂 GitHub Repo URL</label>
+                <input type="text" id="repoUrl" placeholder="https://github.com/username/my-ai-app" required>
+            </div>
+
+            <div class="input-group">
+                <label>🖥️ Compute Power</label>
+                <select id="compute">
+                    <option value="cpu">Standard (CPU Only) - Included</option>
+                    <option value="gpu">AI Starter (NVIDIA T4) - Pro Plan</option>
                 </select>
             </div>
 
             <div class="input-group">
-                <label>🔑 OpenAI / HuggingFace API Key</label>
-                <input type="password" placeholder="sk-........................">
+                <label>🔑 Secret Key</label>
+                <input type="password" id="secretKey" placeholder="Enter your license key (ex: CHANDRA_VIP)" required>
             </div>
 
-            <button type="submit" class="deploy-btn">INITIATE LAUNCH SEQUENCE</button>
+            <button type="submit" class="deploy-btn">
+                <i class="fas fa-bolt"></i> Initiate Sequence
+            </button>
         </form>
 
-        <div class="status-log" id="logs">
-            <p>> Connecting to Google Cloud Platform...</p>
+        <div class="status-window" id="logs">
+            <div style="color:#888;">> System Ready...</div>
         </div>
     </div>
 
     <script>
+        // 1. SMART MEMORY: Load saved details
+        window.onload = function() {
+            const savedApp = localStorage.getItem('chandra_app_name');
+            const savedRepo = localStorage.getItem('chandra_repo_url');
+            const savedKey = localStorage.getItem('chandra_secret_key');
+            
+            if(savedApp) {
+                document.getElementById('appName').value = savedApp;
+                document.getElementById('saveBadge').style.display = 'inline-block';
+            }
+            if(savedRepo) document.getElementById('repoUrl').value = savedRepo;
+            if(savedKey) document.getElementById('secretKey').value = savedKey;
+        }
+
         document.getElementById('deployForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const repoUrl = document.querySelector('input[type="text"]').value;
+            const appName = document.getElementById('appName').value.trim().toLowerCase().replace(/\s+/g, '-');
+            const repoUrl = document.getElementById('repoUrl').value.trim();
+            const secretKey = document.getElementById('secretKey').value.trim();
             const logBox = document.getElementById('logs');
             const deployBtn = document.querySelector('.deploy-btn');
 
-            // 1. Show Loading State
+            localStorage.setItem('chandra_app_name', appName);
+            localStorage.setItem('chandra_repo_url', repoUrl);
+            localStorage.setItem('chandra_secret_key', secretKey);
+
             logBox.style.display = 'block';
-            logBox.innerHTML = "<p>> Initializing Uplink to Chandra Cloud...</p>";
-            logBox.innerHTML += "<p>> Verifying GitHub Coordinates...</p>";
+            logBox.innerHTML = `<div>> Target App ID: <span style="color:white">${appName}</span></div>`;
+            logBox.innerHTML += `<div>> Validating Credentials...</div>`;
             deployBtn.disabled = true;
-            deployBtn.innerText = "DEPLOYING... (PLEASE WAIT)";
+            deployBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deploying...';
 
             try {
-                // 2. Send Signal to Cloud Function
-                // NOTE: Make sure this is your correct Cloud Function URL
-                const response = await fetch('https://deploy-ai-manager-845756299432.us-central1.run.app', { 
+                // REPLACE WITH YOUR REAL CLOUD FUNCTION URL
+                const CLOUD_FUNCTION_URL = "https://deploy-ai-manager-845756299432.us-central1.run.app"; 
+
+                const response = await fetch(CLOUD_FUNCTION_URL, { 
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ repo_url: repoUrl })
+                    body: JSON.stringify({ 
+                        repo_url: repoUrl,
+                        custom_app_name: appName,
+                        secret_key: secretKey
+                    })
                 });
 
                 const data = await response.json();
 
-                // 3. Handle Response & Generate URL
                 if (response.ok) {
-                    // Nee Project ID Number hardcode chesam (from your screenshots)
                     const projectNumber = "845756299432"; 
                     const region = "us-central1";
-                    
-                    // URL Generation Formula
                     const finalUrl = `https://${data.app_name}-${projectNumber}.${region}.run.app`;
 
-                    logBox.innerHTML += `<p style="color: #00ff9d;">> <strong>SUCCESS: SYSTEM LAUNCHED!</strong></p>`;
-                    logBox.innerHTML += `<p>> Build ID: [${data.build_id}]</p>`;
-                    logBox.innerHTML += `<p>> ------------------------------------------------</p>`;
-                    logBox.innerHTML += `<p style="font-size: 1.2em;">> <strong>YOUR APP URL:</strong> <br> <a href="${finalUrl}" target="_blank" style="color: #00ff9d; text-decoration: underline;">${finalUrl}</a></p>`;
-                    logBox.innerHTML += `<p>> ------------------------------------------------</p>`;
-                    logBox.innerHTML += `<p style="color: yellow;">> NOTE: Link will be active in approx 60-90 seconds (After Build Completes).</p>`;
-                    
+                    logBox.innerHTML += `<div style="color: #00ff9d; margin-top:10px;">> <strong>SUCCESS: PIPELINE TRIGGERED</strong></div>`;
+                    logBox.innerHTML += `<div>> Action: ${data.action}</div>`;
+                    logBox.innerHTML += `<div style="margin-top:15px; padding:10px; border:1px solid #00ff9d;">
+                        > <strong>APP URL (Active in ~60s):</strong><br>
+                        <a href="${finalUrl}" target="_blank" style="color:#fff;">${finalUrl}</a>
+                    </div>`;
                 } else {
-                    logBox.innerHTML += `<p style="color: red;">> ERROR: ${data.message}</p>`;
+                    logBox.innerHTML += `<div style="color: #ff4444; margin-top:10px;">> ERROR: ${data.message}</div>`;
                 }
-
             } catch (error) {
-                logBox.innerHTML += `<p style="color: red;">> CONNECTION FAILED: ${error.message}</p>`;
+                logBox.innerHTML += `<div style="color: #ff4444;">> NETWORK ERROR: ${error.message}</div>`;
             }
-
             deployBtn.disabled = false;
-            deployBtn.innerText = "INITIATE LAUNCH SEQUENCE";
+            deployBtn.innerHTML = '<i class="fas fa-bolt"></i> Initiate Sequence';
         });
     </script>
-
 </body>
-
 </html>
-
