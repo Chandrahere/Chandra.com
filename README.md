@@ -64,5 +64,6 @@ This project is designed with a sustainable revenue model:
 • SaaS Subscription: Monthly recurring revenue for access to HR & Inventory tools.
 • Compute Metering: Margins on Cloud Run usage for deployed AI apps.
 • Licensing: Enterprise licensing of the deployment engine.
+
 📄 License
 Copyright © 2025 Chandra Cloud Empire. All Rights Reserved.
