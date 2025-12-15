@@ -23,15 +23,15 @@ A serverless orchestration engine that converts a GitHub Repository into a live,
 
 ```mermaid
 graph TD
-    User[User Dashboard] -->|Trigger| API[Cloud Function (Python)]
-    API -->|Auth Check| Security[Secret Key Validation]
-    Security -->|Success| Build[Cloud Build Pipeline]
-    Build -->|1. Clone| Git[GitHub Repo]
-    Build -->|2. Containerize| Docker[Docker Build]
-    Build -->|3. Push| AR[Artifact Registry]
-    Build -->|4. Deploy| Run[Cloud Run Service]
+    User["User Dashboard"] -->|Trigger| API["Cloud Function (Python)"]
+    API -->|Auth Check| Security["Secret Key Validation"]
+    Security -->|Success| Build["Cloud Build Pipeline"]
+    Build -->|1. Clone| Git["GitHub Repo"]
+    Build -->|2. Containerize| Docker["Docker Build"]
+    Build -->|3. Push| AR["Artifact Registry"]
+    Build -->|4. Deploy| Run["Cloud Run Service"]
     Run -->|Return URL| User
-
+```
 🛠️ Installation & Setup
 Prerequisites
 • Google Cloud Platform Account
