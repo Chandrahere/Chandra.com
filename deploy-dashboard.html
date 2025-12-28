@@ -200,10 +200,20 @@
 
                 const data = await response.json();
 
-                if(response.ok) {
-                    log("✅ SUCCESS: Deployment Started!", "#00ff9d");
-                    log(`Build ID: ${data.build_id}`, "#00ff9d");
-                    log("Your usage is being logged to your Chandra ID.", "#fbbc04");
+                if (response.ok) {
+    log("✅ SUCCESS: Deployment Started!", "#00ff9d");
+    log(`Build ID: ${data.build_id}`, "#00ff9d");
+    
+    // PREDICT THE URL
+    // Format: https://{app-name}-{project-number}.us-central1.run.app
+    const projectSuffix = "845756299432.us-central1.run.app"; 
+    const finalUrl = `https://${payload.app_name}-${projectSuffix}`;
+    
+    log(`------------------------------------------------`, "#555");
+    log(`🚀 <strong>YOUR APP IS BUILDING...</strong>`, "#fff");
+    log(`It will be live in ~60 seconds at:`, "#aaa");
+    log(`<a href="${finalUrl}" target="_blank" style="color:#00ff9d; text-decoration:underline;">${finalUrl}</a>`, "#00ff9d");
+    log(`------------------------------------------------`, "#555");
                 } else {
                     log(`❌ FAILED: ${data.error}`, "#ff4444");
                 }
@@ -214,3 +224,4 @@
     </script>
 </body>
 </html>
+
