@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 2. WIDGET HTML (Clean & Minimalist)
     const widgetHTML = `
-    <div id="ai-widget-container" style="position: fixed; bottom: 200px; right: 30px; z-index: 9999; font-family: 'Inter', sans-serif;">
+    <div id="ai-widget-container" style="position: fixed; bottom: 140px; right: 30px; z-index: 9999; font-family: 'Inter', sans-serif;">
         
         <div id="ai-chat-box" style="display: none; width: 380px; height: 550px; background: rgba(20, 20, 30, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); flex-direction: column; overflow: hidden; transform-origin: bottom right; animation: scaleIn 0.2s ease-out;">
             
@@ -149,6 +149,7 @@ async function sendMessage() {
     }, 1200);
 
 }
+
 
 
 
