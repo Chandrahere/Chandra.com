@@ -524,6 +524,41 @@
             </a>
         </div>
     </div>
+    <div style="margin-top: 20px; text-align: center;">
+    <p style="color: #888; font-size: 0.9rem; margin-bottom: 10px;">Already a Member?</p>
+    <button onclick="memberLogin()" class="hero-btn btn-outline" style="border: 1px solid #00f2ff; color: #00f2ff; background: transparent; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: inherit;">
+        <i class="fas fa-terminal"></i> Enter Console
+    </button>
+</div>
+
+<script>
+    function memberLogin() {
+        // 1. Ask for ID
+        const userId = prompt("🔐 Please enter your Chandra ID (ex: cus_123...):");
+        
+        if (userId) {
+            // Basic Validation (Check if it looks like a Stripe ID)
+            if (userId.startsWith("cus_") || userId.length > 5) {
+                // 2. Save to Memory
+                localStorage.setItem("chandra_user_id", userId);
+                localStorage.setItem("chandra_status", "active");
+                
+                // 3. Redirect to Dashboard
+                alert("Welcome back! Redirecting to Command Center...");
+                window.location.href = "deploy-dashboard.html";
+            } else {
+                alert("❌ Invalid ID format. Please check your email for the correct ID.");
+            }
+        }
+    }
+
+    // Auto-Redirect if already logged in (Optional - if you want auto-login)
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     if(localStorage.getItem("chandra_user_id")) {
+    //         // Update UI to show "Go to Dashboard" instead of Subscribe
+    //     }
+    // });
+</script>
   </section>
   
   <section id="console" class="section-content">
@@ -968,6 +1003,7 @@
   <script src="iconic_portfolio.js"></script>
 </body>
 </html>
+
 
 
 
