@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                     <div>
                         <span style="color: white; font-weight: 600; font-size: 0.95rem; display: block; letter-spacing: 0.3px;">Chandra Assistant</span>
-                        <span style="color: #94a3b8; font-size: 0.75rem; display: block;">Online & Ready to help</span>
+                        <span style="color: #94a3b8; font-size: 0.75rem; display: block;">Powered by Gemini Pro</span>
                     </div>
                 </div>
                 <button onclick="toggleChat()" style="background: none; border: none; color: #64748b; cursor: pointer; transition: 0.2s; padding: 5px;">
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <i class="fas fa-robot" style="color: #94a3b8; font-size: 0.8rem;"></i>
                     </div>
                     <div style="background: rgba(255,255,255,0.05); padding: 12px 16px; border-radius: 0 12px 12px 12px; color: #e2e8f0; font-size: 0.9rem; line-height: 1.5; border: 1px solid rgba(255,255,255,0.05);">
-                        Welcome to Chandra Cloud. I can assist you with <b>Infrastructure Deployment</b>, <b>Cost Estimation</b>, or finding the right <b>Talent</b>. How can I help?
+                        Welcome! I can help you deploy apps or find professionals (like Photographers) on our cloud. How can I help?
                     </div>
                 </div>
             </div>
@@ -85,11 +85,11 @@ function toggleChat() {
     
     if (box.style.display === 'none') {
         box.style.display = 'flex';
-        btn.style.transform = 'scale(0)'; // Hide button when chat opens
+        btn.style.transform = 'scale(0)';
         setTimeout(() => document.getElementById('ai-user-input').focus(), 100);
     } else {
         box.style.display = 'none';
-        btn.style.transform = 'scale(1)'; // Show button when chat closes
+        btn.style.transform = 'scale(1)';
     }
 }
 
@@ -100,7 +100,7 @@ async function sendMessage() {
 
     if (!userText) return;
 
-    // A. User Message Bubble (Clean & Right Aligned)
+    // A. User Message Bubble
     msgArea.innerHTML += `
         <div style="display: flex; justify-content: flex-end; animation: fadeIn 0.3s ease;">
             <div style="background: #3b82f6; color: white; padding: 10px 16px; border-radius: 12px 12px 0 12px; font-size: 0.9rem; max-width: 80%; line-height: 1.5; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);">
@@ -110,7 +110,7 @@ async function sendMessage() {
     input.value = "";
     msgArea.scrollTop = msgArea.scrollHeight;
 
-    // B. Loading Indicator (Subtle Pulse)
+    // B. Loading Indicator
     const loadingId = "loading-" + Date.now();
     msgArea.innerHTML += `
         <div id="${loadingId}" style="display: flex; gap: 12px; align-items: center; margin-top: 10px;">
@@ -121,20 +121,20 @@ async function sendMessage() {
         </div>`;
     msgArea.scrollTop = msgArea.scrollHeight;
 
-    // C. SIMULATED INTELLIGENT RESPONSE
-    // NOTE: This will later connect to your Python Backend
-    let reply = "I'm analyzing your request. Could you provide more details?";
-    
-    if(userText.toLowerCase().includes("pricing") || userText.toLowerCase().includes("cost")) {
-        reply = "Chandra Cloud operates on a hybrid model: <br>• <b>$99/mo</b> Platform Fee<br>• <b>$0.001/sec</b> for Compute Usage.<br><br>This ensures you only pay for the active runtime of your deployments.";
-    } else if(userText.toLowerCase().includes("deploy")) {
-        reply = "To deploy a new service, please navigate to the <b>AI Launchpad</b> console. Ensure you have your GitHub repository URL and Chandra ID ready.";
-    } else if(userText.toLowerCase().includes("hello") || userText.toLowerCase().includes("hi")) {
-        reply = "Hello! I am ready to assist you with your cloud architecture. What are you building today?";
-    }
+    // C. CALL THE BRAIN (🔥 CONNECTED HERE)
+    const backendUrl = "https://chandra-ai-brain-845756299432.us-central1.run.app"; 
 
-    // Delay to simulate processing
-    setTimeout(() => {
+    try {
+        const response = await fetch(backendUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: userText })
+        });
+
+        const data = await response.json();
+        const reply = data.reply || "I am connected, but I have no words.";
+
+        // Remove Loading & Show Reply
         document.getElementById(loadingId).remove();
         msgArea.innerHTML += `
             <div style="display: flex; gap: 12px; align-items: flex-start; animation: fadeIn 0.3s ease;">
@@ -145,15 +145,18 @@ async function sendMessage() {
                     ${reply}
                 </div>
             </div>`;
+        
+        // Link Clickable Logic (Formatting)
+        const links = msgArea.querySelectorAll('a');
+        links.forEach(link => { link.style.color = '#3b82f6'; link.style.textDecoration = 'underline'; });
+
         msgArea.scrollTop = msgArea.scrollHeight;
-    }, 1200);
 
+    } catch (error) {
+        document.getElementById(loadingId).remove();
+        msgArea.innerHTML += `
+            <div style="margin-top: 10px; color: #ff6b6b; font-size: 0.8rem; text-align: center;">
+                ⚠️ Brain Offline: ${error.message}
+            </div>`;
+    }
 }
-
-
-
-
-
-
-
-
